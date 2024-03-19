@@ -29,7 +29,7 @@ public class LoginController {
         switch(page){
             case 0:
                 System.out.println("LoginControllerTest");
-                loginView.render(0);    //default 0
+                loginView.renderApp(0);    //default 0
                 break;
             case 1:
                 System.out.println("LC Test Case 1");

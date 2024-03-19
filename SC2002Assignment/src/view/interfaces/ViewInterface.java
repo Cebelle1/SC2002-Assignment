@@ -3,8 +3,7 @@ package view.interfaces;
 //Interface for all views
 public interface ViewInterface {
 
-    //Handles user input from the CLI
-    String getUserInput(); 
-    int getUserInput(int overloadInt);
-    void render(int selection);
+    void renderApp(int selection);      //For App Navigation (Should be in Controller?)
+    void renderChoice();                //For printing statics, i.e Strings of choice description
+
 }
