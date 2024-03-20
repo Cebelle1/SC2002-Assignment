@@ -11,10 +11,14 @@ public class CustomerController {
     public void navigate (int page){
         switch(page){
             case 0:
-                System.out.println("Customer Home Page Test");
                 customerHomeView.renderApp(0);    //default 0
+                //get input
+                
                 break;
-            
+            case 1:
+                customerHomeView.renderApp(1); 
+                System.out.println("Cust Controller");
+                break;
             case 3:
                 System.exit(page);
                 break;
