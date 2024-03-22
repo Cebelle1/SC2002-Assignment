@@ -23,18 +23,5 @@ public abstract class RenderView implements ViewInterface{
         }
     }
 
-    public int getInputInt(){
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Enter StaffID:");
-            //auth
-            return scanner.nextInt();   
-        } catch (Exception e) {
-            System.err.println("Error reading input.");
-            return -1;
-        }
-    }
-
-    public String getInputString(){
-        return "1"; // TODO: Implement proper user input
-    }
+    
 }

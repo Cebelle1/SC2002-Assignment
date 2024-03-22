@@ -2,14 +2,16 @@ package view;
 import view.abstracts.RenderView;
 import java.util.Scanner;
 import controller.CustomerController;
+import model.Branch;
+import java.util.List;
+import model.Order;
+import view.OrderMenuView;
 
-public class CustomerHomerPageView extends RenderView{
-    Scanner sc = new Scanner(System.in);
+public class CustomerHomePageView extends RenderView{
     CustomerController custCon;
     
-    public CustomerHomerPageView(CustomerController custController){
+    public CustomerHomePageView(CustomerController custController){
         this.custCon=custController;
-
     }
 
 
@@ -18,10 +20,12 @@ public class CustomerHomerPageView extends RenderView{
         switch(selection){
             case 0: //Render the option
                 renderChoice();
+                
                 break;
-            case 1:
-                displayBranch();
-                break;
+            //case 1:
+              //  displayBranch();
+                
+                //break;
         }
     }
 
@@ -33,7 +37,14 @@ public class CustomerHomerPageView extends RenderView{
         System.out.println("(3) Place a New Order");
     }
 
-    public void displayBranch(){
-        System.out.println("dispplay branch");
+    public void displayBranch(List<Branch> branches){
+        for (int i = 0; i < branches.size(); i++) {
+            System.out.println("(" + (i + 1) + ") " + branches.get(i).getName());
+        }
+        
+    }
+
+    public void checkOrderStatus(OrderMenuView omv, Order order){
+        omv.displayCurrentOrder(order);
     }
 }

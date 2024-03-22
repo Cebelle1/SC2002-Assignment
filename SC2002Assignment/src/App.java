@@ -1,6 +1,11 @@
 import controller.LoginController;
+import model.Branch;
 import controller.CustomerController;
+import model.DataLoader;
+import java.util.List;
 import java.util.Scanner;
+
+import javax.xml.crypto.Data;
 
 public class App{
     Scanner sc = new Scanner(System.in);
@@ -13,24 +18,6 @@ public class App{
     }
 
     private static final void printAppTitle(){
-        /*System.out.println("╔════════════════════════════════════════════════════════════════════════════════════════════════════════╗");                                                 
-        System.out.println("║        CCCCCCCCCCCCC               AAA               MMMMMMMM               MMMMMMMM   SSSSSSSSSSSSSSS║");
-        System.out.println("║     CCC::::::::::::C              A:::A              M:::::::M             M:::::::M SS:::::::::::::::S║");
-        System.out.println("║   CC:::::::::::::::C             A:::::A             M::::::::M           M::::::::MS:::::SSSSSS::::::S║║");
-        System.out.println("║  C:::::CCCCCCCC::::C            A:::::::A            M:::::::::M         M:::::::::MS:::::S     SSSSSSS║");
-        System.out.println("║ C:::::C       CCCCCC           A:::::::::A           M::::::::::M       M::::::::::MS:::::S            ║");
-        System.out.println("║C:::::C                        A:::::A:::::A          M:::::::::::M     M:::::::::::MS:::::S            ║");
-        System.out.println("║C:::::C                       A:::::A A:::::A         M:::::::M::::M   M::::M:::::::M S::::SSSS         ║");
-        System.out.println("║C:::::C                      A:::::A   A:::::A        M::::::M M::::M M::::M M::::::M  SS::::::SSSSS    ║");
-        System.out.println("║C:::::C                     A:::::A     A:::::A       M::::::M  M::::M::::M  M::::::M    SSS::::::::SS  ║");
-        System.out.println("║C:::::C                    A:::::AAAAAAAAA:::::A      M::::::M   M:::::::M   M::::::M       SSSSSS::::S ║");
-        System.out.println("║C:::::C                   A:::::::::::::::::::::A     M::::::M    M:::::M    M::::::M            S:::::S║");
-        System.out.println("║ C:::::C       CCCCCC    A:::::AAAAAAAAAAAAA:::::A    M::::::M     MMMMM     M::::::M            S:::::S║");
-        System.out.println("║  C:::::CCCCCCCC::::C   A:::::A             A:::::A   M::::::M               M::::::MSSSSSSS     S:::::S║");
-        System.out.println("║   CC:::::::::::::::C  A:::::A               A:::::A  M::::::M               M::::::MS::::::SSSSSS:::::S║");
-        System.out.println("║     CCC::::::::::::C A:::::A                 A:::::A M::::::M               M::::::MS:::::::::::::::SS ║");
-        System.out.println("║        CCCCCCCCCCCCCAAAAAAA                   AAAAAAAMMMMMMMM               MMMMMMMM SSSSSSSSSSSSSSS   ║");
-        System.out.println("╚════════════════════════════════════════════════════════════════════════════════════════════════════════╝");    */
         System.out.println("╔═══════════════════════════════════════════════════════════════════╗");                 
         System.out.println("║        █████████    █████████   ██████   ██████  █████████        ║");
         System.out.println("║        ███░░░░░███  ███░░░░░███ ░░██████ ██████  ███░░░░░███      ║");
@@ -44,12 +31,14 @@ public class App{
 
     //Standalone, not inherited from RenderView.
     public void renderApp(int selection) {
-
+        List<Branch> branches = DataLoader.loadBranches("menu_list.txt");
+        //Debug
+        
         //Controllers
         int choice = sc.nextInt();
         switch(choice){
             case 1: 
-                CustomerController cc = new CustomerController();
+                CustomerController cc = new CustomerController(branches);
                 cc.navigate(0);
                 break;
             case 2:
