@@ -2,6 +2,7 @@ package view;
 import java.util.List;
 import java.util.Locale;
 import controller.CustomerController;
+import controller.OrderMenuController;
 import model.Order;
 import model.menus.MenuItem;
 import view.abstracts.RenderView;
@@ -71,13 +72,59 @@ public class OrderMenuView extends RenderView{
 
     }
 
+    public void displayEditCart(){
+        super.printBorder("Edit Cart");
+        System.out.println("(1) Add Items");
+        System.out.println("(2) Edit Items");
+        System.out.println("(3) Remove Item");
+    }
+
     @Override
     public void renderApp(int selection) {
+        switch(selection){
+            case 0:
+                renderChoice();
+                break;
+            case 1:
+                //Organize display of menu items
+                break;
+            case 2:
+                //Add, edit, delete menu items
+                displayEditCart();
+                
+                break;
+            case 3:
+                //Take away or dine-in
+                break;
+            case 4:
+                //check out means make payment?
+                //payment, no need to simulate, maybe +feature of payment into total sales
+                //print receipt with order ID
+                break;
+            case 5:
+                
+                //since no need to simulate, 
+                break;
+            case 6:
+                
+                break;
+            case 7:
+                //collect food, change status from ready to pick up to completed
+                break;
+        }
     }
         
 
     @Override
     public void renderChoice() {
-       
+        super.printBorder("Order Menu View");
+        System.out.println("(1) Organize Menu");
+        System.out.println("(2) Edit Cart");
+        System.out.println("(3) Take-away or Dine-in");
+        System.out.println("(4) Check Out");
+        System.out.println("(5) Pay");
+        System.out.println("(6) Print Receipt");
+        System.out.println("(7) Collect Food)");
+        System.out.println("(8) Return to Customer Main Menu");
     }
 }

@@ -1,6 +1,6 @@
 package view.abstracts;
 import java.util.Scanner;
-
+import java.util.concurrent.TimeUnit;
 import view.interfaces.ViewInterface;
 
 public abstract class RenderView implements ViewInterface{
@@ -21,6 +21,19 @@ public abstract class RenderView implements ViewInterface{
         } catch (Exception err) {
             System.out.println("Error clearing screen");
         }
+    }
+
+    protected void delay(int sec) {
+        
+            for(int i=0; i<sec; i++){
+                System.out.printf("Returning in %d second\n", sec-i);
+                try {TimeUnit.SECONDS.sleep(1); 
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+            
+       
     }
 
     

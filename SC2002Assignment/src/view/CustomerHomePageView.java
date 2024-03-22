@@ -14,7 +14,6 @@ public class CustomerHomePageView extends RenderView{
         this.custCon=custController;
     }
 
-
     @Override
     public void renderApp(int selection){
         switch(selection){
@@ -46,5 +45,10 @@ public class CustomerHomePageView extends RenderView{
 
     public void checkOrderStatus(OrderMenuView omv, Order order){
         omv.displayCurrentOrder(order);
+    }
+
+    public void displayBranchError(){
+        System.out.println("Please select branch first");
+        delay(2);
     }
 }
