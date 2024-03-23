@@ -9,76 +9,116 @@ import model.menus.MenuItem;
 import view.OrderMenuView;
 import model.Order;
 
-public class OrderMenuController extends AController{
+public class OrderMenuController extends AController {
     private List<Branch> branches;
-    private OrderMenuView  omv;
+    private OrderMenuView omv;
     private int branchChoice;
-    private Order currentOrder;
+    private List<Order> orders; // List to store orders
     private CustomerController cC;
 
-    //public OrderMenuController(OrderMenuView omV, Order order, int branch, List<Branch> branches){
-    public OrderMenuController(CustomerController cC){
+    public OrderMenuController(CustomerController cC) {
         this.cC = cC;
         this.branches = cC.getCurrentBranch();
-        //loadMenuItemsIntoBranches();
         this.omv = cC.getCurOMV();
         this.branchChoice = cC.getBranchChoice();
-        System.out.printf("OMV choice: %d", branchChoice);
-        
-        currentOrder = cC.getCurOrder();
+        this.orders = new ArrayList<>(); // Initialize the list of orders
     }
 
     @Override
     public void navigate(int page) {
-        switch(page){
+        switch (page) {
             case 0:
                 omv.renderApp(0);
                 int choice = getInputInt("");
                 navigate(choice);
                 break;
             case 1:
-               //organize
+                // Display menu
+                displayMenu();
                 break;
             case 2:
-            //edit
+                // Edit cart
                 omv.renderApp(2);
                 int editCartChoice = getInputInt("Edit Cart Choice:");
-                this.editCart(editCartChoice);
-                break;
-            case 3:
-                
+                editCart(editCartChoice);
                 break;
             case 8:
+                // Navigate back to main menu
                 cC.navigate(0);
                 break;
         }
     }
 
-    private void editCart(int choice){
-        switch(choice){
-            case 1: //Add
-                //Should be able to make multiple orders. Each order have multiple items.
-                if (branchChoice >= 0 && branchChoice < branches.size()) {
-                    omv.displayMenu(branchChoice, branches);
-                } else {
-                    
-                    System.out.println("Invalid branch selection.");
-                    System.out.println(branchChoice);
-                }
-                int menuItemIndex = super.getInputInt("Select menu item:") - 1;
-                try{
-                    MenuItem selectedItem = omv.getSelectedItem(menuItemIndex);
-                    currentOrder.addItem(selectedItem);
-                    this.navigate(0);
-                } catch(Exception e){
-                    this.navigate(3);
-                };
+    private void displayMenu() {
+        if (branchChoice >= 0 && branchChoice < branches.size()) {
+            omv.displayMenu(branchChoice, branches);
+        } else {
+            System.out.println("Invalid branch selection.");
+        }
+    }
+
+    private void editCart(int choice) {
+        switch (choice) {
+            case 1:
+                // Add item to cart
+              
+                addItemToCart();
                 break;
-            case 2: //Edit items
+            case 2:
+                // Edit items in cart
+                // Implement editing logic here
                 break;
-            case 3: //Remove item
+            case 3:
+                // Remove item from cart
+                // Implement removal logic here
+            case 4:
+                createNewOrder();
+                this.navigate(2);
                 break;
         }
     }
-    
+
+    private void addItemToCart() {
+        if (branchChoice >= 0 && branchChoice < branches.size() && orders.size()>0) {
+            omv.displayMenu(branchChoice, branches);
+            int menuItemIndex = getInputInt("Select menu item:") - 1;
+            try {
+                MenuItem selectedItem = omv.getSelectedItem(menuItemIndex);
+                if (!orders.isEmpty()) {
+                    // Add the selected item to the current order
+                    Order currentOrder = orders.get(orders.size() - 1);
+                    currentOrder.addItem(selectedItem);
+                    this.navigate(0);
+                } else {
+                    System.out.println("No order created yet. Please create a new order.");
+                    this.navigate(2);
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid menu item selection.");
+                addItemToCart();
+            }
+        } else {
+            omv.displayEmptyOrderListError();
+            this.navigate(2);
+        }
+    }
+
+    private void createNewOrder() {
+        // Create a new order and add it to the list of orders
+        Order newOrder = new Order();
+        orders.add(newOrder);
+        System.out.println("New order created.");
+    }
+
+    public void displayCurrentOrders() {
+        omv.displayCurrentOrderList(this);
+        String exit = getInputString("Enter to exit");  //just a wait
+        //this.navigate(0);
+    }
+
+    public List<Order> getOrders(){
+        return orders;
+    }
+
+
 }

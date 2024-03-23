@@ -43,9 +43,6 @@ public class CustomerHomePageView extends RenderView{
         
     }
 
-    public void checkOrderStatus(OrderMenuView omv, Order order){
-        omv.displayCurrentOrder(order);
-    }
 
     public void displayBranchError(){
         System.out.println("Please select branch first");

@@ -24,7 +24,6 @@ public abstract class RenderView implements ViewInterface{
     }
 
     protected void delay(int sec) {
-        
             for(int i=0; i<sec; i++){
                 System.out.printf("Returning in %d second\n", sec-i);
                 try {TimeUnit.SECONDS.sleep(1); 

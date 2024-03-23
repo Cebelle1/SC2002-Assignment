@@ -23,7 +23,7 @@ public abstract class AController {
     }
 
     public String getInputString(String prompt){
-        if(prompt.isEmpty()){
+        if (!prompt.isEmpty()) {
             System.out.println(prompt);
         }
         try {

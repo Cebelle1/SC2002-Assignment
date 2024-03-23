@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import controller.abstracts.AController;
 import model.Branch;
@@ -12,6 +13,7 @@ import controller.OrderMenuController;
 public class CustomerController extends AController {
     private CustomerHomePageView customerHomeView = new CustomerHomePageView(this);
     private Order currentOrder;
+    private List<Order> orders = new ArrayList<>();
     private List<Branch> branches; // Ensure that this list is populated with branches containing menu items
     private OrderMenuView orderMenuView = new OrderMenuView(this);
     private static int branchChoice;
@@ -44,7 +46,8 @@ public class CustomerController extends AController {
                     customerHomeView.displayBranchError();
                     this.navigate(0);
                 }
-                customerHomeView.checkOrderStatus(orderMenuView, currentOrder);
+                omC.displayCurrentOrders();
+                this.navigate(0);
                 break;
             case 3: //Edit Order
                 if(omC == null){    //Error Handling

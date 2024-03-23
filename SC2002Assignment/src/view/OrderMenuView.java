@@ -52,16 +52,7 @@ public class OrderMenuView extends RenderView{
         return String.format("| %-15s", formattedName.toString());
     }
 
-    public void displayCurrentOrder(Order order) {
-        super.printBorder("Order Status");
-        List <MenuItem> items = order.getCurrentOrder();
-        int index = 1;
-        for(MenuItem mItem : items){
-            String formattedName = formatName(mItem.getName());
-            System.out.println(String.format("%-5s", index)+formattedName);
-            index++;
-        }
-    }
+    
 
     public MenuItem getSelectedItem(int menuIndex) {
         if(menuIndex > selectedBranch.getMenu().size()){
@@ -77,6 +68,51 @@ public class OrderMenuView extends RenderView{
         System.out.println("(1) Add Items");
         System.out.println("(2) Edit Items");
         System.out.println("(3) Remove Item");
+        System.out.println("(4) Make a new order");
+    }
+
+    public void displayCurrentOrderList(OrderMenuController omc){
+        super.printBorder("Order Status");
+        List<Order> orders = omc.getOrders(); // Assuming you have access to OrderMenuController and its orders
+        if (orders.isEmpty()) {
+            System.out.println("No orders available.");
+            return;
+        }
+    
+        // List all orders
+        System.out.println("Select an order to view its items:");
+        int index = 1;
+        for (Order order : orders) {
+            System.out.println(index + ". Order " + index);
+            index++;
+        }
+    
+        // Prompt user to select an order
+        int selectedOrderIndex = omc.getInputInt("Enter the order number:") - 1;
+        if (selectedOrderIndex < 0 || selectedOrderIndex >= orders.size()) {
+            System.out.println("Invalid order number.");
+            return;
+        }
+    
+        // Display the selected order's items
+        Order selectedOrder = orders.get(selectedOrderIndex);
+        List<MenuItem> items = selectedOrder.getCurrentOrder();
+        if (items.isEmpty()) {
+            System.out.println("No items in this order.");
+        } else {
+            System.out.println("Items in selected order:");
+            index = 1;
+            for (MenuItem item : items) {
+                String formattedName = formatName(item.getName());
+                System.out.println(String.format("%-5s", index) + formattedName);
+                index++;
+            }
+        }
+    }
+
+    public void displayEmptyOrderListError(){
+        System.out.println("Please create an order (4) before adding menu items.");
+        delay(2);
     }
 
     @Override
