@@ -61,16 +61,16 @@ public class OrderMenuController extends AController {
         switch (choice) {
             case 1:
                 // Add item to cart
-              
                 addItemToCart();
                 break;
             case 2:
                 // Edit items in cart
-                // Implement editing logic here
+                editOrder();    //To edit other orders
                 break;
             case 3:
                 // Remove item from cart
-                // Implement removal logic here
+                removeItemFromCart();
+                break;
             case 4:
                 createNewOrder();
                 this.navigate(2);
@@ -79,9 +79,12 @@ public class OrderMenuController extends AController {
     }
 
     private void addItemToCart() {
-        if (branchChoice >= 0 && branchChoice < branches.size() && orders.size()>0) {
+        if (branchChoice >= 0 && branchChoice < branches.size()) {
+            if(orders.size() < 1){
+                createNewOrder();
+            }
             omv.displayMenu(branchChoice, branches);
-            int menuItemIndex = getInputInt("Select menu item:") - 1;
+            int menuItemIndex = getInputInt("Select menu item for Order " + (orders.size() - 1) + ":") - 1;
             try {
                 MenuItem selectedItem = omv.getSelectedItem(menuItemIndex);
                 if (!orders.isEmpty()) {
@@ -103,6 +106,27 @@ public class OrderMenuController extends AController {
         }
     }
 
+    private void removeItemFromCart(){
+        if (branchChoice >= 0 && branchChoice < branches.size() && orders.size() > 0) {
+            omv.displayAllOrder(this);
+            int editChoice = getInputInt("Select which Order to remove item from:")-1;
+            Order currentOrder = orders.get(editChoice);
+            omv.displayOrderList(orders, editChoice);
+            int removeItem = getInputInt("Select which Item to remove from order:")-1;
+            String removedItem = currentOrder.removeItem(removeItem);
+            omv.displayRemoved(removedItem);
+            
+            this.navigate(0);
+        } else {
+            omv.displayEmptyOrderListError();
+            this.navigate(2);
+        }
+    }
+
+    private void editOrder(){
+
+    }
+
     private void createNewOrder() {
         // Create a new order and add it to the list of orders
         Order newOrder = new Order();
@@ -111,9 +135,9 @@ public class OrderMenuController extends AController {
     }
 
     public void displayCurrentOrders() {
-        omv.displayCurrentOrderList(this);
-        String exit = getInputString("Enter to exit");  //just a wait
-        //this.navigate(0);
+        omv.chooseDisplayCurrentOrder(this);
+        String exit = getInputString("Enter a key to exit");  //just a wait for enter
+    
     }
 
     public List<Order> getOrders(){

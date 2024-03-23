@@ -1,11 +1,12 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import controller.abstracts.AController;
 import model.Branch;
 import model.Order;
-import model.menus.MenuItem;
 import view.CustomerHomePageView;
 import view.OrderMenuView;
 import controller.OrderMenuController;
@@ -17,12 +18,11 @@ public class CustomerController extends AController {
     private List<Branch> branches; // Ensure that this list is populated with branches containing menu items
     private OrderMenuView orderMenuView = new OrderMenuView(this);
     private static int branchChoice;
-    private OrderMenuController omC;
+    private Map<Branch, OrderMenuController> branchOrderMenuControllers = new HashMap<>();
 
     public CustomerController(List<Branch> branches) {
         this.branches = branches;
         currentOrder = new Order();
-        
     }
 
     @Override
@@ -35,27 +35,31 @@ public class CustomerController extends AController {
                 break;
             case 1: //Select Branch
                 customerHomeView.displayBranch(branches);
-                branchChoice = super.getInputInt("Select branch:")-1;
-                //omC = new OrderMenuController(orderMenuView, currentOrder, branchChoice, branches);
-                omC = new OrderMenuController(this);
+                branchChoice = super.getInputInt("Select branch:") - 1;
+                Branch selectedBranch = branches.get(branchChoice);
+                OrderMenuController omc = branchOrderMenuControllers.get(selectedBranch);
+                if (omc == null) {
+                    omc = new OrderMenuController(this);
+                    branchOrderMenuControllers.put(selectedBranch, omc);
+                }
                 this.navigate(0);
-                
                 break;
-            case 2: //Display Current ORder
-                if(omC == null){    //Error handling
+            case 2: //Display Current Order
+                OrderMenuController selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
+                if (selectedOMC == null) {
                     customerHomeView.displayBranchError();
                     this.navigate(0);
                 }
-                omC.displayCurrentOrders();
+                selectedOMC.displayCurrentOrders();
                 this.navigate(0);
                 break;
             case 3: //Edit Order
-                if(omC == null){    //Error Handling
+                selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
+                if (selectedOMC == null) {
                     customerHomeView.displayBranchError();
                     this.navigate(0);
                 }
-                omC.navigate(0);
-
+                selectedOMC.navigate(0);
                 break;
             case 9:
                 System.exit(page);
@@ -65,20 +69,19 @@ public class CustomerController extends AController {
         }
     }
 
-    public List<Branch> getCurrentBranch(){
+    public List<Branch> getCurrentBranch() {
         return branches;
     }
 
-    public OrderMenuView getCurOMV(){
+    public OrderMenuView getCurOMV() {
         return orderMenuView;
     }
 
-    public int getBranchChoice(){
+    public int getBranchChoice() {
         return branchChoice;
     }
 
-    public Order getCurOrder(){
+    public Order getCurOrder() {
         return currentOrder;
     }
 }
-

@@ -66,34 +66,41 @@ public class OrderMenuView extends RenderView{
     public void displayEditCart(){
         super.printBorder("Edit Cart");
         System.out.println("(1) Add Items");
-        System.out.println("(2) Edit Items");
+        System.out.println("(2) Edit Orders");
         System.out.println("(3) Remove Item");
         System.out.println("(4) Make a new order");
     }
 
-    public void displayCurrentOrderList(OrderMenuController omc){
+    public void chooseDisplayCurrentOrder(OrderMenuController omc){
         super.printBorder("Order Status");
+
+        displayAllOrder(omc);
+    
+        // Prompt user to select an order
+        int selectedOrderIndex = omc.getInputInt("Enter the order number:") - 1;
+        if (selectedOrderIndex < 0 || selectedOrderIndex >= omc.getOrders().size()) {
+            System.out.println("Invalid order number.");
+            return;
+        }
+    
+        displayOrderList(omc.getOrders(), selectedOrderIndex);
+    }
+
+    public void displayAllOrder(OrderMenuController omc){
         List<Order> orders = omc.getOrders(); // Assuming you have access to OrderMenuController and its orders
         if (orders.isEmpty()) {
             System.out.println("No orders available.");
             return;
         }
-    
-        // List all orders
-        System.out.println("Select an order to view its items:");
         int index = 1;
         for (Order order : orders) {
             System.out.println(index + ". Order " + index);
             index++;
         }
-    
-        // Prompt user to select an order
-        int selectedOrderIndex = omc.getInputInt("Enter the order number:") - 1;
-        if (selectedOrderIndex < 0 || selectedOrderIndex >= orders.size()) {
-            System.out.println("Invalid order number.");
-            return;
-        }
-    
+    }
+
+
+    public void displayOrderList(List<Order> orders, int selectedOrderIndex){
         // Display the selected order's items
         Order selectedOrder = orders.get(selectedOrderIndex);
         List<MenuItem> items = selectedOrder.getCurrentOrder();
@@ -101,7 +108,7 @@ public class OrderMenuView extends RenderView{
             System.out.println("No items in this order.");
         } else {
             System.out.println("Items in selected order:");
-            index = 1;
+            int index = 1;
             for (MenuItem item : items) {
                 String formattedName = formatName(item.getName());
                 System.out.println(String.format("%-5s", index) + formattedName);
@@ -111,8 +118,15 @@ public class OrderMenuView extends RenderView{
     }
 
     public void displayEmptyOrderListError(){
-        System.out.println("Please create an order (4) before adding menu items.");
+        System.out.println("Please create an order using (4) before adding menu items.");
         delay(2);
+    }
+
+    public void displayRemoved(String removedItem){
+        removedItem = formatName(removedItem);
+        System.out.printf("Remove %s from order\n", removedItem);
+        delay(2);
+
     }
 
     @Override
@@ -130,16 +144,22 @@ public class OrderMenuView extends RenderView{
                 
                 break;
             case 3:
-                //Take away or dine-in
+                
                 break;
-            case 4:
+            case 4: //Check Out (Complete placing a single order)
                 //check out means make payment?
+                //select dine in mode
+                super.printBorder("Checkout");
+                System.out.println("Dining Mode:");
+                System.out.println("(1) Dine In");
+                System.out.println("(2) Take Out");
+                
                 //payment, no need to simulate, maybe +feature of payment into total sales
                 //print receipt with order ID
                 break;
-            case 5:
+            case 5: //Pay for Order (Pay multiple orders)
                 
-                //since no need to simulate, 
+               
                 break;
             case 6:
                 

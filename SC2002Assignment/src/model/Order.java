@@ -11,8 +11,13 @@ public class Order implements Serializable{
     private String diningMode = null;
 
     public void addItem(MenuItem item) {
-        items.add(item);
-        
+        items.add(item);   
+    }
+
+    public String removeItem(int removeItem){
+        String itemName =items.get(removeItem).getName();
+        items.remove(removeItem);
+        return itemName;
     }
 
     public List<MenuItem> getCurrentOrder() {
