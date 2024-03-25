@@ -2,8 +2,10 @@ package view;
 
 import java.util.List;
 import java.util.Locale;
+
 import controller.CustomerController;
 import controller.OrderMenuController;
+import model.Branch;
 import model.Order;
 import model.menus.MenuItem;
 import view.abstracts.RenderView;
@@ -146,15 +148,15 @@ public class OrderMenuView extends RenderView {
 
                 break;
             case 3:
-
+                super.printBorder("Dining Mode");
+                System.out.println("Dining Mode:");
+                System.out.println("(1) Dine In");
+                System.out.println("(2) Take Out");
                 break;
             case 4: // Check Out (Complete placing a single order)
                 // check out means make payment?
                 // select dine in mode
                 super.printBorder("Checkout");
-                System.out.println("Dining Mode:");
-                System.out.println("(1) Dine In");
-                System.out.println("(2) Take Out");
 
                 // payment, no need to simulate, maybe +feature of payment into total sales
                 // print receipt with order ID
