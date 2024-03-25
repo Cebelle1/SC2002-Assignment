@@ -1,12 +1,13 @@
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
 import model.menus.MenuItem;
 
 public class DataLoader {
@@ -14,7 +15,7 @@ public class DataLoader {
     public static List<Branch> loadBranches(String filePath) {
         Map<String, List<MenuItem>> branchMenuMap = new HashMap<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) 
             String line;
             while ((line = br.readLine()) != null) {
                 
