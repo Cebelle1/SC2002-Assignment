@@ -2,12 +2,12 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import controller.CustomerController;
+
 import controller.abstracts.AController;
 import model.Branch;
+import model.Order;
 import model.menus.MenuItem;
 import view.OrderMenuView;
-import model.Order;
 
 public class OrderMenuController extends AController {
     private List<Branch> branches;
@@ -41,6 +41,12 @@ public class OrderMenuController extends AController {
                 omv.renderApp(2);
                 int editCartChoice = getInputInt("Edit Cart Choice:");
                 editCart(editCartChoice);
+                break;
+            case 3:
+                omv.renderApp(3);
+                int diningMode = getInputInt("Select Dining Mode");
+                Order currentOrder = orders.get(orders.size() - 1);
+                currentOrder.setDiningMode(diningMode);
                 break;
             case 8:
                 // Navigate back to main menu
