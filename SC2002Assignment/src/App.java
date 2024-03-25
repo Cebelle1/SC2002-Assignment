@@ -7,37 +7,38 @@ import java.util.Scanner;
 
 import javax.xml.crypto.Data;
 
-public class App{
+public class App {
     Scanner sc = new Scanner(System.in);
-    public void start(){
+
+    public void start() {
         printAppTitle();
         renderChoice();
         renderApp(0);
-        
-        
+
     }
 
-    private static final void printAppTitle(){
-        System.out.println("╔═══════════════════════════════════════════════════════════════════╗");                 
-        System.out.println("║        █████████    █████████   ██████   ██████  █████████        ║");
-        System.out.println("║        ███░░░░░███  ███░░░░░███ ░░██████ ██████  ███░░░░░███      ║");
-        System.out.println("║       ███     ░░░  ░███    ░███  ░███░█████░███ ░███    ░░░       ║");
-        System.out.println("║      ░███          ░███████████  ░███░░███ ░███ ░░█████████       ║");
-        System.out.println("║      ░███          ░███░░░░░███  ░███ ░░░  ░███  ░░░░░░░░███      ║");
-        System.out.println("║      ░░███     ███ ░███    ░███  ░███      ░███  ███    ░███      ║");
-        System.out.println("║       ░░█████████  █████   █████ █████     █████░░█████████       ║");
-        System.out.println("╚═══════════════════════════════════════════════════════════════════╝");                                                                                                                                                                                                                  
+    private static final void printAppTitle() {
+
+        System.out.println("╔═══════════════════════════════════════════════════════════════════╗");
+        System.out.println("║               ███████╗ ██████╗ ███╗   ███╗███████╗                ║");
+        System.out.println("║               ██╔════╝██╔═══██╗████╗ ████║██╔════╝                ║");
+        System.out.println("║               █████╗  ██║   ██║██╔████╔██║███████╗                ║");
+        System.out.println("║               ██╔══╝  ██║   ██║██║╚██╔╝██║╚════██║                ║");
+        System.out.println("║               ██║     ╚██████╔╝██║ ╚═╝ ██║███████║                ║");
+        System.out.println("║               ╚═╝      ╚═════╝ ╚═╝     ╚═╝╚══════╝                ║");
+        System.out.println("╚═══════════════════════════════════════════════════════════════════╝");
+
     }
 
-    //Standalone, not inherited from RenderView.
+    // Standalone, not inherited from RenderView.
     public void renderApp(int selection) {
         List<Branch> branches = DataLoader.loadBranches("menu_list.txt");
-        //Debug
-        
-        //Controllers
+        // Debug
+
+        // Controllers
         int choice = sc.nextInt();
-        switch(choice){
-            case 1: 
+        switch (choice) {
+            case 1:
                 CustomerController cc = new CustomerController(branches);
                 cc.navigate(0);
                 break;
@@ -50,7 +51,7 @@ public class App{
 
     public void renderChoice() {
         String input = "Main Menu > Log in as?";
-        String space = String.format("%" + (99- input.length()) + "s", "");
+        String space = String.format("%" + (99 - input.length()) + "s", "");
         System.out.println(
                 "╔════════════════════════════════════════════════════════════════════════════════════════════════════╗");
         System.out.println("║ " + input + space + "║");
@@ -58,5 +59,5 @@ public class App{
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════╝");
         System.out.println("(1) Customer");
         System.out.println("(2) Staff");
-    }   
+    }
 }

@@ -1,4 +1,5 @@
 package view;
+
 import java.util.List;
 import java.util.Locale;
 import controller.CustomerController;
@@ -7,10 +8,13 @@ import model.Order;
 import model.menus.MenuItem;
 import view.abstracts.RenderView;
 import model.Branch;
+import view.Receipt;
 
-public class OrderMenuView extends RenderView{
+public class OrderMenuView extends RenderView {
     CustomerController custCon;
     Branch selectedBranch;
+
+    Receipt receipt = new Receipt();
 
     public OrderMenuView(CustomerController controller) {
         this.custCon = controller;
@@ -20,11 +24,11 @@ public class OrderMenuView extends RenderView{
         int index = 1;
         selectedBranch = branches.get(inputChoice);
         List<MenuItem> menu = selectedBranch.getMenu();
-        
+
         super.printBorder("Menu Items in " + selectedBranch.getName());
         System.out.println("No.   | Name            |     Price     |");
         System.out.println("--------------------------------");
-    
+
         // Print menu items
         for (MenuItem item : menu) {
             // Format item name and price
@@ -40,22 +44,21 @@ public class OrderMenuView extends RenderView{
     private String formatName(String name) {
         // Split the name into words
         String[] words = name.split(" ");
-    
+
         // Capitalize the first letter of each word
         StringBuilder formattedName = new StringBuilder();
         for (String word : words) {
             formattedName.append(word.substring(0, 1).toUpperCase(Locale.ENGLISH)); // Capitalize first letter
-            formattedName.append(word.substring(1).toLowerCase(Locale.ENGLISH));    // Convert remaining letters to lowercase
+            formattedName.append(word.substring(1).toLowerCase(Locale.ENGLISH)); // Convert remaining letters to
+                                                                                 // lowercase
             formattedName.append(" "); // Add space between words
         }
-    
+
         return String.format("| %-15s", formattedName.toString());
     }
 
-    
-
     public MenuItem getSelectedItem(int menuIndex) {
-        if(menuIndex > selectedBranch.getMenu().size()){
+        if (menuIndex > selectedBranch.getMenu().size()) {
             System.out.println("Menu index out of range");
             return null;
         }
@@ -63,7 +66,7 @@ public class OrderMenuView extends RenderView{
 
     }
 
-    public void displayEditCart(){
+    public void displayEditCart() {
         super.printBorder("Edit Cart");
         System.out.println("(1) Add Items");
         System.out.println("(2) Edit Orders");
@@ -71,22 +74,22 @@ public class OrderMenuView extends RenderView{
         System.out.println("(4) Make a new order");
     }
 
-    public void chooseDisplayCurrentOrder(OrderMenuController omc){
+    public void chooseDisplayCurrentOrder(OrderMenuController omc) {
         super.printBorder("Order Status");
 
         displayAllOrder(omc);
-    
+
         // Prompt user to select an order
         int selectedOrderIndex = omc.getInputInt("Enter the order number:") - 1;
         if (selectedOrderIndex < 0 || selectedOrderIndex >= omc.getOrders().size()) {
             System.out.println("Invalid order number.");
             return;
         }
-    
+
         displayOrderList(omc.getOrders(), selectedOrderIndex);
     }
 
-    public void displayAllOrder(OrderMenuController omc){
+    public void displayAllOrder(OrderMenuController omc) {
         List<Order> orders = omc.getOrders(); // Assuming you have access to OrderMenuController and its orders
         if (orders.isEmpty()) {
             System.out.println("No orders available.");
@@ -99,8 +102,7 @@ public class OrderMenuView extends RenderView{
         }
     }
 
-
-    public void displayOrderList(List<Order> orders, int selectedOrderIndex){
+    public void displayOrderList(List<Order> orders, int selectedOrderIndex) {
         // Display the selected order's items
         Order selectedOrder = orders.get(selectedOrderIndex);
         List<MenuItem> items = selectedOrder.getCurrentOrder();
@@ -117,12 +119,12 @@ public class OrderMenuView extends RenderView{
         }
     }
 
-    public void displayEmptyOrderListError(){
+    public void displayEmptyOrderListError() {
         System.out.println("Please create an order using (4) before adding menu items.");
         delay(2);
     }
 
-    public void displayRemoved(String removedItem){
+    public void displayRemoved(String removedItem) {
         removedItem = formatName(removedItem);
         System.out.printf("Remove %s from order\n", removedItem);
         delay(2);
@@ -131,45 +133,44 @@ public class OrderMenuView extends RenderView{
 
     @Override
     public void renderApp(int selection) {
-        switch(selection){
+        switch (selection) {
             case 0:
                 renderChoice();
                 break;
             case 1:
-                //Organize display of menu items
+                // Organize display of menu items
                 break;
             case 2:
-                //Add, edit, delete menu items
+                // Add, edit, delete menu items
                 displayEditCart();
-                
+
                 break;
             case 3:
-                
+
                 break;
-            case 4: //Check Out (Complete placing a single order)
-                //check out means make payment?
-                //select dine in mode
+            case 4: // Check Out (Complete placing a single order)
+                // check out means make payment?
+                // select dine in mode
                 super.printBorder("Checkout");
                 System.out.println("Dining Mode:");
                 System.out.println("(1) Dine In");
                 System.out.println("(2) Take Out");
-                
-                //payment, no need to simulate, maybe +feature of payment into total sales
-                //print receipt with order ID
+
+                // payment, no need to simulate, maybe +feature of payment into total sales
+                // print receipt with order ID
                 break;
-            case 5: //Pay for Order (Pay multiple orders)
-                
-               
+            case 5: // Pay for Order (Pay multiple orders)
+
                 break;
             case 6:
-                
+                receipt.printReciept();
+
                 break;
             case 7:
-                //collect food, change status from ready to pick up to completed
+                // collect food, change status from ready to pick up to completed
                 break;
         }
     }
-        
 
     @Override
     public void renderChoice() {

@@ -42,6 +42,10 @@ public class OrderMenuController extends AController {
                 int editCartChoice = getInputInt("Edit Cart Choice:");
                 editCart(editCartChoice);
                 break;
+            case 6:
+                omv.renderApp(6);
+                // System.out.println("printreceipt");
+                break;
             case 8:
                 // Navigate back to main menu
                 cC.navigate(0);
@@ -65,7 +69,7 @@ public class OrderMenuController extends AController {
                 break;
             case 2:
                 // Edit items in cart
-                editOrder();    //To edit other orders
+                editOrder(); // To edit other orders
                 break;
             case 3:
                 // Remove item from cart
@@ -80,7 +84,7 @@ public class OrderMenuController extends AController {
 
     private void addItemToCart() {
         if (branchChoice >= 0 && branchChoice < branches.size()) {
-            if(orders.size() < 1){
+            if (orders.size() < 1) {
                 createNewOrder();
             }
             omv.displayMenu(branchChoice, branches);
@@ -106,16 +110,16 @@ public class OrderMenuController extends AController {
         }
     }
 
-    private void removeItemFromCart(){
+    private void removeItemFromCart() {
         if (branchChoice >= 0 && branchChoice < branches.size() && orders.size() > 0) {
             omv.displayAllOrder(this);
-            int editChoice = getInputInt("Select which Order to remove item from:")-1;
+            int editChoice = getInputInt("Select which Order to remove item from:") - 1;
             Order currentOrder = orders.get(editChoice);
             omv.displayOrderList(orders, editChoice);
-            int removeItem = getInputInt("Select which Item to remove from order:")-1;
+            int removeItem = getInputInt("Select which Item to remove from order:") - 1;
             String removedItem = currentOrder.removeItem(removeItem);
             omv.displayRemoved(removedItem);
-            
+
             this.navigate(0);
         } else {
             omv.displayEmptyOrderListError();
@@ -123,7 +127,7 @@ public class OrderMenuController extends AController {
         }
     }
 
-    private void editOrder(){
+    private void editOrder() {
 
     }
 
@@ -136,13 +140,12 @@ public class OrderMenuController extends AController {
 
     public void displayCurrentOrders() {
         omv.chooseDisplayCurrentOrder(this);
-        String exit = getInputString("Enter a key to exit");  //just a wait for enter
-    
+        String exit = getInputString("Enter a key to exit"); // just a wait for enter
+
     }
 
-    public List<Order> getOrders(){
+    public List<Order> getOrders() {
         return orders;
     }
-
 
 }

@@ -28,12 +28,12 @@ public class CustomerController extends AController {
     @Override
     public void navigate(int page) {
         switch (page) {
-            case 0: //Customer Main Menu
+            case 0: // Customer Main Menu
                 customerHomeView.renderApp(0); // Default 0
                 int choice = super.getInputInt("");
                 this.navigate(choice);
                 break;
-            case 1: //Select Branch
+            case 1: // Select Branch
                 customerHomeView.displayBranch(branches);
                 branchChoice = super.getInputInt("Select branch:") - 1;
                 Branch selectedBranch = branches.get(branchChoice);
@@ -44,7 +44,7 @@ public class CustomerController extends AController {
                 }
                 this.navigate(0);
                 break;
-            case 2: //Display Current Order
+            case 2: // Display Current Order
                 OrderMenuController selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     customerHomeView.displayBranchError();
@@ -53,7 +53,7 @@ public class CustomerController extends AController {
                 selectedOMC.displayCurrentOrders();
                 this.navigate(0);
                 break;
-            case 3: //Edit Order
+            case 3: // Edit Order
                 selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     customerHomeView.displayBranchError();
