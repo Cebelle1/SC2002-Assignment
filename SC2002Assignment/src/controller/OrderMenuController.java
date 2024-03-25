@@ -42,6 +42,13 @@ public class OrderMenuController extends AController {
                 int editCartChoice = getInputInt("Edit Cart Choice:");
                 editCart(editCartChoice);
                 break;
+            case 3:
+                omv.renderApp(3);
+                int diningMode = getInputInt("Select dining mode: ");
+                Order currentOrder = orders.get(orders.size() - 1);
+                currentOrder.setDiningMode(diningMode);
+                navigate(0);
+                break;
             case 6:
                 omv.renderApp(6);
                 // System.out.println("printreceipt");

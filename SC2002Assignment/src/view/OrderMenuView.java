@@ -111,6 +111,8 @@ public class OrderMenuView extends RenderView {
         if (items.isEmpty()) {
             System.out.println("No items in this order.");
         } else {
+            super.printBorder(selectedOrder.getDiningMode() + " Order");
+            //System.out.println();
             System.out.println("Items in selected order:");
             int index = 1;
             for (MenuItem item : items) {

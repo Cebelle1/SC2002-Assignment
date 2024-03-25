@@ -44,7 +44,7 @@ public class CustomerController extends AController {
                 }
                 this.navigate(0);
                 break;
-            case 2: // Display Current Order
+            case 2: // Display Current Orders
                 OrderMenuController selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     customerHomeView.displayBranchError();

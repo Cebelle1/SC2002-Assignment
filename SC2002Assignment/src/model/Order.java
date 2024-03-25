@@ -37,4 +37,8 @@ public class Order implements Serializable {
                 System.out.println("Invalid Dining Mode");
         }
     }
+
+    public String getDiningMode(){
+        return this.diningMode;
+    }
 }
