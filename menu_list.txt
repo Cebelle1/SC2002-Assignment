@@ -6,3 +6,4 @@ COLE SLAW	2.7	JE	side
 chicken nugget	6.9	JP	side
 chicken nugget	6.6	NTU	side
 pepsi	2.1	JE	drink
+coffee  1   NTU drink
