@@ -31,20 +31,14 @@ public class CustomerController extends AController {
             case 0: // Customer Main Menu
                 customerHomeView.renderApp(0); // Default 0
                 int choice = super.getInputInt("");
+                if(choice > 5){ //HARDCODED, CHANGE IF NEEDED
+                    System.out.println("Invalid Option");
+                    this.navigate(0);
+                }
                 this.navigate(choice);
                 break;
-            case 1: // Select Branch
-                customerHomeView.displayBranch(branches);
-                branchChoice = super.getInputInt("Select branch:") - 1;
-                Branch selectedBranch = branches.get(branchChoice);
-                OrderMenuController omc = branchOrderMenuControllers.get(selectedBranch);
-                if (omc == null) {
-                    omc = new OrderMenuController(this);
-                    branchOrderMenuControllers.put(selectedBranch, omc);
-                }
-                this.navigate(0);
-                break;
-            case 2: // Display Current Orders
+            
+            case 1: // Display Current Orders
                 OrderMenuController selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     customerHomeView.displayBranchError();
@@ -53,7 +47,7 @@ public class CustomerController extends AController {
                 selectedOMC.displayCurrentOrders();
                 this.navigate(0);
                 break;
-            case 3: // Edit Order
+            case 2: // Edit Order
                 selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     customerHomeView.displayBranchError();
@@ -64,8 +58,21 @@ public class CustomerController extends AController {
             case 9:
                 System.exit(page);
                 break;
+            case 10: // Select Branch [Startup should come here first]
+                customerHomeView.displayBranch(branches);
+                branchChoice = super.getInputInt("Select branch:") - 1;
+                Branch selectedBranch = branches.get(branchChoice);
+                OrderMenuController omc = branchOrderMenuControllers.get(selectedBranch);
+                if (omc == null) {
+                    omc = new OrderMenuController(this);
+                    branchOrderMenuControllers.put(selectedBranch, omc);
+                }
+                this.navigate(0);
+                break;
             default:
                 System.out.println("Invalid page.");
+                this.navigate(0);
+                break;
         }
     }
 

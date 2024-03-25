@@ -79,8 +79,10 @@ public class OrderMenuView extends RenderView {
     public void chooseDisplayCurrentOrder(OrderMenuController omc) {
         super.printBorder("Order Status");
 
-        displayAllOrder(omc);
 
+        if(!displayAllOrder(omc)){
+            return;
+        }
         // Prompt user to select an order
         int selectedOrderIndex = omc.getInputInt("Enter the order number:") - 1;
         if (selectedOrderIndex < 0 || selectedOrderIndex >= omc.getOrders().size()) {
@@ -91,17 +93,18 @@ public class OrderMenuView extends RenderView {
         displayOrderList(omc.getOrders(), selectedOrderIndex);
     }
 
-    public void displayAllOrder(OrderMenuController omc) {
+    public boolean displayAllOrder(OrderMenuController omc) {
         List<Order> orders = omc.getOrders(); // Assuming you have access to OrderMenuController and its orders
         if (orders.isEmpty()) {
             System.out.println("No orders available.");
-            return;
+            return false;
         }
         int index = 1;
         for (Order order : orders) {
             System.out.println(index + ". Order " + index);
             index++;
         }
+        return true;
     }
 
     public void displayOrderList(List<Order> orders, int selectedOrderIndex) {
@@ -185,7 +188,7 @@ public class OrderMenuView extends RenderView {
         System.out.println("(4) Check Out");
         System.out.println("(5) Pay");
         System.out.println("(6) Print Receipt");
-        System.out.println("(7) Collect Food)");
+        System.out.println("(7) Collect Food");
         System.out.println("(8) Return to Customer Main Menu");
     }
 }

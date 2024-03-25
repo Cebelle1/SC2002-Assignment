@@ -40,7 +40,7 @@ public class App {
         switch (choice) {
             case 1:
                 CustomerController cc = new CustomerController(branches);
-                cc.navigate(0);
+                cc.navigate(10); //Immediately select branch
                 break;
             case 2:
                 LoginController lc = new LoginController();
