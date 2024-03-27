@@ -7,7 +7,8 @@ public class MenuItem implements Serializable{
     private double price;
     private String category;
     private String branch;
-
+    private SetMealCategory setMealCategory;
+    
     public MenuItem(String name, double price, String branch, String category) {
         this.name = name;
         this.price = price;

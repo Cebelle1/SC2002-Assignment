@@ -13,7 +13,8 @@ public class OrderMenuController extends AController {
     private List<Branch> branches;
     private OrderMenuView omv;
     private int branchChoice;
-    private List<Order> orders; // List to store orders
+    //private List<Order> orders; // List to store orders
+    private Order orders;
     private CustomerController cC;
 
     public OrderMenuController(CustomerController cC) {
@@ -21,7 +22,8 @@ public class OrderMenuController extends AController {
         this.branches = cC.getCurrentBranch();
         this.omv = cC.getCurOMV();
         this.branchChoice = cC.getBranchChoice();
-        this.orders = new ArrayList<>(); // Initialize the list of orders
+        //this.orders = new Order()ArrayList<>(); // Initialize the list of orders
+        this.orders = new Order();
     }
 
     @Override
@@ -45,7 +47,7 @@ public class OrderMenuController extends AController {
             case 3:
                 omv.renderApp(3);
                 int diningMode = getInputInt("Select dining mode: ");
-                Order currentOrder = orders.get(orders.size() - 1);
+                Order currentOrder = orders.getOrders().get(orders.getOrders().size() - 1);
                 currentOrder.setDiningMode(diningMode);
                 navigate(0);
                 break;
@@ -91,16 +93,34 @@ public class OrderMenuController extends AController {
 
     private void addItemToCart() {
         if (branchChoice >= 0 && branchChoice < branches.size()) {
-            if (orders.size() < 1) {
+            if (orders.getOrders().size() < 1) {
                 createNewOrder();
             }
             omv.displayMenu(branchChoice, branches);
-            int menuItemIndex = getInputInt("Select menu item for Order " + (orders.size() - 1) + ":") - 1;
+            int menuItemIndex = getInputInt("Select menu item for Order " + (orders.getOrders().size() - 1) + ":") - 1;
             try {
                 MenuItem selectedItem = omv.getSelectedItem(menuItemIndex);
-                if (!orders.isEmpty()) {
+                if (!orders.getOrders().isEmpty()) {
                     // Add the selected item to the current order
-                    Order currentOrder = orders.get(orders.size() - 1);
+                    Order currentOrder = orders.getOrders().get(orders.getOrders().size() - 1);
+                    
+                    /*if (selectedItem.getCategory().equals("Set Meal")) {
+                        // Prompt the user to choose drinks and sides
+                        System.out.println("Choose your drink:");
+                        omv.displayDrinks(); // Method to display drinks
+                        int drinkChoice = getInputInt("Enter the drink number:");
+                        MenuItem selectedDrink = getDrink(drinkChoice);
+            
+                        System.out.println("Choose your side:");
+                        displaySides(); // Method to display sides
+                        int sideChoice = getInputInt("Enter the side number:");
+                        MenuItem selectedSide = getSide(sideChoice);
+            
+                        // Add the selected drink and side to the current order
+                        Order currentOrder = orders.getOrders().get(orders.getOrders().size() - 1);
+                        currentOrder.addItem(selectedDrink);
+                        currentOrder.addItem(selectedSide);
+                    }*/
                     currentOrder.addItem(selectedItem);
                     this.navigate(0);
                 } else {
@@ -118,10 +138,10 @@ public class OrderMenuController extends AController {
     }
 
     private void removeItemFromCart() {
-        if (branchChoice >= 0 && branchChoice < branches.size() && orders.size() > 0) {
-            omv.displayAllOrder(this);
+        if (branchChoice >= 0 && branchChoice < branches.size() && orders.getOrders().size() > 0) {
+            omv.displayAllOrder(orders);
             int editChoice = getInputInt("Select which Order to remove item from:") - 1;
-            Order currentOrder = orders.get(editChoice);
+            Order currentOrder = orders.getOrders().get(orders.getOrders().size() - 1);
             omv.displayOrderList(orders, editChoice);
             int removeItem = getInputInt("Select which Item to remove from order:") - 1;
             String removedItem = currentOrder.removeItem(removeItem);
@@ -141,18 +161,16 @@ public class OrderMenuController extends AController {
     private void createNewOrder() {
         // Create a new order and add it to the list of orders
         Order newOrder = new Order();
-        orders.add(newOrder);
+        orders.newOrder(newOrder);
         System.out.println("New order created.");
     }
 
     public void displayCurrentOrders() {
-        omv.chooseDisplayCurrentOrder(this);
+        omv.chooseDisplayCurrentOrder(this.orders, this);
         String exit = getInputString("Enter a key to exit"); // just a wait for enter
 
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
+   
 
 }

@@ -36,7 +36,6 @@ public class OrderMenuView extends RenderView {
             // Format item name and price
             String formattedName = formatName(item.getName());
             String formattedPrice = String.format("| $%.2f", item.getPrice());
-
             // Print formatted item with index
             System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
             index++;
@@ -76,25 +75,55 @@ public class OrderMenuView extends RenderView {
         System.out.println("(4) Make a new order");
     }
 
-    public void chooseDisplayCurrentOrder(OrderMenuController omc) {
+//=================Category=================//
+    public void displayDrinks() {
+        List<MenuItem> menu = selectedBranch.getMenu();
+        int index = 1;
+        System.out.println("Drinks:");
+        for (MenuItem item : menu) {
+            if (item.getCategory().equals("Drink")) {
+                String formattedName = formatName(item.getName());
+                String formattedPrice = String.format("| $%.2f", item.getPrice());
+                System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
+                index++;
+            }
+        }
+    }
+    
+    public void displaySides() {
+        List<MenuItem> menu = selectedBranch.getMenu();
+        int index = 1;
+        System.out.println("Sides:");
+        for (MenuItem item : menu) {
+            if (item.getCategory().equals("Side")) {
+                String formattedName = formatName(item.getName());
+                String formattedPrice = String.format("| $%.2f", item.getPrice());
+                System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
+                index++;
+            }
+        }
+    }
+    
+
+//================Order==================//
+    public void chooseDisplayCurrentOrder(Order orders, OrderMenuController omc) {
         super.printBorder("Order Status");
 
-
-        if(!displayAllOrder(omc)){
+        if(!displayAllOrder(orders)){
             return;
         }
         // Prompt user to select an order
         int selectedOrderIndex = omc.getInputInt("Enter the order number:") - 1;
-        if (selectedOrderIndex < 0 || selectedOrderIndex >= omc.getOrders().size()) {
+        if (selectedOrderIndex < 0 || selectedOrderIndex >= orders.getOrders().size()) {
             System.out.println("Invalid order number.");
             return;
         }
 
-        displayOrderList(omc.getOrders(), selectedOrderIndex);
+        displayOrderList(orders, selectedOrderIndex);
     }
 
-    public boolean displayAllOrder(OrderMenuController omc) {
-        List<Order> orders = omc.getOrders(); // Assuming you have access to OrderMenuController and its orders
+    public boolean displayAllOrder(Order ordersM) {
+        List<Order> orders = ordersM.getOrders(); // Assuming you have access to OrderMenuController and its orders
         if (orders.isEmpty()) {
             System.out.println("No orders available.");
             return false;
@@ -107,9 +136,10 @@ public class OrderMenuView extends RenderView {
         return true;
     }
 
-    public void displayOrderList(List<Order> orders, int selectedOrderIndex) {
+    public void displayOrderList(Order orders, int selectedOrderIndex) {
         // Display the selected order's items
-        Order selectedOrder = orders.get(selectedOrderIndex);
+        //Order selectedOrder = orders.get(selectedOrderIndex);
+        Order selectedOrder = orders.getOrders().get(selectedOrderIndex);
         List<MenuItem> items = selectedOrder.getCurrentOrder();
         if (items.isEmpty()) {
             System.out.println("No items in this order.");
@@ -126,6 +156,7 @@ public class OrderMenuView extends RenderView {
         }
     }
 
+//=============Error Handling===================//
     public void displayEmptyOrderListError() {
         System.out.println("Please create an order using (4) before adding menu items.");
         delay(2);
@@ -137,7 +168,7 @@ public class OrderMenuView extends RenderView {
         delay(2);
 
     }
-
+//==================Overrides====================//
     @Override
     public void renderApp(int selection) {
         switch (selection) {

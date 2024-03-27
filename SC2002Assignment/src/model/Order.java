@@ -10,8 +10,23 @@ public class Order implements Serializable {
     private double total = 0;
     private String diningMode = null;
     private String status;
+    private List<Order> orders;
 
+    public Order(){
+        this.orders = new ArrayList<>();
+    }
+
+    public void newOrder(Order order){
+        orders.add(order);
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+ //==========Order Items============//   
     public void addItem(MenuItem item) {
+        
         items.add(item);
     }
 
@@ -24,14 +39,14 @@ public class Order implements Serializable {
     public List<MenuItem> getCurrentOrder() {
         return items;
     }
-
+//========================================//
     public void setDiningMode(int dineMode) {
         switch (dineMode) {
-            case 1: // Take out
-                this.diningMode = "Take Away";
-                break;
-            case 2: // Dine in
+            case 1: //Dine In
                 this.diningMode = "Dine In";
+                break;
+            case 2: // Take out
+                this.diningMode = "Take Away";
                 break;
             default:
                 System.out.println("Invalid Dining Mode");
