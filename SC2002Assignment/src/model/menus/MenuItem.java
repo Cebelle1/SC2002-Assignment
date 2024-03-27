@@ -13,6 +13,7 @@ public class MenuItem implements Serializable{
         this.price = price;
         this.branch = branch;
         this.category = category;
+    
     }
 
     public double getPrice(){
