@@ -48,4 +48,46 @@ public class DataLoader {
 
         return branches;
     }
+
+      // load the staff list here
+    public static List<StaffCategory> loadStaff(String filePath) {
+        Map<String, List<Staff>> staffMap = new HashMap<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                
+                String[] parts = line.split("\t"); // Assuming tab-separated values
+                if (parts.length == 7) {
+                    String name = parts[0];
+                    String staffID = parts[1];
+                    String role = parts[2];
+                    String gender = parts[3];
+                    Double age = Double.parseDouble(parts[4]);
+                    String branch = parts[5];
+                    String password = parts[6];
+                    // age is not passed in as of yet -> if it is needed can just pass in
+                    Staff staff = new Staff(name, staffID, role, gender, branch, password);
+                    // Add the staff list to the respective role in the map
+                    if (!staffMap.containsKey(role)) {
+                        staffMap.put(role, new ArrayList<>());
+                    }
+                    staffMap.get(role).add(staff);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Convert the map into a list of staffs
+        List<StaffCategory> staffs = new ArrayList<>();
+        for (Map.Entry<String, List<Staff>> entry : staffMap.entrySet()) {
+            String roleName = entry.getKey();
+            List<Staff> Staff = entry.getValue();
+            StaffCategory role = new StaffCategory(roleName, Staff);
+            staffs.add(role);
+        }
+
+        return staffs;
+    }
 }
