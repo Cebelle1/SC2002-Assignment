@@ -22,7 +22,7 @@ public class CustomerController extends AController {
 
     public CustomerController(List<Branch> branches) {
         this.branches = branches;
-        currentOrder = new Order();
+        
     }
 
     @Override
@@ -66,6 +66,7 @@ public class CustomerController extends AController {
                 if (omc == null) {
                     omc = new OrderMenuController(this);
                     branchOrderMenuControllers.put(selectedBranch, omc);
+                    currentOrder = new Order(selectedBranch);
                 }
                 this.navigate(0);
                 break;

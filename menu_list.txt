@@ -7,3 +7,5 @@ chicken nugget	6.9	JP	side
 chicken nugget	6.6	NTU	side
 pepsi	2.1	JE	drink
 coffee	1	NTU	drink
+Sphagetti	2	NTU	pasta
+cheeseburger	1.5	NTU	burger

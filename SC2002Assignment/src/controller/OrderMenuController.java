@@ -2,10 +2,13 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import controller.CustomerController;
 import controller.abstracts.AController;
 import model.Branch;
 import model.menus.MenuItem;
+import model.menus.SetMealCategory;
 import view.OrderMenuView;
 import model.Order;
 
@@ -23,7 +26,7 @@ public class OrderMenuController extends AController {
         this.omv = cC.getCurOMV();
         this.branchChoice = cC.getBranchChoice();
         //this.orders = new Order()ArrayList<>(); // Initialize the list of orders
-        this.orders = new Order();
+        this.orders = new Order(branches.get(branchChoice));
     }
 
     @Override
@@ -36,20 +39,29 @@ public class OrderMenuController extends AController {
                 break;
             case 1:
                 // Display menu
-                displayMenu();
+                omv.displayOrganizedMenu(branchChoice, branches);
+                String retChocie = getInputString("Press any key to return");
+                navigate(0);
                 break;
             case 2:
                 // Edit cart
                 omv.renderApp(2);
                 int editCartChoice = getInputInt("Edit Cart Choice:");
                 editCart(editCartChoice);
+                navigate(0);
                 break;
-            case 3:
+            case 3: //Dining Mode
                 omv.renderApp(3);
                 int diningMode = getInputInt("Select dining mode: ");
-                Order currentOrder = orders.getOrders().get(orders.getOrders().size() - 1);
+                Order currentOrder = Order.getCurrentOrder();
                 currentOrder.setDiningMode(diningMode);
                 navigate(0);
+                break;
+            case 4: //Checkout
+                checkout();
+                navigate(0);
+                break;
+            case 5: //Pay
                 break;
             case 6:
                 omv.renderApp(6);
@@ -73,15 +85,14 @@ public class OrderMenuController extends AController {
     private void editCart(int choice) {
         switch (choice) {
             case 1:
-                // Add item to cart
                 addItemToCart();
                 break;
             case 2:
-                // Edit items in cart
-                editOrder(); // To edit other orders
+                //To implement
+                editOrder(); 
                 break;
             case 3:
-                // Remove item from cart
+                
                 removeItemFromCart();
                 break;
             case 4:
@@ -96,32 +107,37 @@ public class OrderMenuController extends AController {
             if (orders.getOrders().size() < 1) {
                 createNewOrder();
             }
+            Order currentOrder = Order.getCurrentOrder();
             omv.displayMenu(branchChoice, branches);
             int menuItemIndex = getInputInt("Select menu item for Order " + (orders.getOrders().size() - 1) + ":") - 1;
             try {
-                MenuItem selectedItem = omv.getSelectedItem(menuItemIndex);
+                MenuItem selectedItem = getSelectedItem(menuItemIndex);
                 if (!orders.getOrders().isEmpty()) {
-                    // Add the selected item to the current order
-                    Order currentOrder = orders.getOrders().get(orders.getOrders().size() - 1);
-                    
-                    /*if (selectedItem.getCategory().equals("Set Meal")) {
-                        // Prompt the user to choose drinks and sides
+                    if ("set meal".equals(selectedItem.getCategory())) {
+                        omv.displayMains();
+                       
+                        int mainChoice = getInputInt("Select 1 Main for : " + selectedItem.getName());
+                        MenuItem selectedMain = getMainDish(mainChoice);
+
                         System.out.println("Choose your drink:");
                         omv.displayDrinks(); // Method to display drinks
-                        int drinkChoice = getInputInt("Enter the drink number:");
+                        int drinkChoice = getInputInt("Select 1 Drink:");
                         MenuItem selectedDrink = getDrink(drinkChoice);
             
                         System.out.println("Choose your side:");
-                        displaySides(); // Method to display sides
-                        int sideChoice = getInputInt("Enter the side number:");
+                        omv.displaySides(); // Method to display sides
+                        int sideChoice = getInputInt("Select 1 Side:");
                         MenuItem selectedSide = getSide(sideChoice);
             
-                        // Add the selected drink and side to the current order
-                        Order currentOrder = orders.getOrders().get(orders.getOrders().size() - 1);
-                        currentOrder.addItem(selectedDrink);
-                        currentOrder.addItem(selectedSide);
-                    }*/
-                    currentOrder.addItem(selectedItem);
+                        // Add the selected drink and side to the current order 
+                        MenuItem mealItem = new MenuItem("Combo Meal", 10.99, branches.get(branchChoice).getName(),"set meal", new SetMealCategory(selectedMain, selectedSide, selectedDrink));
+
+                        currentOrder.addItem(mealItem);
+
+                    }else{
+                        currentOrder.addItem(selectedItem);
+                    }
+                    
                     this.navigate(0);
                 } else {
                     System.out.println("No order created yet. Please create a new order.");
@@ -141,7 +157,7 @@ public class OrderMenuController extends AController {
         if (branchChoice >= 0 && branchChoice < branches.size() && orders.getOrders().size() > 0) {
             omv.displayAllOrder(orders);
             int editChoice = getInputInt("Select which Order to remove item from:") - 1;
-            Order currentOrder = orders.getOrders().get(orders.getOrders().size() - 1);
+            Order currentOrder = Order.getCurrentOrder();
             omv.displayOrderList(orders, editChoice);
             int removeItem = getInputInt("Select which Item to remove from order:") - 1;
             String removedItem = currentOrder.removeItem(removeItem);
@@ -171,6 +187,69 @@ public class OrderMenuController extends AController {
 
     }
 
-   
+    private void checkout(){
+        List<Order> allOrders = orders.getOrders();
+        for(Order o: allOrders){
+            o.confirmOrder();
+            System.out.println(o.getOrderStatus());
+        }
+    }
 
+   
+    public MenuItem getSelectedItem(int menuIndex) {
+        Branch selectedBranch = branches.get(branchChoice);
+        if (menuIndex > selectedBranch.getMenu().size()) {
+            System.out.println("Menu index out of range");
+            return null;
+        }
+        return selectedBranch.getMenu().get(menuIndex);
+
+    }
+
+    //=====================================
+    public MenuItem getMainDish(int mainChoice) {
+        Branch selectedBranch = branches.get(branchChoice);
+    List<MenuItem> mainDishes = selectedBranch.getMenu().stream()
+                                    .filter(item -> item.getCategory() != "side" && item.getCategory() != "drink" && item.getCategory() != "set meal")
+                                    .collect(Collectors.toList());
+    if (mainChoice < 0 || mainChoice > mainDishes.size()) {
+        System.out.println("Invalid main dish selection.");
+        return null;
+    }
+    return mainDishes.get(mainChoice - 1); 
+}
+
+public MenuItem getDrink(int drinkChoice) {
+    Branch selectedBranch = branches.get(branchChoice);
+    List<MenuItem> menu = selectedBranch.getMenu();
+    List<MenuItem> drinks = menu.stream()
+                                    .filter(item -> item.getCategory() == "drink")
+                                    .collect(Collectors.toList());
+    for(MenuItem d: drinks){
+        System.out.println(d.getName());
+    }
+    if (drinkChoice < 0 || drinkChoice > drinks.size()) {
+        System.out.println("Invalid main dish selection.");
+        return null;
+    }
+    
+    return drinks.get(drinkChoice - 1); 
+}
+
+public MenuItem getSide(int sideChoice) {
+    Branch selectedBranch = branches.get(branchChoice);
+    List<MenuItem> menu = selectedBranch.getMenu();
+    List<MenuItem> sides = menu.stream()
+                                    .filter(item -> item.getCategory() == "side")
+                                    .collect(Collectors.toList());
+    for(MenuItem d: sides){
+        System.out.println(d.getName());
+    }
+    if (sideChoice < 0 || sideChoice > sides.size()) {
+        System.out.println("Invalid side dish selection.");
+        return null;
+    }
+    
+    return sides.get(sideChoice - 1); 
+}
 }

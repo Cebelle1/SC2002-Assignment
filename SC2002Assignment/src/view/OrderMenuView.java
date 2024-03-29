@@ -8,6 +8,7 @@ import controller.OrderMenuController;
 import model.Branch;
 import model.Order;
 import model.menus.MenuItem;
+import model.menus.SetMealCategory;
 import view.abstracts.RenderView;
 import model.Branch;
 import view.Receipt;
@@ -20,6 +21,13 @@ public class OrderMenuView extends RenderView {
 
     public OrderMenuView(CustomerController controller) {
         this.custCon = controller;
+    }
+
+    public void displayOrganizedMenu(int branchChoice,List<Branch> branches){
+        selectedBranch = branches.get(branchChoice);
+        super.printBorder("Menu Items in " + selectedBranch.getName());
+        displayDrinks();
+        displaySides();
     }
 
     public void displayMenu(int inputChoice, List<Branch> branches) {
@@ -58,14 +66,7 @@ public class OrderMenuView extends RenderView {
         return String.format("| %-15s", formattedName.toString());
     }
 
-    public MenuItem getSelectedItem(int menuIndex) {
-        if (menuIndex > selectedBranch.getMenu().size()) {
-            System.out.println("Menu index out of range");
-            return null;
-        }
-        return selectedBranch.getMenu().get(menuIndex);
-
-    }
+    
 
     public void displayEditCart() {
         super.printBorder("Edit Cart");
@@ -79,9 +80,10 @@ public class OrderMenuView extends RenderView {
     public void displayDrinks() {
         List<MenuItem> menu = selectedBranch.getMenu();
         int index = 1;
-        System.out.println("Drinks:");
+        super.printSingleBorder(("Category: Drinks"));
+        System.out.println("No.   | Name            |     Price     |");
         for (MenuItem item : menu) {
-            if (item.getCategory().equals("Drink")) {
+            if ("drink".equals(item.getCategory())) {
                 String formattedName = formatName(item.getName());
                 String formattedPrice = String.format("| $%.2f", item.getPrice());
                 System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
@@ -93,9 +95,24 @@ public class OrderMenuView extends RenderView {
     public void displaySides() {
         List<MenuItem> menu = selectedBranch.getMenu();
         int index = 1;
-        System.out.println("Sides:");
+        super.printSingleBorder("Category: Sides");
+        System.out.println("No.   | Name            |     Price     |");
         for (MenuItem item : menu) {
-            if (item.getCategory().equals("Side")) {
+            if ("side".equals(item.getCategory())) { 
+                String formattedName = formatName(item.getName());
+                String formattedPrice = String.format("| $%.2f", item.getPrice());
+                System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
+                index++;
+            }
+        }
+    }
+
+    public void displayMains(){
+        super.printBorder("Mains in " + selectedBranch.getName());
+        List<MenuItem> menu = selectedBranch.getMenu();
+        int index = 1;
+        for (MenuItem item : menu) {
+            if (!"side".equals(item.getCategory()) && !"drink".equals(item.getCategory()) && !"set meal".equals(item.getCategory())) {//All but side and drink
                 String formattedName = formatName(item.getName());
                 String formattedPrice = String.format("| $%.2f", item.getPrice());
                 System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
@@ -140,7 +157,7 @@ public class OrderMenuView extends RenderView {
         // Display the selected order's items
         //Order selectedOrder = orders.get(selectedOrderIndex);
         Order selectedOrder = orders.getOrders().get(selectedOrderIndex);
-        List<MenuItem> items = selectedOrder.getCurrentOrder();
+        List<MenuItem> items = selectedOrder.getCurrentOrderItems();
         if (items.isEmpty()) {
             System.out.println("No items in this order.");
         } else {
@@ -152,6 +169,17 @@ public class OrderMenuView extends RenderView {
                 String formattedName = formatName(item.getName());
                 System.out.println(String.format("%-5s", index) + formattedName);
                 index++;
+            }
+
+            // Check if the order contains a SetMealCategory
+            for (MenuItem item : items) {
+                if ("set meal".equals(item.getCategory())) {
+                    SetMealCategory setMeal = (SetMealCategory) item.getSetMeal();
+                    System.out.println("Main Dish: " + setMeal.getMainDish().getName());
+                    System.out.println("Side Dish: " + setMeal.getSideDish().getName());
+                    System.out.println("Drink: " + setMeal.getDrink().getName());
+                    break; // Assuming there's only one set meal category in an order
+                }
             }
         }
     }

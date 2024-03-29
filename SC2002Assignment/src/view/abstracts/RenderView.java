@@ -8,9 +8,10 @@ public abstract class RenderView implements ViewInterface{
     protected void printBorder(String input){
         clearCLI();
         String space = String.format("%" + (99- input.length()) + "s", "");
+        String halfSpace = String.format("%" + (99- input.length())/2 + "s", "");
         System.out.println(
                 "╔════════════════════════════════════════════════════════════════════════════════════════════════════╗");
-        System.out.println("║ " + input + space + "║");
+        System.out.println("║ " +halfSpace + input + halfSpace + "║");
         System.out.println(
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
@@ -31,9 +32,31 @@ public abstract class RenderView implements ViewInterface{
                     Thread.currentThread().interrupt();
                 }
             }
-            
-       
     }
 
+    protected void printDoubleUnderline(String input){
+        String space = String.format("%" + (99- input.length()) + "s", "");
+        String halfSpace = String.format("%" + (99- input.length())/2 + "s", "");
+        System.out.println(input + space );
+        System.out.println(
+                "════════════════════════════════════════════════════════════════════════════════════════════════════");
+    }
     
+    protected void printSingleUnderline(String input){
+        String space = String.format("%" + (99- input.length()) + "s", "");
+        String halfSpace = String.format("%" + (99- input.length())/2 + "s", "");
+        System.out.println(input + space );
+        System.out.println(
+                "_____________________________________________________________________________________________________");
+    }
+    
+    protected void printSingleBorder(String input){
+        String space = String.format("%" + (99- input.length()) + "s", "");
+        String halfSpace = String.format("%" + (99- input.length())/2 + "s", "");
+        System.out.println(
+                "______________________________________________________________________________________________________");
+        System.out.println("| " + input + space + "|");
+        System.out.println(
+                "|____________________________________________________________________________________________________|");
+    }
 }
