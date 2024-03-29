@@ -1,11 +1,11 @@
-import controller.LoginController;
-import model.Branch;
-import controller.CustomerController;
-import model.DataLoader;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.xml.crypto.Data;
+import controller.CustomerController;
+import controller.LoginController;
+import model.Branch;
+import model.DataLoader;
+import model.StaffCategory;
 
 public class App {
     Scanner sc = new Scanner(System.in);
@@ -33,6 +33,7 @@ public class App {
     // Standalone, not inherited from RenderView.
     public void renderApp(int selection) {
         List<Branch> branches = DataLoader.loadBranches("menu_list.txt");
+        List<StaffCategory> staffs = DataLoader.loadStaff("staff_list_with_pw.txt"); 
         // Debug
 
         // Controllers
@@ -43,7 +44,7 @@ public class App {
                 cc.navigate(10); // Immediately select branch
                 break;
             case 2:
-                LoginController lc = new LoginController();
+                LoginController lc = new LoginController(staffs);
                 lc.navigate(0);
                 break;
         }

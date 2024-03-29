@@ -1,10 +1,10 @@
 package view;
-import view.abstracts.RenderView;
-import java.util.Scanner;
 import controller.LoginController;
+import view.abstracts.RenderView;
 
 public class LoginView extends RenderView{
     LoginController lc;
+    // constructor
     public LoginView(LoginController lc){
         super();
         //super(lc);
@@ -17,31 +17,51 @@ public class LoginView extends RenderView{
         switch(selection){
             case 0:
                 //this should just show "Log in as Admin/Staff/Manager"
-                System.out.println("Choose staff option");
+                System.out.println("Choose Staff Option");
+                System.out.println("(1) Login as Admin");
+                System.out.println("(2) Login as Manager");
+                System.out.println("(3) Login as Staff");
+                System.out.println("(4) Reset Password");
                 break;
-            case 1: 
-                credentialPrompt();
+            case 1:
+                credentialPrompt();;
                 break;
-            case 2:
-                this.lc.navigate(3);
+                
+            case 4:
+                this.lc.navigate(5); // go to login controller then system exit
                 break;
-
         }
     }
 
-    
 
     //@Override
     public String credentialPrompt() {
-        System.out.print("Enter Password: ");
-        return "123";  //Use the same method to read the password so that it can be hidden when entered    
 
+        System.out.print("Enter Staff ID: ");
+        return "123";  //Use the same method to read the password so that it can be hidden when entered    
+    }
+
+    public String passwordPrompt(){
+        System.out.print("Enter Password: ");
+        return "123";
+    }
+
+    public void loggedInPrompt(boolean auth){
+        
+        if(auth){
+            System.out.print("You are logged in! ");
+            renderApp(4); // for now do a system exit
+        }
+        else{
+            System.out.print("Retry again! ");
+            this.lc.navigate(0); // goes back to loginController to prompt again
+        }
     }
 
     @Override
     public void renderChoice(){
+        // to print the borders -> overide the superclass method
         super.printBorder("Login View");
-        System.out.println("(1) Choose Staff Option");
     }
     
 }

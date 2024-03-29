@@ -10,8 +10,6 @@ import model.Order;
 import model.menus.MenuItem;
 import model.menus.SetMealCategory;
 import view.abstracts.RenderView;
-import model.Branch;
-import view.Receipt;
 
 public class OrderMenuView extends RenderView {
     CustomerController custCon;
