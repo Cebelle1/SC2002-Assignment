@@ -12,12 +12,13 @@ public abstract class AUser {
     private String Password;        // Password can be changed
 
     //Create Staff Login Instance
-    public AUser(String Name, String StaffID, String Role, String Gender, String Branch){
+    public AUser(String Name, String StaffID, String Role, String Gender, String Branch, String Password){
         this.Name = Name;
         this.StaffID = StaffID;
         this.Role = Role;
         this.Gender = Gender;
         this.Branch = Branch;
+        this.Password = Password;
     }
 
     /* Getter Methods */
@@ -39,5 +40,9 @@ public abstract class AUser {
 
     public String getBranch(){
         return this.Branch;
+    }
+
+    public String getPassword(){
+        return this.Password;
     }
 }

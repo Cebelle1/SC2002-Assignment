@@ -9,8 +9,6 @@ import model.Branch;
 import model.Order;
 import model.menus.MenuItem;
 import view.abstracts.RenderView;
-import model.Branch;
-import view.Receipt;
 
 public class OrderMenuView extends RenderView {
     CustomerController custCon;
