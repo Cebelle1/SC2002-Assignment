@@ -24,6 +24,7 @@ public class OrderMenuView extends RenderView {
     public void displayOrganizedMenu(int branchChoice,List<Branch> branches){
         selectedBranch = branches.get(branchChoice);
         super.printBorder("Menu Items in " + selectedBranch.getName());
+        displayMain();
         displayDrinks();
         displaySides();
     }
@@ -108,23 +109,30 @@ public class OrderMenuView extends RenderView {
         }
     }
 
-    public void displayMains(){
-        super.printBorder("Mains in " + selectedBranch.getName());
+    public void displayMain(){
         List<MenuItem> menu = selectedBranch.getMenu();
         int index = 1;
+        super.printSingleBorder("Category: Mains");
+        System.out.println("No.   | Name            |     Price     |");
         for (MenuItem item : menu) {
             if (!"side".equals(item.getCategory()) && !"drink".equals(item.getCategory()) && !"set meal".equals(item.getCategory())) {//All but side and drink
                 //String formattedName = formatName(item.getName());
                 String formattedName = item.getFormattedName();
-                String formattedPrice = String.format("| $%.2f", item.getPrice());
+                String formattedPrice = item.getFormattedPriceStr();
                 System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
                 index++;
             }
         }
     }
+
+    public void displayMains(){
+        super.printBorder("Mains in " + selectedBranch.getName());
+        displayMain();
+    }
     
 
 //================Order==================//
+    //Choose an order to display
     public void chooseDisplayCurrentOrder(Order orders, OrderMenuController omc) {
         super.printBorder("Order Status");
 
@@ -141,6 +149,7 @@ public class OrderMenuView extends RenderView {
         displayOrderList(orders, selectedOrderIndex);
     }
 
+    //Display all orderID, no menuItems
     public boolean displayAllOrder(Order ordersM) {
         List<Order> orders = ordersM.getOrders(); // Assuming you have access to OrderMenuController and its orders
         if (orders.isEmpty()) {
@@ -155,6 +164,7 @@ public class OrderMenuView extends RenderView {
         return true;
     }
 
+    //Display a MenuItems for a single order
     public void displayOrderList(Order orders, int selectedOrderIndex) {
         // Display the selected order's items
         //Order selectedOrder = orders.get(selectedOrderIndex);
@@ -164,23 +174,30 @@ public class OrderMenuView extends RenderView {
             System.out.println("No items in this order.");
         } else {
             super.printBorder(selectedOrder.getDiningMode() + " Order");
-            System.out.println("Items in the Order:");
+            System.out.println("OrderID.   | Name            |   Qty   |    Price    |");
             int index = 1;
             for (MenuItem item : items) {
-                System.out.println(String.format("%-5s", index) + item.getFormattedName());
+                System.out.printf("%-9s  %-15s | %-7s | $%-10.2f |\n", 
+                    selectedOrderIndex+1, 
+                    item.getFormattedName(), 
+                    item.getQty(), 
+                    item.getPrice());
                 if ("set meal".equals(item.getCategory())) {
                     SetMealCategory setMeal = (SetMealCategory) item.getSetMeal();
-                    System.out.println("      > Main: " + setMeal.getMainDish().getName());
-                    System.out.println("      > Side: " + setMeal.getSideDish().getName());
-                    System.out.println("      > Drink: " + setMeal.getDrink().getName());
+                    System.out.printf("%8s > Main: %s\n", "", setMeal.getMainDish().getName());
+                    System.out.printf("%8s > Side: %s\n", "", setMeal.getSideDish().getName());
+                    System.out.printf("%8s > Drink: %s\n", "", setMeal.getDrink().getName());
+
                     
                 }
-                System.out.println("      > Comments: " + item.getComments());
+                System.out.printf("%8s > Comments: %s\n", "", item.getComments());
+                //System.out.println("         > Comments: " + item.getComments());
                 index++;
             }
         }
     }
 
+    //Display the order status of a single order
     public void chooseDisplayOrderStatus(Order ordersM, int orderID){
         List<Order> orders = ordersM.getOrders(); // Assuming you have access to OrderMenuController and its orders
         if (orders.isEmpty()) {
@@ -200,6 +217,13 @@ public class OrderMenuView extends RenderView {
         System.out.println("(1) Yes\n(2) No");
     }
 
+//================Checkout, Payement, Print Receipt Prints==================//
+    public void displayCheckout(Order orders){
+        super.printDoubleUnderline("Checking Out All Orders");
+        for(int i=0; i<orders.getOrders().size(); i++){
+            displayOrderList(orders, i);
+        }
+    }
 //=============Error Handling===================//
     public void displayEmptyOrderListError() {
         System.out.println("Please create an order using (4) before adding menu items.");

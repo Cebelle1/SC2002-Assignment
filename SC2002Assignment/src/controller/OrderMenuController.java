@@ -102,63 +102,43 @@ public class OrderMenuController extends AController {
         }
     }
 
+    //Might atomize this later on
     private void addItemToCart() {
-        if (branchChoice >= 0 && branchChoice < branches.size()) {
-            if (orders.getOrders().size() < 1) {
-                createNewOrder();
-            }
-            Order currentOrder = Order.getCurrentOrder();
-            omv.displayMenu(branchChoice, branches);
-            int menuItemIndex = getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
-            try {
-                MenuItem selectedItem = getSelectedItem(menuItemIndex);
-                if (!orders.getOrders().isEmpty()) {
-                    if ("set meal".equals(selectedItem.getCategory())) {    //If set meal, proceed to select meal items
-                        omv.displayMains();
-                       
-                        int mainChoice = getInputInt("Select 1 Main for : " + selectedItem.getName());
-                        MenuItem selectedMain = getMainDish(mainChoice);
-
-                        System.out.println("Choose your drink:");
-                        omv.displayDrinks(); 
-                        int drinkChoice = getInputInt("Select 1 Drink:");
-                        MenuItem selectedDrink = getDrink(drinkChoice);
-            
-                        System.out.println("Choose your side:");
-                        omv.displaySides();
-                        int sideChoice = getInputInt("Select 1 Side:");
-                        MenuItem selectedSide = getSide(sideChoice);
-                        
-                        //Customize?
-                        String comments = customizeItem();
-
-                        //Create a MenuItem Set Meal Object
-                        MenuItem mealItem = new MenuItem("Combo Meal", 10.99, branches.get(branchChoice).getName(),"set meal", new SetMealCategory(selectedMain, selectedSide, selectedDrink));
-                        mealItem.setComments(comments);
-                        currentOrder.addItem(mealItem);
-
-                    }else{
-                        //Customize?
-                        String comments = customizeItem();
-
-                        selectedItem.setComments(comments);
-                        currentOrder.addItem(selectedItem);
-                    }
-
-                                    
-                    this.navigate(0);
-                } else {
-                    System.out.println("No order created yet. Please create a new order.");
-                    this.navigate(2);
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid menu item selection.");
-                addItemToCart();
-            }
-        } else {
+        if (branchChoice < 0 || branchChoice > branches.size()-1){
             omv.displayEmptyOrderListError();
             this.navigate(2);
         }
+
+        if (orders.getOrders().size() < 1) {
+            createNewOrder();
+        }
+
+        Order currentOrder = Order.getCurrentOrder();
+        omv.displayMenu(branchChoice, branches);
+        int menuItemIndex = getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
+        try {
+            MenuItem selectedItem = getSelectedItem(menuItemIndex);
+            if (!orders.getOrders().isEmpty()) {
+                if ("set meal".equals(selectedItem.getCategory())) {    //If set meal, proceed to select meal items
+                    handleSetMeal(currentOrder, selectedItem);
+                }else{
+                    //Customize & Select Qty
+                    String comments = customizeItem();
+                    selectedItem.setComments(comments);
+                    int qty = selectQty();
+                    selectedItem.setQty(qty);
+                    currentOrder.addItem(selectedItem);
+                }   
+                this.navigate(0);
+            } else {
+                System.out.println("No order created yet. Please create a new order.");
+                this.navigate(2);
+            }
+        } catch (Exception e) {
+            System.out.println("Invalid menu item selection.");
+            addItemToCart();
+        }
+    
     }
 
     private void removeItemFromCart() {
@@ -177,27 +157,6 @@ public class OrderMenuController extends AController {
             this.navigate(2);
         }
     }
-//==============================================
-
-private String customizeItem(){
-    //Customize?
-    omv.displayCustomizeChoice();
-    String comments;
-    int customizeChoice = getInputInt("Customize Order?");
-    if(customizeChoice == 1){
-        comments = getInputString("Enter customization instructions:");
-    }else{
-        comments = "None";
-    }
-    return comments;
-}
-
-private int selectQty(){
-    System.out.println("Select qty for this item");
-    int qty = getInputInt("Qty: ");
-    return qty;
-}
-    //=================================================
     private void editOrder() {
 
     }
@@ -223,12 +182,62 @@ private int selectQty(){
 
     private void checkout(){
         //Use displayCartItems() to display cartItems
+        omv.displayCheckout(this.orders);
+        
         List<Order> allOrders = orders.getOrders();
         for(Order o: allOrders){
             o.confirmOrder();
-            System.out.println(o.getOrderStatus());
+            System.out.printf("Order Status Now: %s\n", o.getOrderStatus());
         }
+        String exit = getInputString("Enter a key to exit");
     }
+
+//================For Add Items to Cart================================
+    private void handleSetMeal(Order currentOrder, MenuItem selectedItem){
+        omv.displayMains();
+        int mainChoice = getInputInt("Select 1 Main for : " + selectedItem.getName());
+        MenuItem selectedMain = getMainDish(mainChoice);
+
+        omv.displayDrinks(); 
+        int drinkChoice = getInputInt("Select 1 Drink:");
+        MenuItem selectedDrink = getDrink(drinkChoice);
+
+        omv.displaySides();
+        int sideChoice = getInputInt("Select 1 Side:");
+        MenuItem selectedSide = getSide(sideChoice);
+        
+        //Customize?
+        String comments = customizeItem();
+        int qty = selectQty();
+        //Create a MenuItem Set Meal Object
+        MenuItem mealItem = new MenuItem("Combo Meal", 10.99, branches.get(branchChoice).getName(),"set meal", new SetMealCategory(selectedMain, selectedSide, selectedDrink));
+        mealItem.setComments(comments);
+        mealItem.setQty(qty);
+        currentOrder.addItem(mealItem);
+    }
+
+//==================Ad-hoc functions for easier code readability=======================
+
+    private String customizeItem(){
+        //Customize?
+        omv.displayCustomizeChoice();
+        String comments;
+        int customizeChoice = getInputInt("Customize Order?");
+        if(customizeChoice == 1){
+            comments = getInputString("Enter customization instructions:");
+        }else{
+            comments = "None";
+        }
+        return comments;
+    }
+
+    private int selectQty(){
+        System.out.println("Select qty for this item");
+        int qty = getInputInt("Qty: ");
+        return qty;
+    }
+
+//=================================================
 
 //===============Return the menu item selected, by categories==================//   
     public MenuItem getSelectedItem(int menuIndex) {

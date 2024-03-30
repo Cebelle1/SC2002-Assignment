@@ -13,6 +13,7 @@ public class MenuItem implements Serializable{
     private SetMealCategory setMeal;
     private String category;
     private String comments;
+    private int qty;
 
     public MenuItem(String name, double price, String branch, String category) {
         this.name = name;
@@ -34,6 +35,10 @@ public class MenuItem implements Serializable{
 
     public double getPrice(){
         return this.price;
+    }
+
+    public String getFormattedPriceStr(){
+        return formatPrice(this.price);
     }
 
     public String getRawName(){
@@ -68,6 +73,14 @@ public class MenuItem implements Serializable{
         this.comments = comments;
     }
 
+    public void setQty(int qty){
+        this.qty = qty;
+    }
+
+    public int getQty(){
+        return this.qty;
+    }
+
     private String formatName(String name) {
         String[] words = name.split(" ");
 
@@ -80,5 +93,9 @@ public class MenuItem implements Serializable{
         }
 
         return formattedName.toString();
+    }
+
+    private String formatPrice(double price){
+        return String.format(" $%.2f", price);
     }
 }

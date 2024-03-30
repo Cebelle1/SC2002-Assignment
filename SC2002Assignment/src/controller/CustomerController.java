@@ -60,7 +60,7 @@ public class CustomerController extends AController {
                 break;
             case 10: // Select Branch [Startup should come here first]
                 customerHomeView.displayBranch(branches);
-                branchChoice = super.getInputInt("Select branch:") - 1;
+                branchChoice = handleBranchInput();
                 Branch selectedBranch = branches.get(branchChoice);
                 OrderMenuController omc = branchOrderMenuControllers.get(selectedBranch);
                 if (omc == null) {
@@ -91,5 +91,14 @@ public class CustomerController extends AController {
 
     public Order getCurOrder() {
         return currentOrder;
+    }
+
+    //================== Helper Methods for User Input Handling =================//
+    private int handleBranchInput(){
+        int branchChoice = -1;
+        while(branchChoice < 0 || branchChoice > branches.size()-1){
+            branchChoice = super.getInputInt("Select branch:") - 1;
+        }
+        return branchChoice;
     }
 }
