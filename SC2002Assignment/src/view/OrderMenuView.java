@@ -126,7 +126,7 @@ public class OrderMenuView extends RenderView {
     }
 
     public void displayMains(){
-        super.printBorder("Mains in " + selectedBranch.getName());
+        super.printBorder("Menu in " + selectedBranch.getName());
         displayMain();
     }
     
