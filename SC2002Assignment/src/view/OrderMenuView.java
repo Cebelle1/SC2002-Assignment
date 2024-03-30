@@ -40,7 +40,8 @@ public class OrderMenuView extends RenderView {
         // Print menu items
         for (MenuItem item : menu) {
             // Format item name and price
-            String formattedName = formatName(item.getName());
+            //String formattedName = formatName(item.getName());
+            String formattedName = item.getFormattedName();
             String formattedPrice = String.format("| $%.2f", item.getPrice());
             // Print formatted item with index
             System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
@@ -82,7 +83,8 @@ public class OrderMenuView extends RenderView {
         System.out.println("No.   | Name            |     Price     |");
         for (MenuItem item : menu) {
             if ("drink".equals(item.getCategory())) {
-                String formattedName = formatName(item.getName());
+                //String formattedName = formatName(item.getName());
+                String formattedName = item.getFormattedName();
                 String formattedPrice = String.format("| $%.2f", item.getPrice());
                 System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
                 index++;
@@ -97,7 +99,8 @@ public class OrderMenuView extends RenderView {
         System.out.println("No.   | Name            |     Price     |");
         for (MenuItem item : menu) {
             if ("side".equals(item.getCategory())) { 
-                String formattedName = formatName(item.getName());
+                //String formattedName = formatName(item.getName());
+                String formattedName =item.getFormattedName();
                 String formattedPrice = String.format("| $%.2f", item.getPrice());
                 System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
                 index++;
@@ -111,7 +114,8 @@ public class OrderMenuView extends RenderView {
         int index = 1;
         for (MenuItem item : menu) {
             if (!"side".equals(item.getCategory()) && !"drink".equals(item.getCategory()) && !"set meal".equals(item.getCategory())) {//All but side and drink
-                String formattedName = formatName(item.getName());
+                //String formattedName = formatName(item.getName());
+                String formattedName = item.getFormattedName();
                 String formattedPrice = String.format("| $%.2f", item.getPrice());
                 System.out.println(String.format("%-5s", index) + formattedName + formattedPrice + " |");
                 index++;
@@ -160,26 +164,40 @@ public class OrderMenuView extends RenderView {
             System.out.println("No items in this order.");
         } else {
             super.printBorder(selectedOrder.getDiningMode() + " Order");
-            //System.out.println();
-            System.out.println("Items in selected order:");
+            System.out.println("Items in the Order:");
             int index = 1;
             for (MenuItem item : items) {
-                String formattedName = formatName(item.getName());
-                System.out.println(String.format("%-5s", index) + formattedName);
-                index++;
-            }
-
-            // Check if the order contains a SetMealCategory
-            for (MenuItem item : items) {
+                System.out.println(String.format("%-5s", index) + item.getFormattedName());
                 if ("set meal".equals(item.getCategory())) {
                     SetMealCategory setMeal = (SetMealCategory) item.getSetMeal();
-                    System.out.println("Main Dish: " + setMeal.getMainDish().getName());
-                    System.out.println("Side Dish: " + setMeal.getSideDish().getName());
-                    System.out.println("Drink: " + setMeal.getDrink().getName());
-                    break; // Assuming there's only one set meal category in an order
+                    System.out.println("      > Main: " + setMeal.getMainDish().getName());
+                    System.out.println("      > Side: " + setMeal.getSideDish().getName());
+                    System.out.println("      > Drink: " + setMeal.getDrink().getName());
+                    
                 }
+                System.out.println("      > Comments: " + item.getComments());
+                index++;
             }
         }
+    }
+
+    public void chooseDisplayOrderStatus(Order ordersM, int orderID){
+        List<Order> orders = ordersM.getOrders(); // Assuming you have access to OrderMenuController and its orders
+        if (orders.isEmpty()) {
+            System.out.println("No orders available.");
+        } else if (orderID < 0 || orderID > orders.size()-1) {
+            System.out.println("Invalid order ID.");
+        } else {
+            Order order = orders.get(orderID);
+            super.printDoubleUnderline("OrderID | Status");
+            System.out.printf("%-8d | %s\n", order.getOrderID(), order.getOrderStatus());
+        }
+
+    }
+
+    public void displayCustomizeChoice(){
+        System.out.println("Do you wish to customize your order?");
+        System.out.println("(1) Yes\n(2) No");
     }
 
 //=============Error Handling===================//
@@ -219,9 +237,6 @@ public class OrderMenuView extends RenderView {
                 // check out means make payment?
                 // select dine in mode
                 super.printBorder("Checkout");
-
-                // payment, no need to simulate, maybe +feature of payment into total sales
-                // print receipt with order ID
                 break;
             case 5: // Pay for Order (Pay multiple orders)
 

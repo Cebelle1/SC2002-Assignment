@@ -44,7 +44,7 @@ public class CustomerController extends AController {
                     customerHomeView.displayBranchError();
                     this.navigate(0);
                 }
-                selectedOMC.displayCurrentOrders();
+                selectedOMC.displayOrderStatus();
                 this.navigate(0);
                 break;
             case 2: // Edit Order

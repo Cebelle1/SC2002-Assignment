@@ -74,7 +74,7 @@ public class OrderMenuController extends AController {
         }
     }
 
-    private void displayMenu() {
+    private void displayMenu() {    //Display the non-organized menu
         if (branchChoice >= 0 && branchChoice < branches.size()) {
             omv.displayMenu(branchChoice, branches);
         } else {
@@ -109,35 +109,43 @@ public class OrderMenuController extends AController {
             }
             Order currentOrder = Order.getCurrentOrder();
             omv.displayMenu(branchChoice, branches);
-            int menuItemIndex = getInputInt("Select menu item for Order " + (orders.getOrders().size() - 1) + ":") - 1;
+            int menuItemIndex = getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
             try {
                 MenuItem selectedItem = getSelectedItem(menuItemIndex);
                 if (!orders.getOrders().isEmpty()) {
-                    if ("set meal".equals(selectedItem.getCategory())) {
+                    if ("set meal".equals(selectedItem.getCategory())) {    //If set meal, proceed to select meal items
                         omv.displayMains();
                        
                         int mainChoice = getInputInt("Select 1 Main for : " + selectedItem.getName());
                         MenuItem selectedMain = getMainDish(mainChoice);
 
                         System.out.println("Choose your drink:");
-                        omv.displayDrinks(); // Method to display drinks
+                        omv.displayDrinks(); 
                         int drinkChoice = getInputInt("Select 1 Drink:");
                         MenuItem selectedDrink = getDrink(drinkChoice);
             
                         System.out.println("Choose your side:");
-                        omv.displaySides(); // Method to display sides
+                        omv.displaySides();
                         int sideChoice = getInputInt("Select 1 Side:");
                         MenuItem selectedSide = getSide(sideChoice);
-            
-                        // Add the selected drink and side to the current order 
-                        MenuItem mealItem = new MenuItem("Combo Meal", 10.99, branches.get(branchChoice).getName(),"set meal", new SetMealCategory(selectedMain, selectedSide, selectedDrink));
+                        
+                        //Customize?
+                        String comments = customizeItem();
 
+                        //Create a MenuItem Set Meal Object
+                        MenuItem mealItem = new MenuItem("Combo Meal", 10.99, branches.get(branchChoice).getName(),"set meal", new SetMealCategory(selectedMain, selectedSide, selectedDrink));
+                        mealItem.setComments(comments);
                         currentOrder.addItem(mealItem);
 
                     }else{
+                        //Customize?
+                        String comments = customizeItem();
+
+                        selectedItem.setComments(comments);
                         currentOrder.addItem(selectedItem);
                     }
-                    
+
+                                    
                     this.navigate(0);
                 } else {
                     System.out.println("No order created yet. Please create a new order.");
@@ -169,7 +177,27 @@ public class OrderMenuController extends AController {
             this.navigate(2);
         }
     }
+//==============================================
 
+private String customizeItem(){
+    //Customize?
+    omv.displayCustomizeChoice();
+    String comments;
+    int customizeChoice = getInputInt("Customize Order?");
+    if(customizeChoice == 1){
+        comments = getInputString("Enter customization instructions:");
+    }else{
+        comments = "None";
+    }
+    return comments;
+}
+
+private int selectQty(){
+    System.out.println("Select qty for this item");
+    int qty = getInputInt("Qty: ");
+    return qty;
+}
+    //=================================================
     private void editOrder() {
 
     }
@@ -181,13 +209,20 @@ public class OrderMenuController extends AController {
         System.out.println("New order created.");
     }
 
-    public void displayCurrentOrders() {
+    public void displayCartItems() {
         omv.chooseDisplayCurrentOrder(this.orders, this);
         String exit = getInputString("Enter a key to exit"); // just a wait for enter
+    }
 
+    public void displayOrderStatus(){
+        int orderID = getInputInt("Enter Order ID to check status")-1;
+        omv.chooseDisplayOrderStatus(this.orders, orderID);
+        String exit = getInputString("Press any key to exit");
+        return;
     }
 
     private void checkout(){
+        //Use displayCartItems() to display cartItems
         List<Order> allOrders = orders.getOrders();
         for(Order o: allOrders){
             o.confirmOrder();
@@ -195,7 +230,7 @@ public class OrderMenuController extends AController {
         }
     }
 
-   
+//===============Return the menu item selected, by categories==================//   
     public MenuItem getSelectedItem(int menuIndex) {
         Branch selectedBranch = branches.get(branchChoice);
         if (menuIndex > selectedBranch.getMenu().size()) {
@@ -206,50 +241,49 @@ public class OrderMenuController extends AController {
 
     }
 
-    //=====================================
     public MenuItem getMainDish(int mainChoice) {
         Branch selectedBranch = branches.get(branchChoice);
-    List<MenuItem> mainDishes = selectedBranch.getMenu().stream()
-                                    .filter(item -> item.getCategory() != "side" && item.getCategory() != "drink" && item.getCategory() != "set meal")
-                                    .collect(Collectors.toList());
-    if (mainChoice < 0 || mainChoice > mainDishes.size()) {
-        System.out.println("Invalid main dish selection.");
-        return null;
-    }
-    return mainDishes.get(mainChoice - 1); 
-}
+        //Correct format of category comparison
+        List<MenuItem> mainDishes = selectedBranch.getMenu().stream()
+                                        .filter(item -> !item.getCategory().equals("side") && !item.getCategory().equals("drink") && !item.getCategory().equals("set meal"))
+                                        .collect(Collectors.toList());
 
-public MenuItem getDrink(int drinkChoice) {
-    Branch selectedBranch = branches.get(branchChoice);
-    List<MenuItem> menu = selectedBranch.getMenu();
-    List<MenuItem> drinks = menu.stream()
-                                    .filter(item -> item.getCategory() == "drink")
-                                    .collect(Collectors.toList());
-    for(MenuItem d: drinks){
-        System.out.println(d.getName());
-    }
-    if (drinkChoice < 0 || drinkChoice > drinks.size()) {
-        System.out.println("Invalid main dish selection.");
-        return null;
-    }
-    
-    return drinks.get(drinkChoice - 1); 
-}
+        
 
-public MenuItem getSide(int sideChoice) {
-    Branch selectedBranch = branches.get(branchChoice);
-    List<MenuItem> menu = selectedBranch.getMenu();
-    List<MenuItem> sides = menu.stream()
-                                    .filter(item -> item.getCategory() == "side")
-                                    .collect(Collectors.toList());
-    for(MenuItem d: sides){
-        System.out.println(d.getName());
+        while(mainChoice < 0 || mainChoice > mainDishes.size()){
+            mainChoice = getInputInt("Invalid main dish selection, please select again");
+        }
+        System.out.printf("Main Selected: %s\n", mainDishes.get(mainChoice-1).getName());
+        return mainDishes.get(mainChoice - 1); 
     }
-    if (sideChoice < 0 || sideChoice > sides.size()) {
-        System.out.println("Invalid side dish selection.");
-        return null;
+
+    public MenuItem getDrink(int drinkChoice) {
+        Branch selectedBranch = branches.get(branchChoice);
+        List<MenuItem> menu = selectedBranch.getMenu();
+        List<MenuItem> drinks = menu.stream()
+                                        .filter(item -> item.getCategory().equals("drink"))
+                                        .collect(Collectors.toList());
+        
+        while(drinkChoice < 0 || drinkChoice > drinks.size()){
+            drinkChoice = getInputInt("Invalid drink selection, please select again");
+        }
+        System.out.printf("Drink Selected: %s\n", drinks.get(drinkChoice-1).getName());
+        return drinks.get(drinkChoice - 1); 
     }
-    
-    return sides.get(sideChoice - 1); 
-}
+
+    public MenuItem getSide(int sideChoice) {
+        Branch selectedBranch = branches.get(branchChoice);
+        List<MenuItem> menu = selectedBranch.getMenu();
+        List<MenuItem> sides = menu.stream()
+                                        .filter(item -> item.getCategory().equals("side"))
+                                        .collect(Collectors.toList());
+
+        while(sideChoice < 0 || sideChoice > sides.size()){
+            sideChoice = getInputInt("Invalid side dish selection, please select again");
+        }
+        System.out.printf("Side Selected: %s\n", sides.get(sideChoice-1).getName());
+        return sides.get(sideChoice - 1); 
+    }
+
+
 }

@@ -9,15 +9,17 @@ import model.interfaces.PaymentProcessor;
 import model.menus.MenuItem;
 
 public class Order implements Serializable {
-    private List<MenuItem> items = new ArrayList<>();
+    private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
+    private List<Order> orders; //Running orders
+    private static List<Order> confirmedOrders = new ArrayList<>(); //Confirmed orders
+    private static Order currentOrder; //Current order
+    private Branch branch;  //Branch selected
     private double total = 0;
-    private String diningMode = null;
+    private String diningMode = null;   
     private OrderStatus status;
-    private List<Order> orders;
-    private static List<Order> confirmedOrders = new ArrayList<>(); // List to hold confirmed orders
-    private static Order currentOrder; //Hold the current order
-    private Branch branch;
-
+    private int orderID;
+    private static int orderIDCounter = 0; // Temp counter for generating order IDs
+    
     public enum OrderStatus {
         PENDING,
         PREPARING,
@@ -34,6 +36,7 @@ public class Order implements Serializable {
     }
 
     public void newOrder(Order order){
+        order.orderID = ++orderIDCounter;
         orders.add(order);
         Order.currentOrder = order;
         Order.currentOrder.status = OrderStatus.PENDING;
@@ -45,6 +48,10 @@ public class Order implements Serializable {
 
     public static Order getCurrentOrder() {
         return currentOrder;
+    }
+
+    public int getOrderID(){
+        return this.orderID;
     }
 
  //==========Order Items============//   
@@ -80,6 +87,7 @@ public class Order implements Serializable {
     public String getDiningMode(){
         return this.diningMode;
     }
+
 //=============Set Meal Selection=================//
 public MenuItem getSelectedItem(int menuIndex) {
     Branch selectedBranch = branch;

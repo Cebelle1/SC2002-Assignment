@@ -27,7 +27,10 @@ public abstract class AController {
             System.out.println(prompt);
         }
         try {
-            return sc.next();
+           // Read a sentence
+           String input = sc.nextLine();
+           input = sc.nextLine();
+           return input;
         } catch (Exception e) {
             System.err.println("Error receiving input.");
             sc.next();
