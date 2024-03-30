@@ -13,6 +13,7 @@ public class LoginController extends AController{
     LoginView loginView = new LoginView(this);
     AuthenticationController authentication;
     private List<StaffCategory> staffs;
+    private static boolean loggedIn;
 
     public LoginController(List<StaffCategory> staffs){
         this.staffs = staffs;
@@ -34,9 +35,6 @@ public class LoginController extends AController{
     //Navigation for staff
     //Choose staff option, S/M/A
     public void navigate (int page){
-
-        Scanner sc = new Scanner(System.in);
-
         switch(page){
             case 0:
                 //System.out.println("LoginControllerTest");
@@ -53,33 +51,15 @@ public class LoginController extends AController{
                 break;
 
             case 1: // login admin
-                //System.out.println("LC Test Case 1");
-                loginView.renderApp(1);
-                String id = sc.nextLine();
-                loginView.passwordPrompt();
-                String password = sc.nextLine();
-                boolean auth = authentication.authenticate(password, id, page);
-                loginView.loggedInPrompt(auth);
+                loggedIn = handleLogin(page);
                 break;
 
             case 2: // login manager
-                //System.out.println("LC Test Case 1");
-                loginView.renderApp(1);
-                id = sc.nextLine();
-                loginView.passwordPrompt();
-                password = sc.nextLine();
-                auth = authentication.authenticate(password, id, page);
-                loginView.loggedInPrompt(auth);
+                loggedIn = handleLogin(page);
                 break;
 
             case 3: // login staff
-                //System.out.println("LC Test Case 1");
-                loginView.renderApp(1);
-                id = sc.nextLine();
-                loginView.passwordPrompt();
-                password = sc.nextLine();
-                auth = authentication.authenticate(password, id, page);
-                loginView.loggedInPrompt(auth);
+                loggedIn = handleLogin(page);
                 break;
 
             case 4: // reset password
@@ -89,5 +69,17 @@ public class LoginController extends AController{
                 System.exit(page);
                 break;
         }
+
+        
+    }
+
+    private boolean handleLogin(int page){
+        //loginView.renderApp(1);
+        String id = getInputString("Enter Staff ID:");
+        //loginView.passwordPrompt();
+        String password = getInputString("Enter Password: ");
+        boolean auth = authentication.authenticate(password, id, page);
+        loginView.loggedInPrompt(auth);
+        return auth;
     }
 }

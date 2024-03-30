@@ -24,7 +24,7 @@ public class LoginView extends RenderView{
                 System.out.println("(4) Reset Password");
                 break;
             case 1:
-                credentialPrompt();;
+                credentialPrompt();
                 break;
                 
             case 4:
@@ -54,7 +54,7 @@ public class LoginView extends RenderView{
         }
         else{
             System.out.print("Retry again! ");
-            this.lc.navigate(0); // goes back to loginController to prompt again
+            //this.lc.navigate(0); // goes back to loginController to prompt again
         }
     }
 

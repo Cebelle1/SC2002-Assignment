@@ -14,7 +14,9 @@ public abstract class AController {
             System.out.println(prompt);
         }
         try {
-            return sc.nextInt();
+            int input = sc.nextInt();
+            sc.nextLine();
+            return input;
         } catch (Exception e) {
             System.err.println("Please enter an integer.");
             sc.nextLine(); // Consume invalid input to prevent infinite loop
@@ -29,7 +31,7 @@ public abstract class AController {
         try {
            // Read a sentence
            String input = sc.nextLine();
-           input = sc.nextLine();
+           //input = sc.nextLine();
            return input;
         } catch (Exception e) {
             System.err.println("Error receiving input.");
