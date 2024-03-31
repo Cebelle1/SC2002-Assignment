@@ -7,6 +7,7 @@ import model.Staff;
 import model.StaffCategory;
 import model.abstracts.AUser;
 import view.LoginView;
+import model.rstPassword;
 
 public class LoginController extends AController{
     AUser currentUser;
@@ -14,10 +15,12 @@ public class LoginController extends AController{
     AuthenticationController authentication;
     private List<StaffCategory> staffs;
     private static boolean loggedIn;
+    rstPassword reset;
 
     public LoginController(List<StaffCategory> staffs){
         this.staffs = staffs;
         this.authentication = new AuthenticationController(this, staffs);
+        this.reset = new rstPassword(this, staffs);
     }
 
     public AUser getCurrentUser(){
@@ -63,6 +66,18 @@ public class LoginController extends AController{
                 break;
 
             case 4: // reset password
+                // Login id
+                //loginView.renderApp(1);
+                String id = getInputString("Enter Staff ID: ");
+                // New password
+                //loginView.newPassword();
+                String password = getInputString("Enter New Password: ");
+                // Confirm new password
+                //loginView.cfmNewPassword();
+                String cfmPassword = getInputString("Confirm Password: ");
+                // Update staff list
+                boolean upToDate = reset.updatePass(id, password, cfmPassword);
+                loginView.updated(upToDate);
                 break;
 
             case 5:

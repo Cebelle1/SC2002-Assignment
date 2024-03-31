@@ -26,6 +26,12 @@ public class LoginView extends RenderView{
             case 1:
                 credentialPrompt();
                 break;
+
+            case 2:
+                // Go back to the login page
+                this.lc.navigate(0);
+                break;
+
                 
             case 4:
                 this.lc.navigate(5); // go to login controller then system exit
@@ -57,6 +63,30 @@ public class LoginView extends RenderView{
             //this.lc.navigate(0); // goes back to loginController to prompt again
         }
     }
+
+    // Reset password
+    public String newPassword(){
+        System.out.print("Enter New Password: ");
+        return "123";
+    }
+
+    public String cfmNewPassword(){
+        System.out.print("Confirm Password: ");
+        return "123";
+    }
+
+    public void updated(boolean upToDate){
+        if(upToDate){
+            System.out.print("Password updated successfully ");
+            this.lc.navigate(0); // goes back to loginController to prompt again
+        }
+        else{
+            // Go back to the LoginView
+            System.out.print("Password does not match ");
+            renderApp(2);
+        }
+    }
+
 
     @Override
     public void renderChoice(){

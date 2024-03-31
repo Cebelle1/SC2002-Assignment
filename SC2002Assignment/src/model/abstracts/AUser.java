@@ -45,4 +45,9 @@ public abstract class AUser {
     public String getPassword(){
         return this.Password;
     }
+
+    /* Setter Method */
+    public void setPassword(String pw){
+        this.Password = pw;
+    }
 }
