@@ -28,7 +28,7 @@ public class LoginView extends RenderView{
                 break;
 
             case 2:
-                // Go back to the login page
+                // Go back to the reset password page
                 this.lc.navigate(4);
                 break;
 
@@ -81,7 +81,7 @@ public class LoginView extends RenderView{
             this.lc.navigate(0); // goes back to loginController to prompt again
         }
         else{
-            // Go back to the LoginView
+            // Go back to the reset password page
             System.out.print("Password does not match ");
             renderApp(2);
         }
