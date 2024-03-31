@@ -29,7 +29,7 @@ public class LoginView extends RenderView{
 
             case 2:
                 // Go back to the login page
-                this.lc.navigate(0);
+                this.lc.navigate(4);
                 break;
 
                 
