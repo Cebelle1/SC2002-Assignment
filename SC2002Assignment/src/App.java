@@ -4,8 +4,9 @@ import java.util.Scanner;
 import controller.CustomerController;
 import controller.LoginController;
 import model.Branch;
-import model.DataLoader;
-import model.StaffCategory;
+import model.DataManager;
+import model.EmployeeHandler;
+import model.EmployeeHandler;
 
 public class App {
     Scanner sc = new Scanner(System.in);
@@ -32,18 +33,22 @@ public class App {
 
     // Standalone, not inherited from RenderView.
     public void renderApp(int selection) {
-        List<Branch> branches = DataLoader.loadBranches("menu_list.txt");
-        List<StaffCategory> staffs = DataLoader.loadStaff("staff_list_with_pw.txt"); 
+        List<Branch> branches = DataManager.loadBranches("menu_list.txt");
+        List<EmployeeHandler> staffs = DataManager.loadStaff("staff_list_with_pw.txt");
         // Debug
 
         // Controllers
         int choice = sc.nextInt();
         switch (choice) {
             case 1:
+                //Constructor Injection
+                //Tight coupling, dependency is fundamental to the operation of object and will not change during its lifetime.
                 CustomerController cc = new CustomerController(branches);
                 cc.navigate(10); // Immediately select branch
                 break;
             case 2:
+                //Setter Injection
+                //Dependencies may need to change (staffs) due to modifying of txt files.
                 LoginController lc = new LoginController(staffs);
                 lc.navigate(0);
                 break;

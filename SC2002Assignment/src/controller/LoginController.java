@@ -3,37 +3,46 @@ import java.util.List;
 import java.util.Scanner;
 
 import controller.abstracts.AController;
-import model.Staff;
-import model.StaffCategory;
-import model.abstracts.AUser;
+import model.StaffRole;
+import model.StaffRole;
+import model.abstracts.AEmployee;
 import view.LoginView;
-import model.rstPassword;
+import model.ResetPassword;
+import model.EmployeeHandler;
 
 public class LoginController extends AController{
-    AUser currentUser;
+    AEmployee currentUser;
     LoginView loginView = new LoginView(this);
     AuthenticationController authentication;
-    private List<StaffCategory> staffs;
+    private List<EmployeeHandler> allStaffList;
     private static boolean loggedIn;
-    rstPassword reset;
+    ResetPassword reset;
 
-    public LoginController(List<StaffCategory> staffs){
-        this.staffs = staffs;
-        this.authentication = new AuthenticationController(this, staffs);
-        this.reset = new rstPassword(this, staffs);
+    public LoginController(List<EmployeeHandler> allStaffList){
+        this.authentication = new AuthenticationController(this, allStaffList); //Constructor Injection, tight coupling bsince AuthC needs the dependencies to func properly 
+        this.reset = new ResetPassword(allStaffList);
+        this.allStaffList = allStaffList;
     }
 
-    public AUser getCurrentUser(){
+    // Setter method to set staffs after loading
+    public void setStaffs(List<EmployeeHandler> allStaffs) {
+        this.allStaffList = allStaffs;
+    }
+
+    public void setCurrentUser(AEmployee user){
+        this.currentUser = user;
+    }
+    public AEmployee getCurrentUser(){
         return this.getCurrentUser();
     }
 
-    /*public void setCurrentUser(Customer c){
-        this.currentUser = c;
-    }*/
-
-    public void setCurrentUser(Staff s){
-        this.currentUser = s;
-    }
+     // Setter method to set staffs after loading or for dynamic updates (might not be needed depending on whether we allow different logins in a single session)
+     public void setAllStaffList(List<EmployeeHandler> allStaffList) {
+        this.allStaffList = allStaffList;
+        // Re-initialize dependencies that rely on allStaffList if needed
+        this.authentication = new AuthenticationController(this, allStaffList);
+        this.reset = new ResetPassword(allStaffList);
+     }
 
     //Navigation for staff
     //Choose staff option, S/M/A
@@ -69,15 +78,19 @@ public class LoginController extends AController{
                 // Login id
                 //loginView.renderApp(1);
                 String id = getInputString("Enter Staff ID: ");
-                // New password
-                //loginView.newPassword();
-                String password = getInputString("Enter New Password: ");
-                // Confirm new password
-                //loginView.cfmNewPassword();
-                String cfmPassword = getInputString("Confirm Password: ");
-                // Update staff list
-                boolean upToDate = reset.updatePass(id, password, cfmPassword);
-                loginView.updated(upToDate);
+                String oldPassword = getInputString("Enter Old Password:");
+                boolean validAcc = authentication.checkAccExist(id, oldPassword);
+                if(validAcc){
+                    String password = getInputString("Enter New Password: ");
+                    String cfmPassword = getInputString("Confirm Password: ");
+                    // Update staff list
+                    boolean upToDate = reset.updatePass(id, password, cfmPassword);
+                    loginView.updated(upToDate);
+                }else{
+                    loginView.displayInvalidAcc();
+                    navigate(0);
+                }
+                
                 break;
 
             case 5:
@@ -89,11 +102,14 @@ public class LoginController extends AController{
     }
 
     private boolean handleLogin(int page){
-        //loginView.renderApp(1);
+        String staffRole = "";
+        if(page==1) staffRole = "A";
+        else if (page==2) staffRole = "M";
+        else if (page == 3) staffRole = "S";
         String id = getInputString("Enter Staff ID:");
         //loginView.passwordPrompt();
         String password = getInputString("Enter Password: ");
-        boolean auth = authentication.authenticate(password, id, page);
+        boolean auth = authentication.authenticate(password, id, staffRole);
         loginView.loggedInPrompt(auth);
         return auth;
     }

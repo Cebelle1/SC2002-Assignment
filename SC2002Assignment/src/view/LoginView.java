@@ -7,7 +7,6 @@ public class LoginView extends RenderView{
     // constructor
     public LoginView(LoginController lc){
         super();
-        //super(lc);
         this.lc = lc;
     }
 
@@ -60,20 +59,9 @@ public class LoginView extends RenderView{
         }
         else{
             System.out.print("Retry again! ");
-            //this.lc.navigate(0); // goes back to loginController to prompt again
         }
     }
 
-    // Reset password
-    public String newPassword(){
-        System.out.print("Enter New Password: ");
-        return "123";
-    }
-
-    public String cfmNewPassword(){
-        System.out.print("Confirm Password: ");
-        return "123";
-    }
 
     public void updated(boolean upToDate){
         if(upToDate){
@@ -85,6 +73,11 @@ public class LoginView extends RenderView{
             System.out.print("Password does not match ");
             renderApp(2);
         }
+    }
+
+    public void displayInvalidAcc(){
+        System.out.println("Invalid StaffID or Password!");
+        super.delay(2);
     }
 
 

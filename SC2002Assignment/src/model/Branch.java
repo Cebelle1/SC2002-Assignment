@@ -2,12 +2,13 @@ package model;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import model.abstracts.AEmployee;
 import model.menus.*;
 
 public class Branch {
-
     private String name;
     private List<MenuItem> menu;
+    private List<AEmployee> employees;
 
     public Branch(String name, List<MenuItem> menu) {
         this.name = name;
@@ -32,5 +33,8 @@ public class Branch {
         menu.add(menuItem);
     }
 
+    public void setEmployees(List<AEmployee> branchAEmployees){
+        this.employees = branchAEmployees;
+    }
     
 }
