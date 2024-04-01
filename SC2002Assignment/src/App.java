@@ -6,7 +6,7 @@ import controller.LoginController;
 import model.Branch;
 import model.DataManager;
 import model.EmployeeHandler;
-import model.EmployeeHandler;
+//import model.EmployeeHandler;
 
 public class App {
     Scanner sc = new Scanner(System.in);
@@ -41,14 +41,15 @@ public class App {
         int choice = sc.nextInt();
         switch (choice) {
             case 1:
-                //Constructor Injection
-                //Tight coupling, dependency is fundamental to the operation of object and will not change during its lifetime.
+                // Constructor Injection
+                // Tight coupling, dependency is fundamental to the operation of object and will
+                // not change during its lifetime.
                 CustomerController cc = new CustomerController(branches);
                 cc.navigate(10); // Immediately select branch
                 break;
             case 2:
-                //Setter Injection
-                //Dependencies may need to change (staffs) due to modifying of txt files.
+                // Setter Injection
+                // Dependencies may need to change (staffs) due to modifying of txt files.
                 LoginController lc = new LoginController(staffs);
                 lc.navigate(0);
                 break;

@@ -9,26 +9,26 @@ import java.util.stream.Collectors;
 import model.abstracts.AEmployee;
 
 public class EmployeeFilter {
-    private List<AEmployee> employees;
+    private static List<AEmployee> employees;
 
-    public EmployeeFilter(List<AEmployee> employees) {
-        this.employees = employees;
+    public EmployeeFilter(List<AEmployee> employee) {
+        employees = employee;
     }
 
     // Filter employees by a given criteria (e.g., branch, age, gender)
-    private List<AEmployee> filterEmployees(Predicate<AEmployee> predicate) {
+    private static List<AEmployee> filterEmployees(Predicate<AEmployee> predicate) {
         return employees.stream().filter(predicate).collect(Collectors.toList());
     }
 
     // Filter employees by branch
-    public List<AEmployee> filterEmployeesByBranch(String branch) {
+    public static List<AEmployee> filterEmployeesByBranch(String branch) {
         Predicate<AEmployee> byBranch = employee -> employee.getBranch().equals(branch);
         return filterEmployees(byBranch);
-        //Collections.sort(allEmployees, Comparator.comparing(AEmployee::getBranch));
+        // Collections.sort(allEmployees, Comparator.comparing(AEmployee::getBranch));
     }
 
     // Filter employees by age range
-    public List<AEmployee> filterEmployeesByAgeRange(int minAge, int maxAge) {
+    public static List<AEmployee> filterEmployeesByAgeRange(int minAge, int maxAge) {
         Predicate<AEmployee> byAgeRange = employee -> employee.getAge() >= minAge && employee.getAge() <= maxAge;
         return filterEmployees(byAgeRange);
     }

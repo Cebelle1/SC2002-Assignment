@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 import controller.AdminController;
 import model.Branch;
-import model.menus.MenuItem;
 
 public class AdminHomePageView extends RenderView {
     AdminController adminCon;

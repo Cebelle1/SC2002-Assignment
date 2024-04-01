@@ -9,7 +9,7 @@ public class AdminController extends AController {
     private AdminHomePageView adminHomePageView = new AdminHomePageView(this);
 
     public AdminController() {
-    
+
     }
 
     public void navigate(int page) {
@@ -27,12 +27,13 @@ public class AdminController extends AController {
             case 1: // Edit Staff Accounts
                 adminHomePageView.renderApp(1);
                 int choiceEdit = super.getInputInt("");
-                filterNavigate(choiceEdit);             
+                filterNavigate(choiceEdit);
                 break;
 
             case 2: // Display All Staff List in term of branch, role, gender, age
                 adminHomePageView.renderApp(2);
                 int choiceDisplay = super.getInputInt("");
+                // use Employeefilter to print according to the filter
 
             case 3: // Assign Managers
                 break;
@@ -52,18 +53,15 @@ public class AdminController extends AController {
         }
     }
 
+    public void filterNavigate(int num) {
+        switch (num) {
+            case 1: // filter by branch
 
-    public void filterNavigate(int num){
-        switch(num){
-            case 1: //filter by branch
-                
+            case 2: // filter by role
 
-            case 2: //filter by role
+            case 3: // filter by gender
 
-            case 3: //filter by gender
-
-            case 4: //filter by age
-
+            case 4: // filter by age
 
         }
 

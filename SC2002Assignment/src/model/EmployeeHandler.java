@@ -1,4 +1,5 @@
 package model;
+
 import model.abstracts.AEmployee;
 
 import java.util.Collection;
@@ -8,8 +9,9 @@ import java.util.function.Predicate;
 
 public class EmployeeHandler {
     private List<AEmployee> employees;
-    private static List<AEmployee> allEmployees; // All employees, unsorted (Static for now... not sure if need to change)
-    private EmployeeFilter employeeFilter = new EmployeeFilter(employees);  //Not tested
+    private static List<AEmployee> allEmployees; // All employees, unsorted (Static for now... not sure if need to
+                                                 // change)
+    private EmployeeFilter employeeFilter = new EmployeeFilter(employees); // Not tested
     private String role;
 
     public EmployeeHandler(String role, List<AEmployee> employees) {
@@ -21,7 +23,7 @@ public class EmployeeHandler {
         return employees;
     }
 
-    public List<AEmployee> getAllUnsortedEmployees() {
+    public static List<AEmployee> getAllUnsortedEmployees() {
         return allEmployees;
     }
 
@@ -33,16 +35,16 @@ public class EmployeeHandler {
         return this.role;
     }
 
-//========Not Yet Tested==================
+    // ========Not Yet Tested==================
 
-    public static void setAllEmployees(List<AEmployee> allEmps){
+    public static void setAllEmployees(List<AEmployee> allEmps) {
         allEmployees = allEmps;
     }
 
     public boolean removeEmployee(String employeeID) {
         return employees.removeIf(employee -> employee.getStaffID().equals(employeeID));
     }
-    
+
     public boolean editEmployee(String employeeID, AEmployee newEmployee) {
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).getStaffID().equals(employeeID)) {
@@ -61,6 +63,5 @@ public class EmployeeHandler {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getEmployees'");
     }
-    
 
 }
