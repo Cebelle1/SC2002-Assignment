@@ -114,7 +114,8 @@ public class OrderMenuController extends AController {
         }
 
         Order currentOrder = Order.getCurrentOrder();
-        omv.displayMenu(branchChoice, branches);
+        omv.displayMenu(branchChoice, branches);    //shift to BranchView
+        
         int menuItemIndex = getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
         try {
             MenuItem selectedItem = getSelectedItem(menuItemIndex);

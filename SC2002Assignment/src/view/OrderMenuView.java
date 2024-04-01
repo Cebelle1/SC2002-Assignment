@@ -7,6 +7,7 @@ import controller.CustomerController;
 import controller.OrderMenuController;
 import model.Branch;
 import model.Order;
+import model.abstracts.AEmployee;
 import model.menus.MenuItem;
 import model.menus.SetMealCategory;
 import view.abstracts.RenderView;
@@ -32,6 +33,14 @@ public class OrderMenuView extends RenderView {
     public void displayMenu(int inputChoice, List<Branch> branches) {
         int index = 1;
         selectedBranch = branches.get(inputChoice);
+        //For Shufang's reference
+        /*List<AEmployee> employees = selectedBranch.getEmployees();
+        //System.out.println(employees);
+        for(AEmployee employee : employees){
+            System.out.println(employee.getName());
+        }
+        delay(2);*/
+        
         List<MenuItem> menu = selectedBranch.getMenu();
 
         super.printBorder("Menu Items in " + selectedBranch.getName());

@@ -19,7 +19,7 @@ public class Branch {
         return this.menu;
     }
     
-    public List<MenuItem> getMenu(String category) {
+    public List<MenuItem> getMenu(String category) {    //Overload
         return menu.stream()
                    .filter(item -> category.equals(item.getCategory()))
                    .collect(Collectors.toList());
@@ -35,6 +35,10 @@ public class Branch {
 
     public void setEmployees(List<AEmployee> branchAEmployees){
         this.employees = branchAEmployees;
+    }
+
+    public List<AEmployee> getEmployees(){
+        return this.employees;
     }
     
 }

@@ -27,7 +27,7 @@ public class DataManager {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-
+                
                 String[] parts = line.split("\t"); // Assuming tab-separated values
                 if (parts.length == 4) {
                     String name = parts[0];
@@ -56,23 +56,24 @@ public class DataManager {
         }
 
         // Load employees separately
-        List<EmployeeHandler> employees = DataManager.loadStaff(filePath);
-
+        List<EmployeeHandler> employees = DataManager.loadStaff("staff_list_with_pw.txt");
+       
         // Associate employees with branches
         for (Branch branch : branches) {
             String branchName = branch.getName();
             List<AEmployee> branchEmployees = employees.stream()
-                    .flatMap(roleCategory -> roleCategory.getAllUnsortedEmployees().stream())
-                    .filter(employee -> employee.getBranch().equals(branchName))
-                    .collect(Collectors.toList());
+                                                    .flatMap(roleCategory -> roleCategory.getAllEmployeesByRole().stream())
+                                                    .filter(employee -> employee.getBranch().equals(branchName))
+                                                    .collect(Collectors.toList());
             branch.setEmployees(branchEmployees);
+           
         }
         return branches;
     }
 
-    // load the staff list here
+      // load the staff list here
     public static List<EmployeeHandler> loadStaff(String filePath) {
-        Map<String, List<AEmployee>> staffMap = new HashMap<>(); // Employee sorted into their roles
+        Map<String, List<AEmployee>> staffMap = new HashMap<>();    //Employee sorted into their roles
         List<AEmployee> allEmployees = new ArrayList<>(); // Unsorted employee
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -92,7 +93,7 @@ public class DataManager {
                         employee = new StaffRole(name, staffID, role, gender, age, branch, password);
                     } else if (role.equals("M")) {
                         employee = new ManagerRole(name, staffID, role, gender, age, branch, password);
-                    } else if (role.equals("A")) {
+                    } else if (role.equals("A")){
                         employee = new AdminRole(name, staffID, role, gender, age, branch, password);
                     }
 
@@ -107,7 +108,7 @@ public class DataManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // Save the list of all employees, unsorted
+        //Save the list of all employees, unsorted
         EmployeeHandler.setAllEmployees(allEmployees);
 
         // Convert the map into a list of role categories
@@ -115,38 +116,26 @@ public class DataManager {
         for (Map.Entry<String, List<AEmployee>> entry : staffMap.entrySet()) {
             String roleName = entry.getKey();
             List<AEmployee> employees = entry.getValue();
-            EmployeeHandler roleCategory = new EmployeeHandler(roleName, employees);
+            EmployeeHandler roleCategory = new EmployeeHandler(roleName,employees);
             roleCategories.add(roleCategory);
         }
-        // System.out.print(roleCategories.getClass());
-
-        // for (EmployeeHandler count : roleCategories) {
-        // System.out.print(count.getAllEmployeesByRole());
-        // List<AEmployee> test1 = count.getAllEmployeesByRole();
-        // for (AEmployee test : test1) {
-        // System.out.println(test.getStaffID());
-        // }
-        // }
-        // List<AEmployee> test =
-
         return roleCategories;
-
     }
 
-    public static void updateFile(String filePath, String newPassword, String id) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
-                BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
+     public static void updateFile(String filePath, String newPassword, String id){
+        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
             String line;
-            while ((line = br.readLine()) != null) {
+            while((line = br.readLine()) != null){
                 String[] parts = line.split("\t");
-                if (parts.length == 7 && id.equals(parts[1])) {
+                if(parts.length == 7 && id.equals(parts[1])){
                     parts[6] = newPassword;
                     line = String.join("\t", parts);
                 }
                 bw.write(line);
                 bw.newLine();
             }
-        } catch (IOException e) {
+        } catch(IOException e){
             e.printStackTrace();
         }
 
@@ -157,11 +146,11 @@ public class DataManager {
         Path originalPath = Paths.get(original.getPath());
         Path tempPath = Paths.get(tempFile.getPath());
 
-        try {
+        try{
             Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
             // Delete temp file
             Files.delete(tempPath);
-        } catch (IOException e) {
+        } catch(IOException e){
             e.getMessage();
         }
     }
