@@ -1,5 +1,7 @@
 package view.payments;
 
+import view.abstracts.ARenderPayment;
+
 public class PayNowView extends ARenderPayment {
     public void renderPayment(){
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
