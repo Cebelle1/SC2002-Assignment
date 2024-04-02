@@ -11,7 +11,7 @@ import model.EmployeeHandler;
 public class App {
     Scanner sc = new Scanner(System.in);
     private DataFiles dataFiles;
-
+    
     public enum DataFiles{
         MENU_LIST("menu_list.txt"),
         BRANCH_LIST("branch_list.txt"),
@@ -22,6 +22,8 @@ public class App {
             this.fileName = fileName;
         }
     }
+
+    public App(){};
 
     public void start() {
         printAppTitle();
@@ -55,8 +57,9 @@ public class App {
                 // Constructor Injection
                 // Tight coupling, dependency is fundamental to the operation of object and will
                 // not change during its lifetime.
-                CustomerController cc = new CustomerController(branches);
+                CustomerController cc = new CustomerController(branches); 
                 cc.navigate(10); // Immediately select branch
+                start();    //FOR RETURNING FROM CUSTOMER TO SWITCH TO STAFF
                 break;
             case 2:
                 // Setter Injection

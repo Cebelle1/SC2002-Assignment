@@ -10,7 +10,6 @@ import model.Order;
 import view.CustomerHomePageView;
 import view.OrderMenuView;
 import controller.OrderMenuController;
-
 public class CustomerController extends AController {
     private CustomerHomePageView customerHomeView = new CustomerHomePageView(this);
     private Order currentOrder;
@@ -55,6 +54,11 @@ public class CustomerController extends AController {
                 }
                 selectedOMC.navigate(0);
                 break;
+            //======Case 3 only for Debugging Purposes, to switch from Customer to Staff=====
+            case 3:
+                
+                return;
+                
             case 9:
                 System.exit(page);
                 break;
