@@ -1,7 +1,11 @@
 package model.abstracts;
 
+
 /**
- * Abstract Class for Actors
+ * A parent class for individual roles.
+ * Contextual codes utilizes Polymorphism (Factory Pattern) to identify which object is to be 
+ * created during startup loading and uses AEmployee to
+ * reference to the individual roles using AEmployee objects.
  */
 public abstract class AEmployee {
     private final String Name;

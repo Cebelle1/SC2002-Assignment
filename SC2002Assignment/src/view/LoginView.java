@@ -1,8 +1,8 @@
 package view;
 import controller.LoginController;
-import view.abstracts.RenderView;
+import view.abstracts.ARenderView;
 
-public class LoginView extends RenderView{
+public class LoginView extends ARenderView{
     LoginController lc;
     // constructor
     public LoginView(LoginController lc){

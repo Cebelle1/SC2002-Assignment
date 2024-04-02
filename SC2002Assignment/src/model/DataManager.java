@@ -21,7 +21,7 @@ import model.menus.MenuItem;
 
 public class DataManager {
 
-    public static List<Branch> loadBranches(String filePath) {
+    public static List<Branch> loadMenuIntoBranches(String filePath) {
         Map<String, List<MenuItem>> branchMenuMap = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {

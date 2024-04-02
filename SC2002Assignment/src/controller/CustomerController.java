@@ -30,7 +30,7 @@ public class CustomerController extends AController {
         switch (page) {
             case 0: // Customer Main Menu
                 customerHomeView.renderApp(0); // Default 0
-                int choice = super.getInputInt("");
+                int choice = customerHomeView.getInputInt("");
                 if(choice > 5){ //HARDCODED, CHANGE IF NEEDED
                     System.out.println("Invalid Option");
                     this.navigate(0);
@@ -97,7 +97,7 @@ public class CustomerController extends AController {
     private int handleBranchInput(){
         int branchChoice = -1;
         while(branchChoice < 0 || branchChoice > branches.size()-1){
-            branchChoice = super.getInputInt("Select branch:") - 1;
+            branchChoice = customerHomeView.getInputInt("Select branch:") - 1;
         }
         return branchChoice;
     }

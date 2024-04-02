@@ -9,7 +9,10 @@ import controller.abstracts.AController;
 import model.Branch;
 import model.menus.MenuItem;
 import model.menus.SetMealCategory;
+import model.payments.IPaymentProcessor;
+import model.payments.PaymentMethodFactory;
 import view.OrderMenuView;
+import view.payments.PayNowView;
 import model.Order;
 
 public class OrderMenuController extends AController {
@@ -34,25 +37,25 @@ public class OrderMenuController extends AController {
         switch (page) {
             case 0:
                 omv.renderApp(0);
-                int choice = getInputInt("");
+                int choice = omv.getInputInt("");
                 navigate(choice);
                 break;
             case 1:
                 // Display menu
                 omv.displayOrganizedMenu(branchChoice, branches);
-                String retChocie = getInputString("Press any key to return");
+                String retChocie = omv.getInputString("Press any key to return");
                 navigate(0);
                 break;
             case 2:
                 // Edit cart
                 omv.renderApp(2);
-                int editCartChoice = getInputInt("Edit Cart Choice:");
+                int editCartChoice = omv.getInputInt("Edit Cart Choice:");
                 editCart(editCartChoice);
                 navigate(0);
                 break;
             case 3: //Dining Mode
                 omv.renderApp(3);
-                int diningMode = getInputInt("Select dining mode: ");
+                int diningMode = omv.getInputInt("Select dining mode: ");
                 Order currentOrder = Order.getCurrentOrder();
                 currentOrder.setDiningMode(diningMode);
                 navigate(0);
@@ -62,6 +65,9 @@ public class OrderMenuController extends AController {
                 navigate(0);
                 break;
             case 5: //Pay
+                payment();
+                
+                navigate(0);
                 break;
             case 6:
                 omv.renderApp(6);
@@ -116,7 +122,7 @@ public class OrderMenuController extends AController {
         Order currentOrder = Order.getCurrentOrder();
         omv.displayMenu(branchChoice, branches);    //shift to BranchView
         
-        int menuItemIndex = getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
+        int menuItemIndex = omv.getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
         try {
             MenuItem selectedItem = getSelectedItem(menuItemIndex);
             if (!orders.getOrders().isEmpty()) {
@@ -145,10 +151,10 @@ public class OrderMenuController extends AController {
     private void removeItemFromCart() {
         if (branchChoice >= 0 && branchChoice < branches.size() && orders.getOrders().size() > 0) {
             omv.displayAllOrder(orders);
-            int editChoice = getInputInt("Select which Order to remove item from:") - 1;
+            int editChoice = omv.getInputInt("Select which Order to remove item from:") - 1;
             Order currentOrder = Order.getCurrentOrder();
             omv.displayOrderList(orders, editChoice);
-            int removeItem = getInputInt("Select which Item to remove from order:") - 1;
+            int removeItem = omv.getInputInt("Select which Item to remove from order:") - 1;
             String removedItem = currentOrder.removeItem(removeItem);
             omv.displayRemoved(removedItem);
 
@@ -171,13 +177,13 @@ public class OrderMenuController extends AController {
 
     public void displayCartItems() {
         omv.chooseDisplayCurrentOrder(this.orders, this);
-        String exit = getInputString("Enter a key to exit"); // just a wait for enter
+        String exit = omv.getInputString("Enter a key to exit"); // just a wait for enter
     }
 
     public void displayOrderStatus(){
-        int orderID = getInputInt("Enter Order ID to check status")-1;
+        int orderID = omv.getInputInt("Enter Order ID to check status")-1;
         omv.chooseDisplayOrderStatus(this.orders, orderID);
-        String exit = getInputString("Press any key to exit");
+        String exit = omv.getInputString("Press any key to exit");
         return;
     }
 
@@ -187,24 +193,24 @@ public class OrderMenuController extends AController {
         
         List<Order> allOrders = orders.getOrders();
         for(Order o: allOrders){
-            o.confirmOrder();
+            //o.confirmOrder();
             System.out.printf("Order Status Now: %s\n", o.getOrderStatus());
         }
-        String exit = getInputString("Enter a key to exit");
+        String exit = omv.getInputString("Enter a key to exit");
     }
 
 //================For Add Items to Cart================================
     private void handleSetMeal(Order currentOrder, MenuItem selectedItem){
         omv.displayMains();
-        int mainChoice = getInputInt("Select 1 Main for : " + selectedItem.getName());
+        int mainChoice = omv.getInputInt("Select 1 Main for : " + selectedItem.getName());
         MenuItem selectedMain = getMainDish(mainChoice);
 
         omv.displayDrinks(); 
-        int drinkChoice = getInputInt("Select 1 Drink:");
+        int drinkChoice = omv.getInputInt("Select 1 Drink:");
         MenuItem selectedDrink = getDrink(drinkChoice);
 
         omv.displaySides();
-        int sideChoice = getInputInt("Select 1 Side:");
+        int sideChoice = omv.getInputInt("Select 1 Side:");
         MenuItem selectedSide = getSide(sideChoice);
         
         //Customize?
@@ -223,9 +229,9 @@ public class OrderMenuController extends AController {
         //Customize?
         omv.displayCustomizeChoice();
         String comments;
-        int customizeChoice = getInputInt("Customize Order?");
+        int customizeChoice = omv.getInputInt("Customize Order?");
         if(customizeChoice == 1){
-            comments = getInputString("Enter customization instructions:");
+            comments = omv.getInputString("Enter customization instructions:");
         }else{
             comments = "None";
         }
@@ -234,7 +240,7 @@ public class OrderMenuController extends AController {
 
     private int selectQty(){
         System.out.println("Select qty for this item");
-        int qty = getInputInt("Qty: ");
+        int qty = omv.getInputInt("Qty: ");
         return qty;
     }
 
@@ -261,7 +267,7 @@ public class OrderMenuController extends AController {
         
 
         while(mainChoice < 0 || mainChoice > mainDishes.size()){
-            mainChoice = getInputInt("Invalid main dish selection, please select again");
+            mainChoice = omv.getInputInt("Invalid main dish selection, please select again");
         }
         System.out.printf("Main Selected: %s\n", mainDishes.get(mainChoice-1).getName());
         return mainDishes.get(mainChoice - 1); 
@@ -275,7 +281,7 @@ public class OrderMenuController extends AController {
                                         .collect(Collectors.toList());
         
         while(drinkChoice < 0 || drinkChoice > drinks.size()){
-            drinkChoice = getInputInt("Invalid drink selection, please select again");
+            drinkChoice = omv.getInputInt("Invalid drink selection, please select again");
         }
         System.out.printf("Drink Selected: %s\n", drinks.get(drinkChoice-1).getName());
         return drinks.get(drinkChoice - 1); 
@@ -289,11 +295,39 @@ public class OrderMenuController extends AController {
                                         .collect(Collectors.toList());
 
         while(sideChoice < 0 || sideChoice > sides.size()){
-            sideChoice = getInputInt("Invalid side dish selection, please select again");
+            sideChoice = omv.getInputInt("Invalid side dish selection, please select again");
         }
         System.out.printf("Side Selected: %s\n", sides.get(sideChoice-1).getName());
         return sides.get(sideChoice - 1); 
     }
+//======================================================
 
+    private void payment(){
+        IPaymentProcessor paymentProcessor = null;
+        //Using PayNowView for now for Views
+        PayNowView pnv = new PayNowView();
+        pnv.renderApp(0);
+        int paymentMode = pnv.getInputInt("Select payment method: ");
+        switch(paymentMode){
+            case 1:
+                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.DebitCardPayment");
+                
+                break;
+            case 2:
+                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.CreditCardPayment");
+                break;
+            case 3:
+                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.PayNowPayment");
+        }
+        paymentProcessor.payment(3.2);
+        pnv.delay(1);
+
+        List<Order> allOrders = orders.getOrders();
+        for(Order o: allOrders){
+            o.confirmOrder();
+            System.out.printf("Order Status Now: %s\n", o.getOrderStatus());
+        }
+        String exit = omv.getInputString("Enter a key to exit");
+    }
 
 }

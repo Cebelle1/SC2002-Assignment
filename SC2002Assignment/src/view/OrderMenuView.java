@@ -10,9 +10,11 @@ import model.Order;
 import model.abstracts.AEmployee;
 import model.menus.MenuItem;
 import model.menus.SetMealCategory;
-import view.abstracts.RenderView;
+import model.payments.IPaymentProcessor;
+import model.payments.PaymentMethodFactory;
+import view.abstracts.ARenderView;
 
-public class OrderMenuView extends RenderView {
+public class OrderMenuView extends ARenderView {
     CustomerController custCon;
     Branch selectedBranch;
 
@@ -149,7 +151,7 @@ public class OrderMenuView extends RenderView {
             return;
         }
         // Prompt user to select an order
-        int selectedOrderIndex = omc.getInputInt("Enter the order number:") - 1;
+        int selectedOrderIndex = getInputInt("Enter the order number:") - 1;
         if (selectedOrderIndex < 0 || selectedOrderIndex >= orders.getOrders().size()) {
             System.out.println("Invalid order number.");
             return;
@@ -272,7 +274,7 @@ public class OrderMenuView extends RenderView {
                 super.printBorder("Checkout");
                 break;
             case 5: // Pay for Order (Pay multiple orders)
-
+                
                 break;
             case 6:
                 receipt.printReciept();

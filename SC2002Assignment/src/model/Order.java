@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.interfaces.PaymentProcessor;
 import model.menus.MenuItem;
+import model.payments.IPaymentProcessor;
 
 public class Order implements Serializable {
     private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
@@ -135,9 +135,9 @@ public MenuItem getSide(int sideChoice) {
 }
 
     //=========Payment Example, put here first. Using loose coupling, polymorphism=============//
-    private PaymentProcessor paymentProcessor;
+    private IPaymentProcessor paymentProcessor;
 
-    public Order(PaymentProcessor paymentProcessor) {
+    public Order(IPaymentProcessor paymentProcessor) {
         this.paymentProcessor = paymentProcessor;
     }
 

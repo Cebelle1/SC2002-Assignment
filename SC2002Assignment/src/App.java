@@ -6,10 +6,22 @@ import controller.LoginController;
 import model.Branch;
 import model.DataManager;
 import model.EmployeeHandler;
-//import model.EmployeeHandler;
+
 
 public class App {
     Scanner sc = new Scanner(System.in);
+    private DataFiles dataFiles;
+
+    public enum DataFiles{
+        MENU_LIST("menu_list.txt"),
+        BRANCH_LIST("branch_list.txt"),
+        STAFF_LIST("staff_list_with_pw.txt");
+
+        private final String fileName;
+        DataFiles(String fileName) {
+            this.fileName = fileName;
+        }
+    }
 
     public void start() {
         printAppTitle();
@@ -33,9 +45,8 @@ public class App {
 
     // Standalone, not inherited from RenderView.
     public void renderApp(int selection) {
-        List<Branch> branches = DataManager.loadBranches("menu_list.txt");
-        List<EmployeeHandler> staffs = DataManager.loadStaff("staff_list_with_pw.txt");
-        // Debug
+        List<Branch> branches = DataManager.loadMenuIntoBranches(DataFiles.MENU_LIST.fileName);
+        List<EmployeeHandler> staffs = DataManager.loadStaff(DataFiles.STAFF_LIST.fileName);
 
         // Controllers
         int choice = sc.nextInt();

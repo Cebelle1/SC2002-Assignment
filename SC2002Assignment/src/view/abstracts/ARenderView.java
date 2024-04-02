@@ -3,7 +3,12 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import view.interfaces.ViewInterface;
 
-public abstract class RenderView implements ViewInterface{
+public abstract class ARenderView implements ViewInterface{
+    Scanner sc;  
+
+    public ARenderView(){
+        sc = new Scanner(System.in);
+    }
 
     protected void printBorder(String input){
         clearCLI();
@@ -24,7 +29,7 @@ public abstract class RenderView implements ViewInterface{
         }
     }
 
-    protected void delay(int sec) {
+    public void delay(int sec) {
             for(int i=0; i<sec; i++){
                 System.out.printf("Returning in %d second\n", sec-i);
                 try {TimeUnit.SECONDS.sleep(1); 
@@ -58,5 +63,36 @@ public abstract class RenderView implements ViewInterface{
         System.out.println("| " + input + space + "|");
         System.out.println(
                 "|____________________________________________________________________________________________________|");
+    }
+
+    public int getInputInt(String prompt) {
+        if (!prompt.isEmpty()) {
+            System.out.println(prompt);
+        }
+        try {
+            int input = sc.nextInt();
+            sc.nextLine();
+            return input;
+        } catch (Exception e) {
+            System.err.println("Please enter an integer.");
+            sc.nextLine(); // Consume invalid input to prevent infinite loop
+            return -1;
+        }
+    }
+
+    public String getInputString(String prompt){
+        if (!prompt.isEmpty()) {
+            System.out.println(prompt);
+        }
+        try {
+           // Read a sentence
+           String input = sc.nextLine();
+           //input = sc.nextLine();
+           return input;
+        } catch (Exception e) {
+            System.err.println("Error receiving input.");
+            sc.next();
+            return "";
+        }
     }
 }

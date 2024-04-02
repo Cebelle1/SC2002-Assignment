@@ -1,6 +1,6 @@
 package view;
 
-import view.abstracts.RenderView;
+import view.abstracts.ARenderView;
 
 import java.util.List;
 import java.util.Scanner;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 import controller.AdminController;
 import model.Branch;
 
-public class AdminHomePageView extends RenderView {
+public class AdminHomePageView extends ARenderView {
     AdminController adminCon;
 
     public AdminHomePageView(AdminController adminController) {

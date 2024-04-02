@@ -16,7 +16,7 @@ public class AdminController extends AController {
         switch (page) {
             case 0:
                 adminHomePageView.renderApp(0);
-                int choice = super.getInputInt("");
+                int choice =adminHomePageView.getInputInt("");
                 if (choice > 7) { // HARDCODED, CHANGE IF NEEDED
                     System.out.println("Invalid Option");
                     this.navigate(0);
@@ -26,13 +26,13 @@ public class AdminController extends AController {
 
             case 1: // Edit Staff Accounts
                 adminHomePageView.renderApp(1);
-                int choiceEdit = super.getInputInt("");
+                int choiceEdit = adminHomePageView.getInputInt("");
                 filterNavigate(choiceEdit);
                 break;
 
             case 2: // Display All Staff List in term of branch, role, gender, age
                 adminHomePageView.renderApp(2);
-                int choiceDisplay = super.getInputInt("");
+                int choiceDisplay = adminHomePageView.getInputInt("");
                 // use Employeefilter to print according to the filter
 
             case 3: // Assign Managers
