@@ -1,9 +1,53 @@
 package model.payments;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
-//Not Tested, still designing
+import model.Order;
+import model.Order.OrderStatus;
+import view.payments.PayNowView;
+
 public class PaymentMethodFactory {
+
+    public static boolean handlePayment(Order orders, double amount){
+        if(orders.getOrders().size() < 1){  //empty order
+            System.out.println("No orders to pay, please checkout first!");
+            return false;
+        }
+
+        Order currentOrder = Order.getCurrentOrder();
+        if(currentOrder.getOrderStatus() != OrderStatus.PENDING){   //Status sequence check
+            System.out.println("Please checkout first!");
+            return false;
+        }
+
+        IPaymentProcessor paymentProcessor = null;
+        //Using PayNowView for now for Views
+        PayNowView pnv = new PayNowView();
+        pnv.renderApp(0);
+        int paymentMode = pnv.getInputInt("Select payment method: ");
+        switch(paymentMode){
+            case 1:
+                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.DebitCardPayment");
+                break;
+            case 2:
+                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.CreditCardPayment");
+                break;
+            case 3:
+                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.PayNowPayment");
+        }
+        boolean paid = paymentProcessor.payment(3.2);
+        pnv.delay(1);
+
+        currentOrder.confirmOrder();
+        System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
+        return true;
+        /*List<Order> allOrders = orders.getOrders();
+        for(Order o: allOrders){
+            o.confirmOrder();
+            System.out.printf("Order Status Now: %s\n", o.getOrderStatus());
+        }*/
+    }
 
     public static IPaymentProcessor createPaymentMethod(String type) {
         try {

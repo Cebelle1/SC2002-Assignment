@@ -51,24 +51,41 @@ public class OrderMenuController extends AController {
             case 2:
                 // Edit cart
                 omv.renderApp(2);
-                int editCartChoice = omv.getInputInt("Edit Cart Choice:");
+                int editCartChoice = omv.getInputInt("Edit Cart Choice:", 2);
                 menuHandler.editCart(editCartChoice);
                 navigate(0);
                 break;
             case 3: //Dining Mode
                 omv.renderApp(3);
-                int diningMode = omv.getInputInt("Select dining mode: ");
-                Order currentOrder = Order.getCurrentOrder();
-                currentOrder.setDiningMode(diningMode);
+                int diningMode = omv.getInputInt("Select dining mode: ", 2);
+                boolean orderingStatus = Order.setDiningMode(diningMode);
+                if (!orderingStatus){
+                    System.out.println("No orders created, please add items to cart first!");
+                    omv.delay(2);
+                }
                 navigate(0);
                 break;
             case 4: //Checkout
-                checkout();
+                boolean checkedOut = Order.checkout();
+                if(!checkedOut){
+                    System.out.println("No dining mode selected, please select a dining mode first!");
+                }else{
+                    omv.displayCheckout(this.orders);
+                }
+                omv.delay(2);
+                
                 navigate(0);
                 break;
             case 5: //Pay
-                payment();
-                
+                //payment();
+                double amount = 3.20;   //Test dummy
+                boolean paid = PaymentMethodFactory.handlePayment(orders, amount);
+                //Individual error prints inside handlePayment, if no new implementation change back to void.
+                if(!paid){
+                    omv.delay(2);   
+                } else{
+                    omv.delay(2);
+                }
                 navigate(0);
                 break;
             case 6:
@@ -85,56 +102,17 @@ public class OrderMenuController extends AController {
 //=========================================
     public void displayCartItems() {
         omv.chooseDisplayCurrentOrder(this.orders, this);
-        String exit = omv.getInputString("Enter a key to exit"); // just a wait for enter
+        omv.getInputString("Enter a key to exit"); // just a wait for enter
     }
 
     public void displayOrderStatus(){
         int orderID = omv.getInputInt("Enter Order ID to check status")-1;
         omv.chooseDisplayOrderStatus(this.orders, orderID);
-        String exit = omv.getInputString("Press any key to exit");
+        omv.getInputString("Press any key to exit");
         return;
     }
 
-    private void checkout(){
-        //Use displayCartItems() to display cartItems
-        omv.displayCheckout(this.orders);
-        
-        List<Order> allOrders = orders.getOrders();
-        for(Order o: allOrders){
-            //o.confirmOrder();
-            System.out.printf("Order Status Now: %s\n", o.getOrderStatus());
-        }
-        String exit = omv.getInputString("Enter a key to exit");
-    }
+    
 
-//======================================================
-
-    private void payment(){
-        IPaymentProcessor paymentProcessor = null;
-        //Using PayNowView for now for Views
-        PayNowView pnv = new PayNowView();
-        pnv.renderApp(0);
-        int paymentMode = pnv.getInputInt("Select payment method: ");
-        switch(paymentMode){
-            case 1:
-                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.DebitCardPayment");
-                
-                break;
-            case 2:
-                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.CreditCardPayment");
-                break;
-            case 3:
-                paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.PayNowPayment");
-        }
-        paymentProcessor.payment(3.2);
-        pnv.delay(1);
-
-        List<Order> allOrders = orders.getOrders();
-        for(Order o: allOrders){
-            o.confirmOrder();
-            System.out.printf("Order Status Now: %s\n", o.getOrderStatus());
-        }
-        String exit = omv.getInputString("Enter a key to exit");
-    }
 
 }

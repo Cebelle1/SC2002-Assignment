@@ -21,8 +21,10 @@ public class Order implements Serializable {
     private static int orderIDCounter = 0; // Temp counter for generating order IDs
     
     public enum OrderStatus {
-        PENDING,
-        PREPARING,
+        NEW,        //Created
+        ORDERING,   //Selected Dining Mode
+        PENDING,    //Checked Out
+        PREPARING,  //Payment confirmed
         READY_TO_PICKUP,
         COMPLETED
     }
@@ -39,10 +41,10 @@ public class Order implements Serializable {
         order.orderID = ++orderIDCounter;
         orders.add(order);
         Order.currentOrder = order;
-        Order.currentOrder.status = OrderStatus.PENDING;
+        Order.currentOrder.status = OrderStatus.NEW;
     }
 
-    public List<Order> getOrders() {
+    public List<Order> getOrders() {    //Returns all existing orders
         return orders;
     }
 
@@ -70,8 +72,19 @@ public class Order implements Serializable {
     public List<MenuItem> getCurrentOrderItems() {
         return items;
     }
-//========================================//
-    public void setDiningMode(int dineMode) {
+//============Dining Mode===============//
+
+    public static boolean setDiningMode(int diningMode){
+        try{
+            Order currentOrder = Order.getCurrentOrder();
+            currentOrder.selectDiningMode(diningMode);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    private void selectDiningMode(int dineMode) {
         switch (dineMode) {
             case 1: //Dine In
                 this.diningMode = "Dine In";
@@ -87,69 +100,35 @@ public class Order implements Serializable {
     public String getDiningMode(){
         return this.diningMode;
     }
-
-//=============Set Meal Selection=================//
-public MenuItem getSelectedItem(int menuIndex) {
-    Branch selectedBranch = branch;
-    if (menuIndex > selectedBranch.getMenu().size()) {
-        System.out.println("Menu index out of range");
-        return null;
-    }
-    return selectedBranch.getMenu().get(menuIndex);
-
-}
-
-public MenuItem getMainDish(int mainChoice) {
-    List<MenuItem> mainDishes = branch.getMenu().stream()
-                                    .filter(item -> "main".equals(item.getCategory()))
-                                    .collect(Collectors.toList());
-    if (mainChoice < 1 || mainChoice > mainDishes.size()) {
-        System.out.println("Invalid main dish selection.");
-        return null;
-    }
-    return mainDishes.get(mainChoice - 1); 
-}
-
-public MenuItem getDrink(int drinkChoice) {
-    Branch selectedBranch = this.branch;
-    List<MenuItem> menu = selectedBranch.getMenu();
-    List<MenuItem> drinks = menu.stream()
-                                    .filter(item -> item.getCategory() != "side" && item.getCategory() != "drink" && item.getCategory() != "set meal")
-                                    .collect(Collectors.toList());
-    
-    if (drinkChoice < 1 || drinkChoice > drinks.size()) {
-        System.out.println("Invalid main dish selection.");
-        return null;
-    }
-    
-    return drinks.get(drinkChoice - 1); 
-}
-
-public MenuItem getSide(int sideChoice) {
-    Branch selectedBranch = branch;
-    if (sideChoice > selectedBranch.getMenu().size()) {
-        System.out.println("Menu index out of range");
-        return null;
-    }
-    return selectedBranch.getMenu().get(sideChoice);
-}
-
-    //=========Payment Example, put here first. Using loose coupling, polymorphism=============//
-    private IPaymentProcessor paymentProcessor;
-
-    public Order(IPaymentProcessor paymentProcessor) {
-        this.paymentProcessor = paymentProcessor;
+//=============== Process Order============//
+    public static boolean checkout(){
+            //Use displayCartItems() to display cartItems\
+            if (currentOrder == null){
+                System.out.println("No order found");
+                return false;
+            }
+            currentOrder.checkoutOrder();
+            System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
+            return true;
+        
     }
 
-    public void processPayment(double amount) {
-        paymentProcessor.payment(amount);
+    private boolean checkoutOrder(){
+        if (status == OrderStatus.NEW){
+            status = OrderStatus.PENDING;
+            return true; //Successful
+        }else{
+            return false; //No orders to Checkout
+        }
     }
 
-    //========== Process Order============//
-    public void confirmOrder() {
+    public boolean confirmOrder() {
         if (status == OrderStatus.PENDING) {
             status = OrderStatus.PREPARING;
             confirmedOrders.add(this); // Add to confirmed orders list
+            return true; //Payment confirmed
+        }else{
+            return false;
         }
     }
 

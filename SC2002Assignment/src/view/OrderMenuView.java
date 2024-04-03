@@ -82,9 +82,8 @@ public class OrderMenuView extends ARenderView {
     public void displayEditCart() {
         super.printBorder("Edit Cart");
         System.out.println("(1) Add Items");
-        System.out.println("(2) Edit Orders");
-        System.out.println("(3) Remove Item");
-        System.out.println("(4) Make a new order");
+        System.out.println("(2) Remove Item");
+        //System.out.println("(3) Make a new order");   //New order should be auto
     }
 
 //=================Category=================//
@@ -237,7 +236,7 @@ public class OrderMenuView extends ARenderView {
     }
 //=============Error Handling===================//
     public void displayEmptyOrderListError() {
-        System.out.println("Please create an order using (4) before adding menu items.");
+        System.out.println("Order is empty, please add items to cart.");
         delay(2);
     }
 

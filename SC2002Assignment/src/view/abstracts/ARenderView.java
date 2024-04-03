@@ -80,6 +80,27 @@ public abstract class ARenderView implements ViewInterface{
         }
     }
 
+    public int getInputInt(String prompt, int max) {    //Overload to control selection range
+        if (!prompt.isEmpty()) {
+            System.out.println(prompt);
+        }
+        try {
+            int input = sc.nextInt();
+            sc.nextLine();
+            while(input > max){
+                System.out.println("Selection out of range please try again");
+                input = sc.nextInt();
+                sc.nextLine();
+            }
+            return input;
+            
+        } catch (Exception e) {
+            System.err.println("Please enter an integer.");
+            sc.nextLine(); // Consume invalid input to prevent infinite loop
+            return -1;
+        }
+    }
+
     public String getInputString(String prompt){
         if (!prompt.isEmpty()) {
             System.out.println(prompt);

@@ -7,10 +7,15 @@ import model.payments.PaymentMethodFactory;
 public abstract class ARenderPayment extends ARenderView{
     public abstract void renderPayment();
 
-    public void confirmPayment(){
+    public boolean confirmPayment(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Confirm Payment? (y/n)");
         String choice = sc.next();
+        if(choice.equalsIgnoreCase("y")){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override

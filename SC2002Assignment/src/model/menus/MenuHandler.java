@@ -33,14 +33,9 @@ public class MenuHandler {
                 addItemToCart();
                 break;
             case 2:
-                //To implement
-                editOrder(); 
-                break;
-            case 3:
-                
                 removeItemFromCart();
                 break;
-            case 4:
+            case 3:
                 createNewOrder();
                 omc.navigate(2);
                 break;
@@ -111,9 +106,6 @@ public class MenuHandler {
             omv.displayEmptyOrderListError();
             omc.navigate(2);
         }
-    }
-    private void editOrder() {
-
     }
 
     private void createNewOrder() {

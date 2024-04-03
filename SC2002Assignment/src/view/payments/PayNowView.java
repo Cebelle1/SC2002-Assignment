@@ -29,6 +29,6 @@ public class PayNowView extends ARenderPayment {
         System.out.println("░░▓░▓▓░▓░▒▒▓▒▒▒▒▒▒▒▓▓▒▒▓▒▒▓▒▒▒▓▓▒░▒▒░▒▓▒▒▓▓▓▓▒░▓░░");
         System.out.println("░░▓▒▒▒▒▓░░░▓░▒▓▒▒▒░▓▓▒▓░▒▒▒▓░░▒▓▒▒▒▒░░▒▒▒▒░▓▒▒▓▒░░");
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-        confirmPayment();
+        //confirmPayment();
     }
 }

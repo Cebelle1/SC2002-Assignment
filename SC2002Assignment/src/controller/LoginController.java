@@ -2,10 +2,7 @@ package controller;
 
 import java.util.List;
 import java.util.Scanner;
-
 import controller.abstracts.AController;
-import model.StaffRole;
-import model.StaffRole;
 import model.abstracts.AEmployee;
 import view.LoginView;
 import model.ResetPassword;

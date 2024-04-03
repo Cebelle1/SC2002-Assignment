@@ -1,6 +1,6 @@
 package view;
 
-public class Receipt {
+public class ReceiptView {
 
     public void printReciept() {
         System.out.println("+-------------------------------------+");
