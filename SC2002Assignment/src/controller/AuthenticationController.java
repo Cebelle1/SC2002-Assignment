@@ -1,9 +1,9 @@
 package controller;
 
-import model.abstracts.AEmployee;
-import model.EmployeeHandler;
-
 import java.util.List;
+
+import model.EmployeeHandler;
+import model.abstracts.AEmployee;
 
 public class AuthenticationController {
     private int loginAttempt = 3;
