@@ -6,6 +6,7 @@ import controller.LoginController;
 import model.Branch;
 import model.DataManager;
 import model.EmployeeHandler;
+import model.Order;
 
 
 public class App {
@@ -47,8 +48,11 @@ public class App {
 
     // Standalone, not inherited from RenderView.
     public void renderApp(int selection) {
+        //Text file dataset loads
         List<Branch> branches = DataManager.loadMenuIntoBranches(DataFiles.MENU_LIST.fileName);
         List<EmployeeHandler> staffs = DataManager.loadStaff(DataFiles.STAFF_LIST.fileName);
+        //Serialization loads
+        Order.loadOrders();
 
         // Controllers
         int choice = sc.nextInt();

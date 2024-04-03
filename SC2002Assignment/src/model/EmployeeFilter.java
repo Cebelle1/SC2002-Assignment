@@ -24,7 +24,6 @@ public class EmployeeFilter {
     public static List<AEmployee> filterEmployeesByBranch(String branch) {
         Predicate<AEmployee> byBranch = employee -> employee.getBranch().equals(branch);
         return filterEmployees(byBranch);
-        // Collections.sort(allEmployees, Comparator.comparing(AEmployee::getBranch));
     }
 
     // Filter employees by age range

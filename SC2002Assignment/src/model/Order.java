@@ -1,5 +1,11 @@
 package model;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +15,12 @@ import model.menus.MenuItem;
 import model.payments.IPaymentProcessor;
 
 public class Order implements Serializable {
-    private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
-    private List<Order> orders; //Running orders
-    private static List<Order> confirmedOrders = new ArrayList<>(); //Confirmed orders
+    private static final long serialVersionUID = 1L; // Unique identifier for serialization
+    private static final String ORDERS_FILE = "orders_serialize.ser"; // File name for storing orders
+    private static List<Order> orders; //Running orders
+    private static List<Order> confirmedOrders = new ArrayList<>(); //Confirmed orders not used
     private static Order currentOrder; //Current order
+    private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
     private Branch branch;  //Branch selected
     private double total = 0;
     private String diningMode = "Unselected Dining Mode";   
@@ -25,15 +33,15 @@ public class Order implements Serializable {
         ORDERING,   //Selected Dining Mode
         PENDING,    //Checked Out
         PREPARING,  //Payment confirmed
-        READY_TO_PICKUP,
+        READY_TO_PICKUP,    
         COMPLETED
     }
 
     public Order(){
-        this.orders = new ArrayList<>();
+        orders = new ArrayList<>();
     }
     public Order(Branch branch){
-        this.orders = new ArrayList<>();
+        orders = new ArrayList<>();
         this.branch = branch;
     }
 
@@ -45,7 +53,7 @@ public class Order implements Serializable {
         order.total = 0;
     }
 
-    public List<Order> getOrders() {    //Returns all existing orders
+    public static List<Order> getOrders() {    //Returns all existing orders
         return orders;
     }
 
@@ -169,5 +177,32 @@ public class Order implements Serializable {
 
     public OrderStatus getOrderStatus(){
         return this.status;
+    }
+
+    //====================Serialization TESTING IN PROGRESS========================
+
+    public static void saveOrders(List<Order> orders) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ORDERS_FILE))) {
+            oos.writeObject(orders); // Serialize the list of orders
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public static List<Order> loadOrders() {
+        List<Order> orders = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ORDERS_FILE))) {
+            orders = (List<Order>) ois.readObject(); // Deserialize the list of orders
+        } catch (IOException | ClassNotFoundException e) {
+            if (e instanceof EOFException) { //Account for empty file
+                System.out.println("No orders found in the file.");
+            } else {
+                // Other IO or serialization/deserialization errors
+                e.printStackTrace();
+            }
+        }
+        return orders;
     }
 }
