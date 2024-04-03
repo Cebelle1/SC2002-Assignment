@@ -1,13 +1,14 @@
 package controller;
 
 import java.util.List;
+
 import java.util.Scanner;
 import controller.abstracts.AController;
+import model.EmployeeHandler;
+import model.ResetPassword;
+import model.StaffRole;
 import model.abstracts.AEmployee;
 import view.LoginView;
-import model.ResetPassword;
-import model.EmployeeHandler;
-import model.EmployeeFilter;
 
 public class LoginController extends AController {
     AEmployee currentUser;
@@ -17,6 +18,7 @@ public class LoginController extends AController {
     private static boolean loggedIn;
     ResetPassword reset;
     AdminController adminController;
+    StaffController staffController;
 
     public LoginController(List<EmployeeHandler> allStaffList) {
         this.authentication = new AuthenticationController(this, allStaffList); // Constructor Injection, tight coupling
@@ -38,7 +40,8 @@ public class LoginController extends AController {
     }
 
     public AEmployee getCurrentUser() {
-        return this.getCurrentUser();
+        //return this.getCurrentUser();
+        return this.currentUser;
     }
 
     // Setter method to set staffs after loading or for dynamic updates (might not
@@ -50,7 +53,7 @@ public class LoginController extends AController {
         this.reset = new ResetPassword(allStaffList);
     }
 
-    // Navigation for staff
+    // Navigation for employees
     // Choose staff option, S/M/A
     public void navigate(int page) {
         switch (page) {
@@ -97,6 +100,14 @@ public class LoginController extends AController {
 
             case 3: // login staff
                 loggedIn = handleLogin(page);
+                if (loggedIn == true){
+                    StaffRole staffRole = new StaffRole(currentUser.getName(), currentUser.getStaffID(), currentUser.getRole(), currentUser.getGender(), currentUser.getAge(), currentUser.getBranch(), currentUser.getPassword());
+                    staffController = new StaffController(staffRole);
+                    staffController.navigate(0);
+                }
+                else{
+                    this.navigate(0);
+                }
                 break;
 
             case 4: // reset password
