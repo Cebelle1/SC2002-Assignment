@@ -55,7 +55,7 @@ public class LoginView extends RenderView{
         
         if(auth){
             System.out.print("You are logged in! ");
-            renderApp(4); // for now do a system exit
+            //renderApp(4); // for now do a system exit
         }
         else{
             System.out.print("Retry again! ");
