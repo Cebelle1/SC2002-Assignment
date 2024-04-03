@@ -30,14 +30,26 @@ public abstract class ARenderView implements ViewInterface{
     }
 
     public void delay(int sec) {
-            for(int i=0; i<sec; i++){
-                System.out.printf("Returning in %d second\n", sec-i);
-                try {TimeUnit.SECONDS.sleep(1); 
-                } catch (InterruptedException ie) {
-                    Thread.currentThread().interrupt();
-                }
+        for(int i=0; i<sec; i++){
+            System.out.printf("Returning in %d second\n", sec-i);
+            try {TimeUnit.SECONDS.sleep(1); 
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
             }
+        }
     }
+
+    public void delay(int sec, String prompt) { //Overload, delay function without printing countdown, but just a single string prompt
+        System.out.println(prompt);
+        for(int i=0; i<sec; i++){
+            try {TimeUnit.SECONDS.sleep(1); 
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+
 
     protected void printDoubleUnderline(String input){
         String space = String.format("%" + (99- input.length()) + "s", "");

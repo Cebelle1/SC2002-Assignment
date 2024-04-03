@@ -18,7 +18,7 @@ public class OrderMenuView extends ARenderView {
     CustomerController custCon;
     Branch selectedBranch;
 
-    Receipt receipt = new Receipt();
+    ReceiptView receipt = new ReceiptView();
 
     public OrderMenuView(CustomerController controller) {
         this.custCon = controller;
@@ -143,7 +143,7 @@ public class OrderMenuView extends ARenderView {
 
 //================Order==================//
     //Choose an order to display
-    public void chooseDisplayCurrentOrder(Order orders, OrderMenuController omc) {
+    public void chooseDisplayCurrentOrder(Order orders) {
         super.printBorder("Order Status");
 
         if(!displayAllOrder(orders)){
@@ -174,7 +174,7 @@ public class OrderMenuView extends ARenderView {
         return true;
     }
 
-    //Display a MenuItems for a single order
+    //General display for MenuItems for a single order by inputing OrderID
     public void displayOrderList(Order orders, int selectedOrderIndex) {
         // Display the selected order's items
         //Order selectedOrder = orders.get(selectedOrderIndex);
@@ -183,15 +183,16 @@ public class OrderMenuView extends ARenderView {
         if (items.isEmpty()) {
             System.out.println("No items in this order.");
         } else {
-            super.printBorder(selectedOrder.getDiningMode() + " Order");
-            System.out.println("OrderID.   | Name            |   Qty   |    Price    |");
+            super.printBorder(selectedOrder.getDiningMode() + " Order " + selectedOrderIndex+1);
+            System.out.println("OrderID.   | Name            |   Qty   |    Unit Price    |    Total Price ");
             int index = 1;
             for (MenuItem item : items) {
-                System.out.printf("%-9s  %-15s | %-7s | $%-10.2f |\n", 
+                System.out.printf("%-9s  %-15s | %-7s | $%-15.2f | $%-10.2f\n", 
                     selectedOrderIndex+1, 
                     item.getFormattedName(), 
                     item.getQty(), 
-                    item.getPrice());
+                    item.getPrice(),
+                    item.getPrice() * item.getQty());
                 if ("set meal".equals(item.getCategory())) {
                     SetMealCategory setMeal = (SetMealCategory) item.getSetMeal();
                     System.out.printf("%8s > Main: %s\n", "", setMeal.getMainDish().getName());
@@ -244,8 +245,12 @@ public class OrderMenuView extends ARenderView {
         removedItem = formatName(removedItem);
         System.out.printf("Remove %s from order\n", removedItem);
         delay(2);
-
     }
+
+    public void displayError(String prompt){    //General Error
+        delay(2, prompt);
+    }
+
 //==================Overrides====================//
     @Override
     public void renderApp(int selection) {

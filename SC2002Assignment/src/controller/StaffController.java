@@ -24,7 +24,7 @@ public class StaffController extends AController{
             // gets the stuff input
             case 0:
                 staffView.renderApp(0); // displays what the staff can do
-                int choice = super.getInputInt(""); // gets the input
+                int choice = staffView.getInputInt(""); // gets the input
                 if(choice > 4){
                     System.out.println("Invalid Option");
                     this.navigate(0);
@@ -42,14 +42,14 @@ public class StaffController extends AController{
 
             // View Details
             case 2:
-                int orderID = super.getInputInt("Type in the OrderID:"); // gets the OrderId
+                int orderID = staffView.getInputInt("Type in the OrderID:"); // gets the OrderId
                 staffView.renderApp(2);
                 break;
 
             // Process orders
             case 3:
                 staffView.renderApp(3);
-                int select = super.getInputInt(""); // gets the input
+                int select = staffView.getInputInt(""); // gets the input
                 if(select > 3){
                     System.out.println("Invalid Option");
                     this.navigate(3);

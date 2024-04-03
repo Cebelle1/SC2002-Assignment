@@ -60,7 +60,7 @@ public class OrderMenuController extends AController {
                 int diningMode = omv.getInputInt("Select dining mode: ", 2);
                 boolean orderingStatus = Order.setDiningMode(diningMode);
                 if (!orderingStatus){
-                    System.out.println("No orders created, please add items to cart first!");
+                    System.out.println("No items in cart or order is already being processed!");
                     omv.delay(2);
                 }
                 navigate(0);
@@ -72,14 +72,12 @@ public class OrderMenuController extends AController {
                 }else{
                     omv.displayCheckout(this.orders);
                 }
-                omv.delay(2);
-                
+                omv.getInputString("Enter a key to exit");
+
                 navigate(0);
                 break;
             case 5: //Pay
-                //payment();
-                double amount = 3.20;   //Test dummy
-                boolean paid = PaymentMethodFactory.handlePayment(orders, amount);
+                boolean paid = PaymentMethodFactory.handlePayment(orders);
                 //Individual error prints inside handlePayment, if no new implementation change back to void.
                 if(!paid){
                     omv.delay(2);   
@@ -88,7 +86,7 @@ public class OrderMenuController extends AController {
                 }
                 navigate(0);
                 break;
-            case 6:
+            case 6: //Receipt
                 omv.renderApp(6);
                 // System.out.println("printreceipt");
                 break;
@@ -99,9 +97,8 @@ public class OrderMenuController extends AController {
         }
     }
 
-//=========================================
     public void displayCartItems() {
-        omv.chooseDisplayCurrentOrder(this.orders, this);
+        omv.chooseDisplayCurrentOrder(this.orders);
         omv.getInputString("Enter a key to exit"); // just a wait for enter
     }
 
@@ -111,8 +108,5 @@ public class OrderMenuController extends AController {
         omv.getInputString("Press any key to exit");
         return;
     }
-
-    
-
 
 }

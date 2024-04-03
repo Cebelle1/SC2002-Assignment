@@ -15,7 +15,7 @@ public class Order implements Serializable {
     private static Order currentOrder; //Current order
     private Branch branch;  //Branch selected
     private double total = 0;
-    private String diningMode = null;   
+    private String diningMode = "Unselected Dining Mode";   
     private OrderStatus status;
     private int orderID;
     private static int orderIDCounter = 0; // Temp counter for generating order IDs
@@ -42,6 +42,7 @@ public class Order implements Serializable {
         orders.add(order);
         Order.currentOrder = order;
         Order.currentOrder.status = OrderStatus.NEW;
+        order.total = 0;
     }
 
     public List<Order> getOrders() {    //Returns all existing orders
@@ -56,11 +57,16 @@ public class Order implements Serializable {
         return this.orderID;
     }
 
+    public double getAmount(){
+       return this.total;
+    }
+
  //==========Order Items============//   
     public void addItem(MenuItem item) {
         System.out.println("Adding item");
         System.out.println(item.getName());
         items.add(item);
+        total += item.getPrice();
     }
 
     public String removeItem(int removeItem) {
@@ -75,6 +81,9 @@ public class Order implements Serializable {
 //============Dining Mode===============//
 
     public static boolean setDiningMode(int diningMode){
+        if(currentOrder.getOrderStatus() != OrderStatus.NEW && currentOrder.getOrderStatus() != OrderStatus.ORDERING){
+           return false;
+        }   
         try{
             Order currentOrder = Order.getCurrentOrder();
             currentOrder.selectDiningMode(diningMode);
@@ -85,6 +94,7 @@ public class Order implements Serializable {
     }
 
     private void selectDiningMode(int dineMode) {
+        
         switch (dineMode) {
             case 1: //Dine In
                 this.diningMode = "Dine In";
@@ -101,6 +111,18 @@ public class Order implements Serializable {
         return this.diningMode;
     }
 //=============== Process Order============//
+    public static void showReceipt(){
+
+    }
+
+    public void caculateAmount(){
+        double payable = 0;
+        for(MenuItem item: items){
+                payable += item.getPrice() * item.getQty();
+        }
+        this.total = payable;
+    }
+
     public static boolean checkout(){
             //Use displayCartItems() to display cartItems\
             if (currentOrder == null){
@@ -108,6 +130,7 @@ public class Order implements Serializable {
                 return false;
             }
             currentOrder.checkoutOrder();
+            currentOrder.caculateAmount();
             System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
             return true;
         
@@ -132,13 +155,13 @@ public class Order implements Serializable {
         }
     }
 
-    public void markReady() {
+    public void markReady() {   //For STAFF
         if (status == OrderStatus.PREPARING) {
             status = OrderStatus.READY_TO_PICKUP;
         }
     }
 
-    public void markCompleted() {
+    public void markCompleted() {   //For CUSTOMER
         if (status == OrderStatus.READY_TO_PICKUP) {
             status = OrderStatus.COMPLETED;
         }

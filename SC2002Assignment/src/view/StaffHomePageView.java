@@ -1,9 +1,9 @@
 package view;
 
 import controller.StaffController;
-import view.abstracts.RenderView;
+import view.abstracts.ARenderView;
 
-public class StaffHomePageView extends RenderView{
+public class StaffHomePageView extends ARenderView{
 
     StaffController staffC;
 

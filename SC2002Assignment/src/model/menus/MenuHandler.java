@@ -2,6 +2,7 @@ package model.menus;
 
 import model.Branch;
 import model.Order;
+import model.Order.OrderStatus;
 import model.menus.MenuItem;
 import view.OrderMenuView;
 
@@ -63,6 +64,13 @@ public class MenuHandler {
         }
 
         Order currentOrder = Order.getCurrentOrder();
+
+        //If already checked out, i.e process status >= PENDING, cannot add. But still can add if just selected dining mode
+        if(currentOrder.getOrderStatus() != OrderStatus.NEW && currentOrder.getOrderStatus() != OrderStatus.ORDERING){
+            omv.displayError("Order has been checked out or is being processed, no further changes should be made");
+            omc.navigate(2);
+        }   
+
         omv.displayMenu(branchChoice, branches);    //shift to BranchView
         
         int menuItemIndex = omv.getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
@@ -93,10 +101,19 @@ public class MenuHandler {
 
     private void removeItemFromCart() {
         if (branchChoice >= 0 && branchChoice < branches.size() && orders.getOrders().size() > 0) {
-            omv.displayAllOrder(orders);
-            int editChoice = omv.getInputInt("Select which Order to remove item from:") - 1;
+            //omv.displayAllOrder(orders);
+            //int editChoice = omv.getInputInt("Select which Order to remove item from:") - 1;
             Order currentOrder = Order.getCurrentOrder();
-            omv.displayOrderList(orders, editChoice);
+            if(currentOrder.getOrderStatus() != OrderStatus.NEW && currentOrder.getOrderStatus() != OrderStatus.ORDERING){
+                omv.displayError("Order has been checked out or is being processed, no further changes should be made");
+                omc.navigate(2);
+            }   
+            
+            omv.displayOrderList(orders, currentOrder.getOrderID()-1);    //display current order menu items
+            if(currentOrder.getCurrentOrderItems().size() < 1){
+                omv.displayError("No items to remove");
+                omc.navigate(2);
+            }
             int removeItem = omv.getInputInt("Select which Item to remove from order:") - 1;
             String removedItem = currentOrder.removeItem(removeItem);
             omv.displayRemoved(removedItem);

@@ -9,13 +9,14 @@ import view.payments.PayNowView;
 
 public class PaymentMethodFactory {
 
-    public static boolean handlePayment(Order orders, double amount){
+    public static boolean handlePayment(Order orders){
         if(orders.getOrders().size() < 1){  //empty order
             System.out.println("No orders to pay, please checkout first!");
             return false;
         }
 
         Order currentOrder = Order.getCurrentOrder();
+        double amount = currentOrder.getAmount();
         if(currentOrder.getOrderStatus() != OrderStatus.PENDING){   //Status sequence check
             System.out.println("Please checkout first!");
             return false;
@@ -36,12 +37,20 @@ public class PaymentMethodFactory {
             case 3:
                 paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.PayNowPayment");
         }
-        boolean paid = paymentProcessor.payment(3.2);
-        pnv.delay(1);
 
-        currentOrder.confirmOrder();
-        System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
-        return true;
+        boolean paid = paymentProcessor.payment(amount);
+        
+        if(!paid){
+            System.out.println("Canceling payment");
+            pnv.delay(1);
+            return false;
+        }else{
+            pnv.delay(1, "Processing Payment...");
+            currentOrder.confirmOrder();
+            System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
+            return true;
+        }
+        
         /*List<Order> allOrders = orders.getOrders();
         for(Order o: allOrders){
             o.confirmOrder();
