@@ -1,8 +1,6 @@
 package controller;
 
 import java.util.List;
-
-import java.util.Scanner;
 import controller.abstracts.AController;
 import model.EmployeeHandler;
 import model.ResetPassword;
