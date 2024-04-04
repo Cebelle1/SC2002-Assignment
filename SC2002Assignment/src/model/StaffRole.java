@@ -31,18 +31,13 @@ public class StaffRole extends AEmployee{
 
     // filter orders by branch
     public List<Order> filterOrdersByBranch(){
-        List<Order> order = orders.getOrders(); // get the orders
-        for(int i=0;i<order.size();i++){ // iterate through the list
-            System.out.printf("%s",order.get(i));
-           // if(getBranch().equals(orders.Branch)){
-
-            //}
+        List<Order> confirmedOrders = Order.getConfirmedOrders(); // get the orders
+        // Iterate over each order and print its details
+        for (Order order : confirmedOrders) {
+            System.out.println("Order ID: " + order.getOrderID() + ", Order Details: " + order.getCurrentOrderItems());
         }
         return order;
     }
-
-
-
 
     //add your staff responsibility here, i.e display new order, view detail process order. 
     //for display new order, i am working on the visiblity of the orders. 

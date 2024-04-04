@@ -5,6 +5,7 @@ import java.util.List;
 import controller.abstracts.AController;
 import model.Order;
 import model.StaffRole;
+import model.abstracts.AEmployee;
 import view.StaffHomePageView;
 
 public class StaffController extends AController{
@@ -13,8 +14,8 @@ public class StaffController extends AController{
     private List<Order> orders;
     private StaffRole staffRole;
 
-    public StaffController(StaffRole staffRole){
-        this.staffRole = staffRole;
+    public StaffController(AEmployee user){
+        staffRole =  new StaffRole(user.getName(), user.getStaffID(), user.getRole(), user.getGender(), user.getAge(), user.getBranch(), user.getPassword());
     }
 
     public void navigate(int page){

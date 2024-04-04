@@ -1,10 +1,10 @@
 package controller;
 
 import java.util.List;
+
 import controller.abstracts.AController;
 import model.EmployeeHandler;
 import model.ResetPassword;
-import model.StaffRole;
 import model.abstracts.AEmployee;
 import view.LoginView;
 
@@ -99,8 +99,8 @@ public class LoginController extends AController {
             case 3: // login staff
                 loggedIn = handleLogin(page);
                 if (loggedIn == true){
-                    StaffRole staffRole = new StaffRole(currentUser.getName(), currentUser.getStaffID(), currentUser.getRole(), currentUser.getGender(), currentUser.getAge(), currentUser.getBranch(), currentUser.getPassword());
-                    staffController = new StaffController(staffRole);
+                    //StaffRole staffRole = new StaffRole(currentUser.getName(), currentUser.getStaffID(), currentUser.getRole(), currentUser.getGender(), currentUser.getAge(), currentUser.getBranch(), currentUser.getPassword());
+                    staffController = new StaffController(this.currentUser);
                     staffController.navigate(0);
                 }
                 else{
