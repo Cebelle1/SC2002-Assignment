@@ -1,5 +1,8 @@
 package model.menus;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Locale;
 
@@ -10,7 +13,7 @@ public class MenuItem implements Serializable{
     private String name;
     private double price;
     private String branch;
-    private SetMealCategory setMeal;
+    private SetMealCategory setMeal;    //Menu has a SetMeal
     private String category;
     private String comments;
     private int qty;
@@ -97,5 +100,27 @@ public class MenuItem implements Serializable{
 
     private String formatPrice(double price){
         return String.format(" $%.2f", price);
+    }
+
+
+    // Implement custom serialization and deserialization methods
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.writeObject(name);
+        out.writeDouble(price);
+        out.writeObject(branch);
+        out.writeObject(setMeal);
+        out.writeObject(category);
+        out.writeObject(comments);
+        out.writeInt(qty);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        name = (String) in.readObject();
+        price = in.readDouble();
+        branch = (String) in.readObject();
+        setMeal = (SetMealCategory) in.readObject();
+        category = (String) in.readObject();
+        comments = (String) in.readObject();
+        qty = in.readInt();
     }
 }

@@ -52,7 +52,6 @@ public class App {
         List<Branch> branches = DataManager.loadMenuIntoBranches(DataFiles.MENU_LIST.fileName);
         List<EmployeeHandler> staffs = DataManager.loadStaff(DataFiles.STAFF_LIST.fileName);
         //Serialization loads
-        Order.loadOrders();
 
         // Controllers
         int choice = sc.nextInt();

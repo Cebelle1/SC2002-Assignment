@@ -223,6 +223,15 @@ public class OrderMenuView extends ARenderView {
 
     }
 
+    public void chooseDisplayCompleteOrderStatus(List<Order> completedOrder, int orderID){
+        Order selectedOrder = completedOrder.get(orderID);
+        if(selectedOrder == null){
+            System.out.println("No orders available.");
+        } else {
+            System.out.println(selectedOrder.getOrderStatus());
+        }
+    }
+
     public void displayCustomizeChoice(){
         System.out.println("Do you wish to customize your order?");
         System.out.println("(1) Yes\n(2) No");

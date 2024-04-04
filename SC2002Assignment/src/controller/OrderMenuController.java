@@ -104,7 +104,8 @@ public class OrderMenuController extends AController {
 
     public void displayOrderStatus(){
         int orderID = omv.getInputInt("Enter Order ID to check status")-1;
-        omv.chooseDisplayOrderStatus(this.orders, orderID);
+        //omv.chooseDisplayOrderStatus(this.orders, orderID);
+        omv.chooseDisplayCompleteOrderStatus(Order.getConfirmedOrders(), orderID);
         omv.getInputString("Press any key to exit");
         return;
     }

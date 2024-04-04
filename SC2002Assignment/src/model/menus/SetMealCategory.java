@@ -1,6 +1,8 @@
 package model.menus;
 
-public class SetMealCategory {
+import java.io.Serializable;
+
+public class SetMealCategory implements Serializable{
     private MenuItem mainDish;
     private MenuItem sideDish;
     private MenuItem drink;

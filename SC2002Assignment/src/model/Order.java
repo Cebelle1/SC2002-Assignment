@@ -16,18 +16,21 @@ import model.payments.IPaymentProcessor;
 
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L; // Unique identifier for serialization
-    private static final String ORDERS_FILE = "orders_serialize.ser"; // File name for storing orders
-    private static List<Order> orders; //Running orders
-    private static List<Order> confirmedOrders = new ArrayList<>(); //Confirmed orders not used
+    private static final String ORDERS_FILE = "orders_serialize.txt"; // File name for storing orders
+    
+    private static List<Order> confirmedOrders = deserializeConfirmedOrders();
     private static Order currentOrder; //Current order
-    private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
-    private Branch branch;  //Branch selected
-    private double total = 0;
-    private String diningMode = "Unselected Dining Mode";   
-    private OrderStatus status;
-    private int orderID;
+    
     private static int orderIDCounter = 0; // Temp counter for generating order IDs
     
+    private Branch branch;  //Branch selected
+    private static List<Order> orders; //Running orders
+    private double total = 0;
+    private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
+    private int orderID;
+    private OrderStatus status;
+    private String diningMode = "Unselected Dining Mode";  
+
     public enum OrderStatus {
         NEW,        //Created
         ORDERING,   //Selected Dining Mode
@@ -39,10 +42,14 @@ public class Order implements Serializable {
 
     public Order(){
         orders = new ArrayList<>();
+        addShutdownSerialize();
     }
+
     public Order(Branch branch){
         orders = new ArrayList<>();
+        orderIDCounter = orders.size();
         this.branch = branch;
+        addShutdownSerialize();
     }
 
     public void newOrder(Order order){
@@ -53,8 +60,12 @@ public class Order implements Serializable {
         order.total = 0;
     }
 
-    public static List<Order> getOrders() {    //Returns all existing orders
+    public List<Order> getOrders() {    //Returns all existing orders
         return orders;
+    }
+
+    public static List<Order> getConfirmedOrders(){
+        return confirmedOrders;
     }
 
     public static Order getCurrentOrder() {
@@ -181,28 +192,36 @@ public class Order implements Serializable {
 
     //====================Serialization TESTING IN PROGRESS========================
 
-    public static void saveOrders(List<Order> orders) {
+    public void serializeConfirmedOrders() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ORDERS_FILE))) {
-            oos.writeObject(orders); // Serialize the list of orders
+            oos.writeObject(confirmedOrders); // Serialize only confirmed orders
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    @SuppressWarnings("unchecked")
-    public static List<Order> loadOrders() {
-        List<Order> orders = new ArrayList<>();
+    public static List<Order> deserializeConfirmedOrders() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ORDERS_FILE))) {
-            orders = (List<Order>) ois.readObject(); // Deserialize the list of orders
+            List<Order> des = (List<Order>) ois.readObject();
+            System.out.println(des);
+            System.out.println(des.get(1).getCurrentOrderItems());
+            return des; // Deserialize the list of confirmed orders
         } catch (IOException | ClassNotFoundException e) {
-            if (e instanceof EOFException) { //Account for empty file
-                System.out.println("No orders found in the file.");
+            if (e instanceof EOFException) {
+                System.out.println("No confirmed orders to load.");
             } else {
-                // Other IO or serialization/deserialization errors
                 e.printStackTrace();
             }
+            return new ArrayList<>();
         }
-        return orders;
     }
+
+    private void addShutdownSerialize() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            serializeConfirmedOrders(); // Serialize only confirmed orders
+        }));
+    }
+    
+    
+
 }

@@ -18,7 +18,7 @@ public class CustomerController extends AController {
     private OrderMenuView orderMenuView = new OrderMenuView(this);
     private static int branchChoice;
     private Map<Branch, OrderMenuController> branchOrderMenuControllers = new HashMap<>();
-
+    private OrderMenuController selectedOMC;
     public CustomerController(List<Branch> branches) {
         this.branches = branches;
         
@@ -37,8 +37,8 @@ public class CustomerController extends AController {
                 this.navigate(choice);
                 break;
             
-            case 1: // Display Current Orders
-                OrderMenuController selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
+            case 1: // Display Completed Orders
+                selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     customerHomeView.displayBranchError();
                     this.navigate(0);

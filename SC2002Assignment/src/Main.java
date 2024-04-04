@@ -6,18 +6,14 @@ import model.Order;
  */
 public class Main {
     public static void main(String[] args) {
-        App FOMSApp = new App();
-        FOMSApp.start();
-
-        // Add shutdown hook to save orders for serialization!!!
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            // Save orders when the program exits
-            Order.saveOrders(Order.getOrders());
-        }));
+        try{
+            App FOMSApp = new App();
+            FOMSApp.start();
+        }catch(Exception e){
+            System.out.println("Thank for using FOMs!");
+            e.printStackTrace();
+        }
     }
-
-    
-    
 }
 
 /*
