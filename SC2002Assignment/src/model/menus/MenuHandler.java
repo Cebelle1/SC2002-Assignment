@@ -4,7 +4,9 @@ import model.Branch;
 import model.Order;
 import model.Order.OrderStatus;
 import model.menus.MenuItem;
+import view.MenuView;
 import view.OrderMenuView;
+import view.OrderView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +20,8 @@ public class MenuHandler {
     private OrderMenuView omv;
     private OrderMenuController omc;
     private Order orders;
-
+    private MenuView menuV;
+    private OrderView orderV;
     
     public MenuHandler(OrderMenuController omc, List<Branch> branches, int branchChoice, Order orders, OrderMenuView omv){
         this.omc = omc;
@@ -26,6 +29,8 @@ public class MenuHandler {
         this.branchChoice = branchChoice;
         this.orders = orders;
         this.omv = omv;
+        this.menuV = omc.getMV();
+        this.orderV = omc.getOMV();
     }
 
     public void editCart(int choice) {
@@ -45,7 +50,7 @@ public class MenuHandler {
     
     public void displayMenu(List<Branch> branches) { //Display the non-organized menu
         if (branchChoice >= 0 && branchChoice < branches.size()) {
-            omv.displayMenu(branchChoice, branches);
+            menuV.displayMenu(branchChoice, branches);
         } else {
             System.out.println("Invalid branch selection.");
         }
@@ -71,7 +76,7 @@ public class MenuHandler {
             omc.navigate(2);
         }   
 
-        omv.displayMenu(branchChoice, branches);    //shift to BranchView
+        menuV.displayMenu(branchChoice, branches);    //shift to BranchView
         
         int menuItemIndex = omv.getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
         try {
@@ -109,7 +114,7 @@ public class MenuHandler {
                 omc.navigate(2);
             }   
             
-            omv.displayOrderList(orders, currentOrder.getOrderID()-1);    //display current order menu items
+            orderV.displayOrderList(orders, currentOrder.getOrderID()-1);    //display current order menu items
             if(currentOrder.getCurrentOrderItems().size() < 1){
                 omv.displayError("No items to remove");
                 omc.navigate(2);
@@ -189,15 +194,15 @@ public class MenuHandler {
 
 //==========================Set Meal==================
     private void handleSetMeal(Order currentOrder, MenuItem selectedItem){
-        omv.displayMains();
+        menuV.displayMains();
         int mainChoice = omv.getInputInt("Select 1 Main for : " + selectedItem.getName());
         MenuItem selectedMain = getMainDish(mainChoice);
 
-        omv.displayDrinks(); 
+        menuV.displayDrinks(); 
         int drinkChoice = omv.getInputInt("Select 1 Drink:");
         MenuItem selectedDrink = getDrink(drinkChoice);
 
-        omv.displaySides();
+        menuV.displaySides();
         int sideChoice = omv.getInputInt("Select 1 Side:");
         MenuItem selectedSide = getSide(sideChoice);
         
@@ -214,7 +219,7 @@ public class MenuHandler {
 
     private String customizeItem(){
         //Customize?
-        omv.displayCustomizeChoice();
+        orderV.displayCustomizeChoice();
         String comments;
         int customizeChoice = omv.getInputInt("Customize Order?");
         if(customizeChoice == 1){

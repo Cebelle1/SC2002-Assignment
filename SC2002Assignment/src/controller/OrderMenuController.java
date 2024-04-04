@@ -11,7 +11,9 @@ import model.menus.MenuItem;
 import model.menus.SetMealCategory;
 import model.payments.IPaymentProcessor;
 import model.payments.PaymentMethodFactory;
+import view.MenuView;
 import view.OrderMenuView;
+import view.OrderView;
 import view.payments.PayNowView;
 import model.Order;
 import model.menus.MenuHandler;
@@ -24,6 +26,8 @@ public class OrderMenuController extends AController {
     private Order orders;
     private CustomerController cC;
     private MenuHandler menuHandler;
+    private MenuView menuV = new MenuView(cC);
+    private OrderView orderV = new OrderView();
 
     public OrderMenuController(CustomerController cC) {
         this.cC = cC;
@@ -44,7 +48,7 @@ public class OrderMenuController extends AController {
                 break;
             case 1:
                 // Display menu
-                omv.displayOrganizedMenu(branchChoice, branches);
+                menuV.displayOrganizedMenu(branchChoice, branches);
                 String retChocie = omv.getInputString("Press any key to return");
                 navigate(0);
                 break;
@@ -70,7 +74,7 @@ public class OrderMenuController extends AController {
                 if(!checkedOut){
                     System.out.println("No dining mode selected, please select a dining mode first!");
                 }else{
-                    omv.displayCheckout(this.orders);
+                    orderV.displayCheckout(this.orders);
                 }
                 omv.getInputString("Enter a key to exit");
 
@@ -98,16 +102,24 @@ public class OrderMenuController extends AController {
     }
 
     public void displayCartItems() {
-        omv.chooseDisplayCurrentOrder(this.orders);
+        orderV.chooseDisplayCurrentOrder(this.orders);
         omv.getInputString("Enter a key to exit"); // just a wait for enter
     }
 
     public void displayOrderStatus(){
         int orderID = omv.getInputInt("Enter Order ID to check status")-1;
         //omv.chooseDisplayOrderStatus(this.orders, orderID);
-        omv.chooseDisplayCompleteOrderStatus(Order.getConfirmedOrders(), orderID);
+        orderV.chooseDisplayCompleteOrderStatus(Order.getConfirmedOrders(), orderID);
         omv.getInputString("Press any key to exit");
         return;
+    }
+
+    public OrderView getOMV(){
+        return this.orderV;
+    }
+
+    public MenuView getMV(){
+        return this.menuV;
     }
 
 }

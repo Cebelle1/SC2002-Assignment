@@ -1,4 +1,5 @@
 package view.abstracts;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import view.interfaces.ViewInterface;
@@ -127,5 +128,21 @@ public abstract class ARenderView implements ViewInterface{
             sc.next();
             return "";
         }
+    }
+
+    protected String formatName(String name) {
+        // Split the name into words
+        String[] words = name.split(" ");
+
+        // Capitalize the first letter of each word
+        StringBuilder formattedName = new StringBuilder();
+        for (String word : words) {
+            formattedName.append(word.substring(0, 1).toUpperCase(Locale.ENGLISH)); // Capitalize first letter
+            formattedName.append(word.substring(1).toLowerCase(Locale.ENGLISH)); // Convert remaining letters to
+                                                                                 // lowercase
+            formattedName.append(" "); // Add space between words
+        }
+
+        return String.format("| %-15s", formattedName.toString());
     }
 }
