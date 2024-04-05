@@ -21,7 +21,7 @@ public class Order implements Serializable {
     private static List<Order> confirmedOrders = deserializeConfirmedOrders();
     private static Order currentOrder; //Current order
     
-    private static int orderIDCounter = 0; // Temp counter for generating order IDs
+    private static int orderIDCounter = confirmedOrders.size(); // Temp counter for generating order IDs
     
     private Branch branch;  //Branch selected
     private List<Order> orders; //Running orders
@@ -47,7 +47,7 @@ public class Order implements Serializable {
 
     public Order(Branch branch){
         orders = new ArrayList<>();
-        orderIDCounter = orders.size();
+        orderIDCounter = confirmedOrders.size();    //indexing might cause crashes, note
         this.branch = branch;
         addShutdownSerialize();
     }
@@ -173,7 +173,7 @@ public class Order implements Serializable {
     public boolean confirmOrder() {
         if (status == OrderStatus.PENDING) {
             status = OrderStatus.PREPARING;
-            confirmedOrders.add(this); // Add to confirmed orders list
+            confirmedOrders.add(currentOrder); // Add to confirmed orders list
             //currentOrder = null; perhaps
             return true; //Payment confirmed
         }else{
@@ -207,11 +207,34 @@ public class Order implements Serializable {
         }
     }
 
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject(); // Serialize other fields using default serialization
+
+        //Serialize the attributes
+        out.writeInt(orderID);
+        out.writeObject(branch);
+        out.writeDouble(total);
+        out.writeObject(items);
+        out.writeObject(status);
+        out.writeObject(diningMode);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // Deserialize other fields using default deserialization
+
+        // Deserialize orderID separately
+        orderID = in.readInt();
+        branch = (Branch) in.readObject();
+        total = in.readDouble();
+        items = (List<MenuItem>) in.readObject();
+        status = (OrderStatus) in.readObject();
+        diningMode = (String) in.readObject();
+        orderIDCounter++;
+    }
+
     public static List<Order> deserializeConfirmedOrders() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ORDERS_FILE))) {
             List<Order> des = (List<Order>) ois.readObject();
-            System.out.println(des);
-            System.out.println(des.get(1).getCurrentOrderItems());
             return des; // Deserialize the list of confirmed orders
         } catch (IOException | ClassNotFoundException e) {
             if (e instanceof EOFException) {
