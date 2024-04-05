@@ -24,7 +24,7 @@ public class Order implements Serializable {
     private static int orderIDCounter = 0; // Temp counter for generating order IDs
     
     private Branch branch;  //Branch selected
-    private static List<Order> orders; //Running orders
+    private List<Order> orders; //Running orders
     private double total = 0;
     private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
     private int orderID;
@@ -124,6 +124,7 @@ public class Order implements Serializable {
             default:
                 System.out.println("Invalid Dining Mode");
         }
+        this.status = OrderStatus.ORDERING;
     }
 
     public String getDiningMode(){
@@ -148,15 +149,20 @@ public class Order implements Serializable {
                 System.out.println("No order found");
                 return false;
             }
-            currentOrder.checkoutOrder();
-            currentOrder.caculateAmount();
-            System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
-            return true;
+            boolean checkedOut = currentOrder.checkoutOrder();
+            if(checkedOut){
+                currentOrder.caculateAmount();
+                System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
+                return true;
+            }
+            return false;
+            
+            
         
     }
 
     private boolean checkoutOrder(){
-        if (status == OrderStatus.NEW){
+        if (status == OrderStatus.ORDERING){
             status = OrderStatus.PENDING;
             return true; //Successful
         }else{
@@ -168,6 +174,7 @@ public class Order implements Serializable {
         if (status == OrderStatus.PENDING) {
             status = OrderStatus.PREPARING;
             confirmedOrders.add(this); // Add to confirmed orders list
+            //currentOrder = null; perhaps
             return true; //Payment confirmed
         }else{
             return false;
