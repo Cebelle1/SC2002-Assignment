@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.abstracts.AEmployee;
 import model.menus.MenuItem;
+import model.menus.SetMealCategory;
 import view.OrderView;
 
 public class StaffRole extends AEmployee{
@@ -38,11 +39,19 @@ public class StaffRole extends AEmployee{
         // Iterate over each order and print its details
         for (Order order : confirmedOrders) {
             List<MenuItem> items= order.getCurrentOrderItems();
-            System.out.println(order.getOrderID());
+            System.out.printf("Order ID: %d ", order.getOrderID());
             for(MenuItem item : items){
                 System.out.println(item.getName());
+                if ("set meal".equals(item.getCategory())) {
+                    SetMealCategory setMeal = (SetMealCategory) item.getSetMeal();
+                    System.out.printf("%8s > Main: %s\n", "", setMeal.getMainDish().getName());
+                    System.out.printf("%8s > Side: %s\n", "", setMeal.getSideDish().getName());
+                    System.out.printf("%8s > Drink: %s\n", "", setMeal.getDrink().getName());
+
+                    
+                }
             }
-            //System.out.println("Order ID: " + order.getOrderID() + ", Order Details: " + order.getCurrentOrderItems());
+            
         }
         return order;
     }
