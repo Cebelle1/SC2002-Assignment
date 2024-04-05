@@ -2,8 +2,13 @@ package view.payments;
 
 import view.abstracts.ARenderPayment;
 
-public class PayNowView extends ARenderPayment {
+public class PaymentView extends ARenderPayment {
     public void renderPayment(){
+        System.out.println("Processing payment..");
+        //confirmPayment();
+    }
+
+    public void printQR(){
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
         System.out.println("░░▓▒▒▒▒▓▒▒░▒▒▒▒░▓▓░░▒░░▒░░▓░▓▓▓▒░▒▒▒▓▒▒▒▒░▓▒▒▒▒▓░░");
         System.out.println("░░▓░▓▓░▓░▒░▒▒▓▓▒▓▓▒▓▓▓░▓▒▒▒▒▒▒▒░░▒▒▒▓░▒▒▒░▓░▓▓░▓░░");
@@ -29,6 +34,5 @@ public class PayNowView extends ARenderPayment {
         System.out.println("░░▓░▓▓░▓░▒▒▓▒▒▒▒▒▒▒▓▓▒▒▓▒▒▓▒▒▒▓▓▒░▒▒░▒▓▒▒▓▓▓▓▒░▓░░");
         System.out.println("░░▓▒▒▒▒▓░░░▓░▒▓▒▒▒░▓▓▒▓░▒▒▒▓░░▒▓▒▒▒▒░░▒▒▒▒░▓▒▒▓▒░░");
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
-        //confirmPayment();
     }
 }

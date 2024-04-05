@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import model.abstracts.AEmployee;
 import model.menus.MenuItem;
+import model.payments.IPaymentProcessor;
 
 public class DataManager {
 
@@ -153,5 +154,46 @@ public class DataManager {
         } catch(IOException e){
             e.getMessage();
         }
+    }
+
+//===================Payment.txt================================//
+    public static void appendPaymentMethod(String paymentMethod) {
+        String fileName = "payments.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            writer.write(paymentMethod + "\n");
+            System.out.println("Payment method appended successfully.");
+        } catch (IOException e) {
+            System.err.println("Error appending payment method to file: " + e.getMessage());
+        }
+    }
+
+    //Not tested
+    public static void removePaymentMethod(String paymentMethodToRemove) {
+        String fileName = "payments.txt";
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(fileName));
+            if (lines.remove(paymentMethodToRemove)) {
+                Files.write(Paths.get(fileName), lines);
+                System.out.println("Payment method removed successfully.");
+            } else {
+                System.out.println("Payment method not found in file.");
+            }
+        } catch (IOException e) {
+            System.err.println("Error removing payment method from file: " + e.getMessage());
+        }
+    }
+
+    public static List<String> readPaymentMethods() {
+        String fileName = "payments.txt";
+        List<String> paymentMethods = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                paymentMethods.add(line.trim());
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+        return paymentMethods;
     }
 }

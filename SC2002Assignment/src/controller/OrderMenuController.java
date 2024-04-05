@@ -14,7 +14,7 @@ import model.payments.PaymentMethodFactory;
 import view.MenuView;
 import view.OrderMenuView;
 import view.OrderView;
-import view.payments.PayNowView;
+import view.payments.PaymentView;
 import model.Order;
 import model.menus.MenuHandler;
 

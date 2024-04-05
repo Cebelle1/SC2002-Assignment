@@ -1,7 +1,7 @@
 package model.payments;
 
 import view.abstracts.ARenderPayment;
-import view.payments.PayNowView;
+import view.payments.PaymentView;
 
 public class DebitCardPayment implements IPaymentProcessor {
 
@@ -9,7 +9,7 @@ public class DebitCardPayment implements IPaymentProcessor {
         System.out.println("Paying with Debit Card");
         
         //Just gonna use the PayNowView for now
-        PayNowView pnv = new PayNowView();
+        PaymentView pnv = new PaymentView();
         System.out.println("Processing");
         return pnv.confirmPayment();
     }

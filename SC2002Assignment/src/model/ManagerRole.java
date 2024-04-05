@@ -9,4 +9,5 @@ public class ManagerRole extends StaffRole{
 
     //Add your individual role method here like perform whatever staff can do, actlly alr inherited
     //for display branch staff, you can use smth like "Branch selectedBranch = branches.get(branchChoice);", tho currently the staff and manager arritbute still not added
+    //if you need the OrderStatus.STATUS, import model.Order.OrderStatus;
 }

@@ -14,6 +14,6 @@ public class AdminRole extends AEmployee {
 
     //Not tested, designing.
     public void addPaymentMethod(String type) {
-        IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod("model.payments.PayNowPayment");
+        IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod("MasterCardPayment");
     }
 }

@@ -4,7 +4,10 @@ import java.util.List;
 
 import controller.abstracts.AController;
 import view.AdminHomePageView;
-
+//=====for TESTING
+import model.payments.IPaymentProcessor; 
+import model.payments.PaymentMethodFactory;
+//====
 public class AdminController extends AController {
     private AdminHomePageView adminHomePageView = new AdminHomePageView(this);
 
@@ -45,6 +48,10 @@ public class AdminController extends AController {
                 break;
 
             case 6: // Edit paymnet method
+                //=====Testing===
+                String  paymentMethod = adminHomePageView.getInputString("Input new payment method (Class name) with no space, uppercammel naming convention");
+                IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod(paymentMethod);
+                
                 break;
 
             case 7: // Manage Branch

@@ -86,9 +86,10 @@ public class LoginController extends AController {
 
             case 1: // login admin
                 loggedIn = handleLogin(page);
-                if (loggedIn = true)
+                if (loggedIn = true){
+                    adminController = new AdminController();
                     adminController.navigate(0);
-                else
+                }else
                     this.navigate(0);
                 break;
 
