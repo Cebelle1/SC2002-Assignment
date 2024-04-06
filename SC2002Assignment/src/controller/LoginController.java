@@ -7,6 +7,7 @@ import model.EmployeeHandler;
 import model.ResetPassword;
 import model.abstracts.AEmployee;
 import view.LoginView;
+import model.EmployeeFilter;
 
 public class LoginController extends AController {
     AEmployee currentUser;
@@ -33,12 +34,13 @@ public class LoginController extends AController {
 
     public void setCurrentUser(AEmployee user) {
         this.currentUser = user;
-        //Set current user is only confirmed after loggin in (auth). So controller type is not defined until then.
-        //Yall can use polymorphism to define controller object.
+        // Set current user is only confirmed after loggin in (auth). So controller type
+        // is not defined until then.
+        // Yall can use polymorphism to define controller object.
     }
 
     public AEmployee getCurrentUser() {
-        //return this.getCurrentUser();
+        // return this.getCurrentUser();
         return this.currentUser;
     }
 
@@ -63,18 +65,18 @@ public class LoginController extends AController {
                 // if the choice choosen is not within 1-4 then show error
                 // =====================================Filter Test For
                 // Nicole===================
-                /*
-                 * List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees();
-                 * EmployeeFilter empFil = new EmployeeFilter(filter);
-                 * // List<AEmployee> retunedFilter =
-                 * // EmployeeFilter.filterEmployeesByBranch("NTU");
-                 * List<AEmployee> retunedFilter = EmployeeFilter.filterEmployeesByAgeRange(30,
-                 * 50);
-                 * // System.out.println(retunedFilter);
-                 * for (AEmployee test : retunedFilter) {
-                 * System.out.println(test.getName());
-                 * }
-                 */
+
+                // List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees();
+                // EmployeeFilter empFil = new EmployeeFilter(filter);
+                // // List<AEmployee> retunedFilter =
+                // // EmployeeFilter.filterEmployeesByBranch("NTU");
+                // List<AEmployee> retunedFilter = EmployeeFilter.filterEmployeesByAgeRange(30,
+                // 50);
+                // // System.out.println(retunedFilter);
+                // for (AEmployee test : retunedFilter) {
+                // System.out.println(test.getName());
+                // }
+
                 // =========================================================================================
                 if (choice > 4) {
                     System.out.println("Invalid Option");
@@ -86,10 +88,10 @@ public class LoginController extends AController {
 
             case 1: // login admin
                 loggedIn = handleLogin(page);
-                if (loggedIn = true){
-                    adminController = new AdminController();
+                if (loggedIn = true) {
+                    adminController = new AdminController(this.currentUser);
                     adminController.navigate(0);
-                }else
+                } else
                     this.navigate(0);
                 break;
 
@@ -99,12 +101,13 @@ public class LoginController extends AController {
 
             case 3: // login staff
                 loggedIn = handleLogin(page);
-                if (loggedIn == true){
-                    //StaffRole staffRole = new StaffRole(currentUser.getName(), currentUser.getStaffID(), currentUser.getRole(), currentUser.getGender(), currentUser.getAge(), currentUser.getBranch(), currentUser.getPassword());
+                if (loggedIn == true) {
+                    // StaffRole staffRole = new StaffRole(currentUser.getName(),
+                    // currentUser.getStaffID(), currentUser.getRole(), currentUser.getGender(),
+                    // currentUser.getAge(), currentUser.getBranch(), currentUser.getPassword());
                     staffController = new StaffController(this.currentUser);
                     staffController.navigate(0);
-                }
-                else{
+                } else {
                     this.navigate(0);
                 }
                 break;

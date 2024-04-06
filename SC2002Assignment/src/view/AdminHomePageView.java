@@ -7,12 +7,16 @@ import java.util.Scanner;
 
 import controller.AdminController;
 import model.Branch;
+//import model.abstracts.AEmployee;
+import model.abstracts.AEmployee;
 
 public class AdminHomePageView extends ARenderView {
     AdminController adminCon;
+    // private List<AEmployee> employees;
 
-    public AdminHomePageView(AdminController adminController) {
+    public AdminHomePageView(AdminController adminController/* , List<AEmployee> employees */) {
         this.adminCon = adminController;
+        // this.employees = employees;
     }
 
     @Override
@@ -27,6 +31,10 @@ public class AdminHomePageView extends ARenderView {
             case 2:
                 renderChoiceDisplay();
                 break;
+            case 3:
+
+                break;
+
         }
     }
 
@@ -58,10 +66,21 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("(4) Age");
     }
 
-    // public void printFilterStaff(String ){
+    public void printemptyfilter() {
+        System.out.println("Invalid branch, please enter again: ");
+    }
 
-    // }
+    // display filtered by (branch,role,gender.age)
+    public void printFilterStaff(List<AEmployee> printfiltered) {
+        System.out.println("Gender Branch  Age Name");
+        for (AEmployee test : printfiltered) {
+            // for now print age with name!Later can change to printing all attribute of
+            // employee
+            System.out.println(test.getRole() + " " + test.getGender() + " " + test.getBranch() + " " + test.getAge()
+                    + " " + test.getName()
+                    + " " + test.getRole());
 
-    // }
+        }
+    }
 
 }

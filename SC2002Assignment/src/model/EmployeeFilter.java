@@ -36,5 +36,13 @@ public class EmployeeFilter {
     public List<AEmployee> filterEmployeesByGender(String gender) {
         Predicate<AEmployee> byGender = employee -> employee.getGender().equals(gender);
         return filterEmployees(byGender);
+
     }
+
+    // Filter employees by role
+    public List<AEmployee> filterEmployeesByRole(String role) {
+        Predicate<AEmployee> byRole = employee -> employee.getRole().equals(role);
+        return filterEmployees(byRole);
+    }
+
 }
