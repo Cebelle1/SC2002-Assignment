@@ -5,6 +5,7 @@ import java.util.List;
 import controller.abstracts.AController;
 import view.AdminHomePageView;
 import model.AdminRole;
+import model.EmployeeHandler;
 import model.abstracts.AEmployee;
 //=====for TESTING
 import model.payments.IPaymentProcessor;
@@ -15,6 +16,8 @@ public class AdminController extends AController {
     private AdminHomePageView adminHomePageView = new AdminHomePageView(this);
     private AdminRole adminRole;
     private AEmployee currentuser;
+    int inputBranch;
+    int inputRole;
 
     public AdminController(AEmployee user) {
         this.currentuser = user;
@@ -36,6 +39,11 @@ public class AdminController extends AController {
                 break;
 
             case 1: // Edit Staff Accounts
+                // make changes here!!
+                /*
+                 * List<AEmployee> employees = EmployeeHandler.getAllUnsortedEmployees();
+                 * adminHomePageView.printAllStaff(employees);
+                 */
                 adminHomePageView.renderApp(1);
                 int choiceEdit = adminHomePageView.getInputInt("");
                 filterNavigate(choiceEdit);
@@ -46,27 +54,42 @@ public class AdminController extends AController {
                 int choiceDisplay = adminHomePageView.getInputInt("");
                 switch (choiceDisplay) {
                     case 1: // branch
-                        String branch = adminHomePageView.getInputString("Please Enter Branch Name as filter: ");
-                        List<AEmployee> filterbybranch = adminRole.EmpFilterByBranch(branch);
+                        while (true) {
+                            inputBranch = adminHomePageView
+                                    .getInputInt("Select Branch Name as filter: (1)JP (2)JE (3)NTU:  ");
+                            if (inputBranch > 0 && inputBranch < 4) {
+                                break;
+                            }
+                            adminHomePageView.errorintinput();
+                        }
+                        List<AEmployee> filterbybranch = adminRole.EmpFilterByBranch(inputBranch);
                         adminHomePageView.printFilterStaff(filterbybranch); // continue coding from end, do i filter by
                                                                             // asking string or int?
                         break;
 
                     case 2: // role
-                        String role = adminHomePageView.getInputString("Please Enter Role Name as filter: ");
-                        List<AEmployee> filterbyrole = adminRole.EmpFilterByRole(role);
+                        while (true) {
+                            inputRole = adminHomePageView
+                                    .getInputInt("Select Role Name as filter: (1)Staffs (2)Managers ");
+                            if (inputRole > 0 && inputRole < 3) {
+                                break;
+                            }
+                            adminHomePageView.errorintinput();
+                        }
+                        List<AEmployee> filterbyrole = adminRole.EmpFilterByRole(inputRole);
                         adminHomePageView.printFilterStaff(filterbyrole);
                         break;
 
                     case 3: // gender
-                        String gender = adminHomePageView.getInputString("Filter by M(male) or F(female):  ");
+                        String gender = adminHomePageView
+                                .getInputString("Enter M for male or F for female as filter:  ");
                         List<AEmployee> filterByGender = adminRole.EmpFilterByGender(gender);
                         adminHomePageView.printFilterStaff(filterByGender);
                         break;
 
                     case 4: // age
-                        int minAge = adminHomePageView.getInputInt("Please Enter Min Age: ");
-                        int maxAge = adminHomePageView.getInputInt("Please Enter Max Age: ");
+                        int minAge = adminHomePageView.getInputInt("Enter Min Age as filter: ");
+                        int maxAge = adminHomePageView.getInputInt("Enter Max Age as filter: ");
                         List<AEmployee> filterbyage = adminRole.EmpFilterByAge(minAge, maxAge);
                         adminHomePageView.printFilterStaff(filterbyage);
                         break;

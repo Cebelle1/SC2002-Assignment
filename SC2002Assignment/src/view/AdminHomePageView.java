@@ -29,7 +29,7 @@ public class AdminHomePageView extends ARenderView {
                 renderChoiceEdit();
                 break;
             case 2:
-                renderChoiceDisplay();
+                renderChoiceFilterDisplay();
                 break;
             case 3:
 
@@ -48,6 +48,22 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("(6) Edit paymnet method");
         System.out.println("(7) Manage Branch");
     }
+    // =============Add Edit Staff List (1)========================================
+
+    /*
+     * MAKE CHANGES HERE
+     * public void printAllStaff(List<AEmployee> employees) {
+     * System.out.println("Role Gender Branch  Age Name");
+     * for (AEmployee test : employees) {
+     * // for now print age with name!Later can change to printing all attribute of
+     * // employee
+     * System.out.println(test.getRole() + " " + test.getGender() + " " +
+     * test.getBranch() + " " + test.getAge()
+     * + " " + test.getName()
+     * + " " + test.getRole());
+     * }
+     * }
+     */
 
     public void renderChoiceEdit() {
         super.printBorder("Edit Staff Accounts");
@@ -57,7 +73,9 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("(3) NTU");
     }
 
-    public void renderChoiceDisplay() {
+    // ==================Display Staff List With filter
+    // (2)===========================
+    public void renderChoiceFilterDisplay() {
         super.printBorder("Display Staff List");
         System.out.println("Filter in terms of: ");
         System.out.println("(1) Branch");
@@ -72,7 +90,7 @@ public class AdminHomePageView extends ARenderView {
 
     // display filtered by (branch,role,gender.age)
     public void printFilterStaff(List<AEmployee> printfiltered) {
-        System.out.println("Gender Branch  Age Name");
+        System.out.println("Role Gender Branch  Age Name");
         for (AEmployee test : printfiltered) {
             // for now print age with name!Later can change to printing all attribute of
             // employee
@@ -81,6 +99,10 @@ public class AdminHomePageView extends ARenderView {
                     + " " + test.getRole());
 
         }
+    }
+
+    public void errorintinput() {
+        System.out.println("Invalid choice, please enter a valid number");
     }
 
 }

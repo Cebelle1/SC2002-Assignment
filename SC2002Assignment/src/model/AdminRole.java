@@ -15,6 +15,7 @@ public class AdminRole extends AEmployee {
 
     // Add your individual role method here like edit staffacc, display staff list
     // etc
+    // create with i can get the fill Employee with no filter
 
     public List<AEmployee> EmpFilterByAge(int min, int max) {
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
@@ -24,13 +25,19 @@ public class AdminRole extends AEmployee {
 
     }
 
-    public List<AEmployee> EmpFilterByBranch(String inputBranch) {
-
+    public List<AEmployee> EmpFilterByBranch(int inputBranch) {
+        String inputStrBranch;
+        if (inputBranch == 1) {
+            inputStrBranch = "JP";
+        } else if (inputBranch == 2) {
+            inputStrBranch = "JE";
+        } else {
+            inputStrBranch = "NTU";
+        }
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
         EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
-        List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputBranch);
+        List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputStrBranch);
         return filterbyBranch;
-
     }
 
     public List<AEmployee> EmpFilterByGender(String inputgender) {
@@ -42,11 +49,17 @@ public class AdminRole extends AEmployee {
 
     }
 
-    public List<AEmployee> EmpFilterByRole(String inputrole) {
+    public List<AEmployee> EmpFilterByRole(int inputrole) {
+        String inputStrRole;
+        if (inputrole == 1) {
+            inputStrRole = "S";
+        } else {
+            inputStrRole = "M";
+        }
 
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
         EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
-        List<AEmployee> filterbyRole = empfilter.filterEmployeesByRole(inputrole);
+        List<AEmployee> filterbyRole = empfilter.filterEmployeesByRole(inputStrRole);
         return filterbyRole;
 
     }
