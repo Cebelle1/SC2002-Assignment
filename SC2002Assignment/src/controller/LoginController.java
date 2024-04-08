@@ -14,6 +14,13 @@ public class LoginController extends AController{
     AuthenticationController authentication;
     private List<StaffCategory> staffs;
     private static boolean loggedIn;
+<<<<<<< Updated upstream
+=======
+    ResetPassword reset;
+    AdminController adminController;
+    StaffController staffController;
+    ManagerController managerController;
+>>>>>>> Stashed changes
 
     public LoginController(List<StaffCategory> staffs){
         this.staffs = staffs;
@@ -56,6 +63,15 @@ public class LoginController extends AController{
 
             case 2: // login manager
                 loggedIn = handleLogin(page);
+                if(loggedIn == true)
+                {
+                    managerController = new ManagerController(this.currentUser);
+                    managerController.navigate(0);
+                }
+                else
+                {
+                    this.navigate(0);
+                }
                 break;
 
             case 3: // login staff
@@ -63,6 +79,24 @@ public class LoginController extends AController{
                 break;
 
             case 4: // reset password
+<<<<<<< Updated upstream
+=======
+                // Login id
+                // loginView.renderApp(1);
+                String id = loginView.getInputString("Enter Staff ID: ");
+                String oldPassword = loginView.getInputString("Enter Old Password:");
+                boolean validAcc = authentication.checkAccExist(id, oldPassword);
+                if (validAcc) {
+                    String password = loginView.getInputString("Enter New Password: ");
+                    String cfmPassword = loginView.getInputString("Confirm Password: ");
+                    // Update staff list
+                    boolean upToDate = reset.updatePass(id, password, cfmPassword);
+                    loginView.updated(upToDate);
+                } else {
+                    loginView.displayInvalidAcc();
+                    navigate(0);
+                }
+>>>>>>> Stashed changes
                 break;
 
             case 5:

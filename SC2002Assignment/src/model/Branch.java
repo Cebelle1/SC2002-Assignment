@@ -32,5 +32,19 @@ public class Branch {
         menu.add(menuItem);
     }
 
+<<<<<<< Updated upstream
+=======
+    public void removeMenuItem(MenuItem menuItem){
+        menu.remove(menuItem);
+    }
+
+    public void setEmployees(List<AEmployee> branchAEmployees){
+        this.employees = branchAEmployees;
+    }
+
+    public List<AEmployee> getEmployees(){
+        return this.employees;
+    }
+>>>>>>> Stashed changes
     
 }
