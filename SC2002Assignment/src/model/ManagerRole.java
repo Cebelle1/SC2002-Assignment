@@ -18,6 +18,7 @@ public class ManagerRole extends StaffRole{
         super(Name, StaffID, Role, Gender,Age, Branch, Password);
     }
 
+    // To load the Branch data
     public Branch loadBranches(){
         branches = DataManager.loadMenuIntoBranches("menu_list.txt");
         for(Branch selectedBranch : branches)
@@ -32,8 +33,7 @@ public class ManagerRole extends StaffRole{
 
     //Add your individual role method here like perform whatever staff can do, actlly alr inherited
     //for display branch staff, you can use smth like "Branch selectedBranch = branches.get(branchChoice);", tho currently the staff and manager arritbute still not added
-
-    // NEED TO GETBRANCH TO INCLUDE IN MENUITEM
+    //if you need the OrderStatus.STATUS, import model.Order.OrderStatus;
 
     public List<AEmployee> retrieveBranchStaff(Branch branch){
         // Retrieve the employees from the branch
@@ -94,5 +94,4 @@ public class ManagerRole extends StaffRole{
             }
         }
     }
-
 }

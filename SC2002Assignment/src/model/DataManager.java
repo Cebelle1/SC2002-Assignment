@@ -124,6 +124,7 @@ public class DataManager {
     }
 
     //===================staff_list_with_pw.txt================================//
+
      public static void updateFile(String filePath, String newPassword, String id){
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
@@ -259,7 +260,7 @@ public class DataManager {
             System.err.println("Error updating the file: " + e.getMessage());
         }
 
-}
+    }
 
     public static void editItemName(String oldName, String newName){
         String filePath = "menu_list.txt";
@@ -301,10 +302,6 @@ public class DataManager {
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
                     if(parts.length == 4 && parts[0].equals(name)){
-                        //parts[1] = Double.toString(price);
-                        //parts[1] = "".valueOf(price);
-                        //line = String.join("\t", parts);
-                        StringBuffer sb = new StringBuffer();
                         sb.append(price);
                         parts[1] = sb.toString();
                         line = String.join("\t", parts);
@@ -330,5 +327,4 @@ public class DataManager {
             System.err.println("Error updating the file: " + e.getMessage());
         }
     }
-
 }

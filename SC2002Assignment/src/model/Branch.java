@@ -2,12 +2,13 @@ package model;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import model.abstracts.AEmployee;
 import model.menus.*;
 
 public class Branch {
-
     private String name;
     private List<MenuItem> menu;
+    private List<AEmployee> employees;
 
     public Branch(String name, List<MenuItem> menu) {
         this.name = name;
@@ -18,7 +19,7 @@ public class Branch {
         return this.menu;
     }
     
-    public List<MenuItem> getMenu(String category) {
+    public List<MenuItem> getMenu(String category) {    //Overload
         return menu.stream()
                    .filter(item -> category.equals(item.getCategory()))
                    .collect(Collectors.toList());
@@ -32,8 +33,6 @@ public class Branch {
         menu.add(menuItem);
     }
 
-<<<<<<< Updated upstream
-=======
     public void removeMenuItem(MenuItem menuItem){
         menu.remove(menuItem);
     }
@@ -45,6 +44,5 @@ public class Branch {
     public List<AEmployee> getEmployees(){
         return this.employees;
     }
->>>>>>> Stashed changes
     
 }

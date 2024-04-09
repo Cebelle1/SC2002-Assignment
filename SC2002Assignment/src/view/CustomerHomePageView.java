@@ -1,5 +1,5 @@
 package view;
-import view.abstracts.RenderView;
+import view.abstracts.ARenderView;
 import java.util.Scanner;
 import controller.CustomerController;
 import model.Branch;
@@ -7,7 +7,7 @@ import java.util.List;
 import model.Order;
 import view.OrderMenuView;
 
-public class CustomerHomePageView extends RenderView{
+public class CustomerHomePageView extends ARenderView{
     CustomerController custCon;
     
     public CustomerHomePageView(CustomerController custController){

@@ -1,49 +1,71 @@
 package model;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import model.interfaces.PaymentProcessor;
 import model.menus.MenuItem;
+import model.payments.IPaymentProcessor;
 
 public class Order implements Serializable {
-    private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
-    private List<Order> orders; //Running orders
-    private static List<Order> confirmedOrders = new ArrayList<>(); //Confirmed orders
-    private static Order currentOrder; //Current order
-    private Branch branch;  //Branch selected
-    private double total = 0;
-    private String diningMode = null;   
-    private OrderStatus status;
-    private int orderID;
-    private static int orderIDCounter = 0; // Temp counter for generating order IDs
+    private static final long serialVersionUID = 1L; // Unique identifier for serialization
+    private static final String ORDERS_FILE = "orders_serialize.txt"; // File name for storing orders
     
+    private static List<Order> confirmedOrders = deserializeConfirmedOrders();
+    private static Order currentOrder; //Current order
+    
+    private static int orderIDCounter = confirmedOrders.size(); // Temp counter for generating order IDs
+    
+    private Branch branch;  //Branch selected
+    private List<Order> orders; //Running orders
+    private double total = 0;
+    private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
+    private int orderID;
+    private OrderStatus status;
+    private String diningMode = "Unselected Dining Mode";  
+
     public enum OrderStatus {
-        PENDING,
-        PREPARING,
-        READY_TO_PICKUP,
+        NEW,        //Created
+        ORDERING,   //Selected Dining Mode
+        PENDING,    //Checked Out
+        PREPARING,  //Payment confirmed
+        READY_TO_PICKUP,    
         COMPLETED
     }
 
     public Order(){
-        this.orders = new ArrayList<>();
+        orders = new ArrayList<>();
+        addShutdownSerialize();
     }
+
     public Order(Branch branch){
-        this.orders = new ArrayList<>();
+        orders = new ArrayList<>();
+        orderIDCounter = confirmedOrders.size();    //indexing might cause crashes, note
         this.branch = branch;
+        addShutdownSerialize();
     }
 
     public void newOrder(Order order){
         order.orderID = ++orderIDCounter;
         orders.add(order);
         Order.currentOrder = order;
-        Order.currentOrder.status = OrderStatus.PENDING;
+        Order.currentOrder.status = OrderStatus.NEW;
+        order.total = 0;
     }
 
-    public List<Order> getOrders() {
+    public List<Order> getOrders() {    //Returns all existing orders
         return orders;
+    }
+
+    public static List<Order> getConfirmedOrders(){
+        return confirmedOrders;
     }
 
     public static Order getCurrentOrder() {
@@ -54,11 +76,16 @@ public class Order implements Serializable {
         return this.orderID;
     }
 
+    public double getAmount(){
+       return this.total;
+    }
+
  //==========Order Items============//   
     public void addItem(MenuItem item) {
         System.out.println("Adding item");
         System.out.println(item.getName());
         items.add(item);
+        total += item.getPrice();
     }
 
     public String removeItem(int removeItem) {
@@ -70,8 +97,23 @@ public class Order implements Serializable {
     public List<MenuItem> getCurrentOrderItems() {
         return items;
     }
-//========================================//
-    public void setDiningMode(int dineMode) {
+//============Dining Mode===============//
+
+    public static boolean setDiningMode(int diningMode){
+        if(currentOrder.getOrderStatus() != OrderStatus.NEW && currentOrder.getOrderStatus() != OrderStatus.ORDERING){
+           return false;
+        }   
+        try{
+            Order currentOrder = Order.getCurrentOrder();
+            currentOrder.selectDiningMode(diningMode);
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    private void selectDiningMode(int dineMode) {
+        
         switch (dineMode) {
             case 1: //Dine In
                 this.diningMode = "Dine In";
@@ -82,84 +124,70 @@ public class Order implements Serializable {
             default:
                 System.out.println("Invalid Dining Mode");
         }
+        this.status = OrderStatus.ORDERING;
     }
 
     public String getDiningMode(){
         return this.diningMode;
     }
+//=============== Process Order============//
+    public static void showReceipt(){
 
-//=============Set Meal Selection=================//
-public MenuItem getSelectedItem(int menuIndex) {
-    Branch selectedBranch = branch;
-    if (menuIndex > selectedBranch.getMenu().size()) {
-        System.out.println("Menu index out of range");
-        return null;
-    }
-    return selectedBranch.getMenu().get(menuIndex);
-
-}
-
-public MenuItem getMainDish(int mainChoice) {
-    List<MenuItem> mainDishes = branch.getMenu().stream()
-                                    .filter(item -> "main".equals(item.getCategory()))
-                                    .collect(Collectors.toList());
-    if (mainChoice < 1 || mainChoice > mainDishes.size()) {
-        System.out.println("Invalid main dish selection.");
-        return null;
-    }
-    return mainDishes.get(mainChoice - 1); 
-}
-
-public MenuItem getDrink(int drinkChoice) {
-    Branch selectedBranch = this.branch;
-    List<MenuItem> menu = selectedBranch.getMenu();
-    List<MenuItem> drinks = menu.stream()
-                                    .filter(item -> item.getCategory() != "side" && item.getCategory() != "drink" && item.getCategory() != "set meal")
-                                    .collect(Collectors.toList());
-    
-    if (drinkChoice < 1 || drinkChoice > drinks.size()) {
-        System.out.println("Invalid main dish selection.");
-        return null;
-    }
-    
-    return drinks.get(drinkChoice - 1); 
-}
-
-public MenuItem getSide(int sideChoice) {
-    Branch selectedBranch = branch;
-    if (sideChoice > selectedBranch.getMenu().size()) {
-        System.out.println("Menu index out of range");
-        return null;
-    }
-    return selectedBranch.getMenu().get(sideChoice);
-}
-
-    //=========Payment Example, put here first. Using loose coupling, polymorphism=============//
-    private PaymentProcessor paymentProcessor;
-
-    public Order(PaymentProcessor paymentProcessor) {
-        this.paymentProcessor = paymentProcessor;
     }
 
-    public void processPayment(double amount) {
-        paymentProcessor.payment(amount);
+    public void caculateAmount(){
+        double payable = 0;
+        for(MenuItem item: items){
+                payable += item.getPrice() * item.getQty();
+        }
+        this.total = payable;
     }
 
-    //========== Process Order============//
-    public void confirmOrder() {
-        if (status == OrderStatus.PENDING) {
-            status = OrderStatus.PREPARING;
-            confirmedOrders.add(this); // Add to confirmed orders list
+    public static boolean checkout(){
+            //Use displayCartItems() to display cartItems\
+            if (currentOrder == null){
+                System.out.println("No order found");
+                return false;
+            }
+            boolean checkedOut = currentOrder.checkoutOrder();
+            if(checkedOut){
+                currentOrder.caculateAmount();
+                System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
+                return true;
+            }
+            return false;
+            
+            
+        
+    }
+
+    private boolean checkoutOrder(){
+        if (status == OrderStatus.ORDERING){
+            status = OrderStatus.PENDING;
+            return true; //Successful
+        }else{
+            return false; //No orders to Checkout
         }
     }
 
-    public void markReady() {
+    public boolean confirmOrder() {
+        if (status == OrderStatus.PENDING) {
+            status = OrderStatus.PREPARING;
+            confirmedOrders.add(currentOrder); // Add to confirmed orders list
+            //currentOrder = null; perhaps
+            return true; //Payment confirmed
+        }else{
+            return false;
+        }
+    }
+
+    public void markReady() {   //For STAFF
         if (status == OrderStatus.PREPARING) {
             status = OrderStatus.READY_TO_PICKUP;
         }
     }
 
-    public void markCompleted() {
+    public void markCompleted() {   //For CUSTOMER
         if (status == OrderStatus.READY_TO_PICKUP) {
             status = OrderStatus.COMPLETED;
         }
@@ -168,4 +196,62 @@ public MenuItem getSide(int sideChoice) {
     public OrderStatus getOrderStatus(){
         return this.status;
     }
+
+    //====================Serialization TESTING IN PROGRESS========================
+
+    public void serializeConfirmedOrders() {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ORDERS_FILE))) {
+            oos.writeObject(confirmedOrders); // Serialize only confirmed orders
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject(); // Serialize other fields using default serialization
+
+        //Serialize the attributes
+        out.writeInt(orderID);
+        out.writeObject(branch);
+        out.writeDouble(total);
+        out.writeObject(items);
+        out.writeObject(status);
+        out.writeObject(diningMode);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // Deserialize other fields using default deserialization
+
+        // Deserialize orderID separately
+        orderID = in.readInt();
+        branch = (Branch) in.readObject();
+        total = in.readDouble();
+        items = (List<MenuItem>) in.readObject();
+        status = (OrderStatus) in.readObject();
+        diningMode = (String) in.readObject();
+        orderIDCounter++;
+    }
+
+    public static List<Order> deserializeConfirmedOrders() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ORDERS_FILE))) {
+            List<Order> des = (List<Order>) ois.readObject();
+            return des; // Deserialize the list of confirmed orders
+        } catch (IOException | ClassNotFoundException e) {
+            if (e instanceof EOFException) {
+                System.out.println("No confirmed orders to load.");
+            } else {
+                e.printStackTrace();
+            }
+            return new ArrayList<>();
+        }
+    }
+
+    private void addShutdownSerialize() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            serializeConfirmedOrders(); // Serialize only confirmed orders
+        }));
+    }
+    
+    
+
 }

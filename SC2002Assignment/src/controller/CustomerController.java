@@ -10,7 +10,6 @@ import model.Order;
 import view.CustomerHomePageView;
 import view.OrderMenuView;
 import controller.OrderMenuController;
-
 public class CustomerController extends AController {
     private CustomerHomePageView customerHomeView = new CustomerHomePageView(this);
     private Order currentOrder;
@@ -19,7 +18,7 @@ public class CustomerController extends AController {
     private OrderMenuView orderMenuView = new OrderMenuView(this);
     private static int branchChoice;
     private Map<Branch, OrderMenuController> branchOrderMenuControllers = new HashMap<>();
-
+    private OrderMenuController selectedOMC;
     public CustomerController(List<Branch> branches) {
         this.branches = branches;
         
@@ -30,7 +29,7 @@ public class CustomerController extends AController {
         switch (page) {
             case 0: // Customer Main Menu
                 customerHomeView.renderApp(0); // Default 0
-                int choice = super.getInputInt("");
+                int choice = customerHomeView.getInputInt("");
                 if(choice > 5){ //HARDCODED, CHANGE IF NEEDED
                     System.out.println("Invalid Option");
                     this.navigate(0);
@@ -38,8 +37,8 @@ public class CustomerController extends AController {
                 this.navigate(choice);
                 break;
             
-            case 1: // Display Current Orders
-                OrderMenuController selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
+            case 1: // Display Completed Orders
+                selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     customerHomeView.displayBranchError();
                     this.navigate(0);
@@ -55,6 +54,11 @@ public class CustomerController extends AController {
                 }
                 selectedOMC.navigate(0);
                 break;
+            //======Case 3 only for Debugging Purposes, to switch from Customer to Staff=====
+            case 3:
+                
+                return;
+                
             case 9:
                 System.exit(page);
                 break;
@@ -97,7 +101,7 @@ public class CustomerController extends AController {
     private int handleBranchInput(){
         int branchChoice = -1;
         while(branchChoice < 0 || branchChoice > branches.size()-1){
-            branchChoice = super.getInputInt("Select branch:") - 1;
+            branchChoice = customerHomeView.getInputInt("Select branch:") - 1;
         }
         return branchChoice;
     }

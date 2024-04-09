@@ -1,13 +1,12 @@
 package view;
 import controller.LoginController;
-import view.abstracts.RenderView;
+import view.abstracts.ARenderView;
 
-public class LoginView extends RenderView{
+public class LoginView extends ARenderView{
     LoginController lc;
     // constructor
     public LoginView(LoginController lc){
         super();
-        //super(lc);
         this.lc = lc;
     }
 
@@ -26,6 +25,12 @@ public class LoginView extends RenderView{
             case 1:
                 credentialPrompt();
                 break;
+
+            case 2:
+                // Go back to the reset password page
+                this.lc.navigate(4);
+                break;
+
                 
             case 4:
                 this.lc.navigate(5); // go to login controller then system exit
@@ -50,13 +55,31 @@ public class LoginView extends RenderView{
         
         if(auth){
             System.out.print("You are logged in! ");
-            renderApp(4); // for now do a system exit
+            //renderApp(4); // for now do a system exit
         }
         else{
             System.out.print("Retry again! ");
-            //this.lc.navigate(0); // goes back to loginController to prompt again
         }
     }
+
+
+    public void updated(boolean upToDate){
+        if(upToDate){
+            System.out.print("Password updated successfully ");
+            this.lc.navigate(0); // goes back to loginController to prompt again
+        }
+        else{
+            // Go back to the reset password page
+            System.out.print("Password does not match ");
+            renderApp(2);
+        }
+    }
+
+    public void displayInvalidAcc(){
+        System.out.println("Invalid StaffID or Password!");
+        super.delay(2);
+    }
+
 
     @Override
     public void renderChoice(){

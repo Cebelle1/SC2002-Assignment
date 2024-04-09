@@ -1,68 +1,81 @@
 package controller;
+
 import java.util.List;
 
-import model.Staff;
-import model.StaffCategory;
+import model.EmployeeHandler;
+import model.abstracts.AEmployee;
 
 public class AuthenticationController {
-    int loginAttempt = 3;
-    LoginController loginC;
-    private List<StaffCategory> staffs;
-    private String role;
-    boolean cd = false;
+    private int loginAttempt = 3;
+    private LoginController loginC;
+    private List<EmployeeHandler> roleCategories;
+    private boolean cd = false;
 
     // constructor
-    public AuthenticationController(LoginController loginC, List<StaffCategory> staffs){
-        this.loginC = loginC;
-        this.staffs = staffs;
+    public AuthenticationController(LoginController lc, List<EmployeeHandler> roleCategories) {
+        this.loginC = lc;
+        this.roleCategories = roleCategories;
     }
 
-    public boolean isUnderCooldown(){
+    public boolean isUnderCooldown() {
         return this.cd;
     }
 
-    // staffRole: 3 -> Staff login, 2 -> Manager, 1 -> Admin
     // checking if the password and staffID matches with the data
-    public boolean authenticate(String password, String id, int staffRole){
+    /*
+     * public boolean authenticate(String password, String id, String staffRole){
+     * for (RoleCategory roleCategory : roleCategories) {
+     * List<AEmployee> employees = roleCategory.getAllEmployees();
+     * for (AEmployee employee : employees) {
+     * if (staffRole.equals(employee.getRole()) &&
+     * id.equals(employee.getStaffID()) &&
+     * password.equals(employee.getPassword())) {
+     * // Set current user
+     * loginC.setCurrentUser(employee);
+     * return true;
+     * }
+     * }
+     * }
+     * return false; // no such staff located
+     * }
+     */
 
-        for (int i = 0; i < staffs.size(); i++) {
-            StaffCategory staffCategory = staffs.get(i);
-            String role = staffCategory.getRole(); // Retrieve the role of the staff category
-            List<Staff> staffList = staffCategory.getStaff(); // Retrieve the list of staff members in this category
-            
-            System.out.println("Role: " + role);
-            for (Staff staff : staffList){
-                // Access properties of each staff member
+    public boolean authenticate(String password, String id, String staffRole) {
+        AEmployee authEmployee = checkAccData(password, id, staffRole);
+        if (authEmployee != null) {
+            loginC.setCurrentUser(authEmployee);
+            return true;
+        }
+        return false;
 
-                // admin
-                if(staffRole == 1 && role.equals("A")){
-                    if(id.equals(staff.getStaffID())&& password.equals(staff.getPassword())){
-                        // set current user
-                        loginC.setCurrentUser(staff);
-                        return true;
+    }
+
+    private AEmployee checkAccData(String password, String id, String staffRole) {
+        for (EmployeeHandler roleCategory : roleCategories) { // one piece to a row of roleCategories
+            List<AEmployee> employees = roleCategory.getAllEmployeesByRole();
+            for (AEmployee employee : employees) {
+                if (staffRole != "") { // If known staffRole, for login Auth
+                    if (staffRole.equals(employee.getRole()) &&
+                            id.equals(employee.getStaffID()) &&
+                            password.equals(employee.getPassword())) {
+                        return employee;
                     }
-                }
-
-                // manager
-                if(staffRole == 2 && role.equals("M")){
-                    if(id.equals(staff.getStaffID())&& password.equals(staff.getPassword())){
-                        // set current user
-                        loginC.setCurrentUser(staff);
-                        return true;
-                    }
-                }
-
-                // staff
-                if(staffRole == 3 && role.equals("S")){
-                    if(id.equals(staff.getStaffID())&& password.equals(staff.getPassword())){
-                        // set current user
-                        loginC.setCurrentUser(staff);
-                        return true;
+                } else { // Unknown staff role, for resetting pw
+                    if (id.equals(employee.getStaffID()) &&
+                            password.equals(employee.getPassword())) {
+                        return employee;
                     }
                 }
             }
         }
-        return false; // no such staff located
+        return null; // no such staff located
     }
 
+    public boolean checkAccExist(String id, String password) {
+        AEmployee authEmployee = checkAccData(password, id, "");
+        if (authEmployee != null) {
+            return true;
+        }
+        return false;
+    }
 }
