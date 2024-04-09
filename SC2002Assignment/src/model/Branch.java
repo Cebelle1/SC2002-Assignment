@@ -33,6 +33,10 @@ public class Branch {
         menu.add(menuItem);
     }
 
+    public void removeMenuItem(MenuItem menuItem){
+        menu.remove(menuItem);
+    }
+
     public void setEmployees(List<AEmployee> branchAEmployees){
         this.employees = branchAEmployees;
     }

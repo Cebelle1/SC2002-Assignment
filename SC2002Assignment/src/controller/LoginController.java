@@ -15,9 +15,11 @@ public class LoginController extends AController {
     AuthenticationController authentication;
     private List<EmployeeHandler> allStaffList;
     private static boolean loggedIn;
+
     ResetPassword reset;
     AdminController adminController;
     StaffController staffController;
+    ManagerController managerController;
 
     public LoginController(List<EmployeeHandler> allStaffList) {
         this.authentication = new AuthenticationController(this, allStaffList); // Constructor Injection, tight coupling
@@ -97,6 +99,15 @@ public class LoginController extends AController {
 
             case 2: // login manager
                 loggedIn = handleLogin(page);
+                if(loggedIn == true)
+                {
+                    managerController = new ManagerController(this.currentUser);
+                    managerController.navigate(0);
+                }
+                else
+                {
+                    this.navigate(0);
+                }
                 break;
 
             case 3: // login staff
@@ -128,7 +139,6 @@ public class LoginController extends AController {
                     loginView.displayInvalidAcc();
                     navigate(0);
                 }
-
                 break;
 
             case 5:
