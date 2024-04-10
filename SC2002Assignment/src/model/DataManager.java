@@ -294,39 +294,40 @@ public class DataManager {
         }
     }
 
-    // public static void editItemPrice(String name, double price){
-    // String filePath = "menu_list.txt";
-    // try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-    // BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
-    // String line;
-    // while((line = br.readLine()) != null){
-    // String[] parts = line.split("\t");
-    // if(parts.length == 4 && parts[0].equals(name)){
-    // sb.append(price);
-    // parts[1] = sb.toString();
-    // line = String.join("\t", parts);
-    // }
+    public static void editItemPrice(String name, double price) {
+        String filePath = "menu_list.txt";
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length == 4 && parts[0].equals(name)) {
+                    StringBuffer sb = new StringBuffer();
+                    sb.append(price);
+                    parts[1] = sb.toString();
+                    line = String.join("\t", parts);
+                }
 
-    // bw.write(line);
-    // bw.newLine();
-    // }
-    // } catch(IOException e){
-    // System.err.println("Error updating the item name: " + e.getMessage());
-    // }
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the item name: " + e.getMessage());
+        }
 
-    // // Update the new staff list file
-    // File original = new File(filePath);
-    // File tempFile = new File("temp.txt");
+        // Update the new staff list file
+        File original = new File(filePath);
+        File tempFile = new File("temp.txt");
 
-    // Path originalPath = Paths.get(original.getPath());
-    // Path tempPath = Paths.get(tempFile.getPath());
+        Path originalPath = Paths.get(original.getPath());
+        Path tempPath = Paths.get(tempFile.getPath());
 
-    // try{
-    // Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-    // } catch(IOException e){
-    // System.err.println("Error updating the file: " + e.getMessage());
-    // }
-    // }
+        try {
+            Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.err.println("Error updating the file: " + e.getMessage());
+        }
+    }
 
     // ======================================ADMIN
     // EDITS===========================================
