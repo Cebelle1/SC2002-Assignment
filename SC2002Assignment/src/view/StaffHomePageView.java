@@ -12,7 +12,7 @@ public class StaffHomePageView extends ARenderView{
     }
 
     @Override
-    public void renderApp(int selection) {
+    public void renderApp(int selection){
 
         renderChoice();
 
@@ -32,7 +32,7 @@ public class StaffHomePageView extends ARenderView{
 
             // view details of orders
             case 2:
-                System.out.println("Details of Current Orders");
+                System.out.println("Details of Current Order");
                 break;
 
             // processing orders
@@ -40,16 +40,24 @@ public class StaffHomePageView extends ARenderView{
                 System.out.println("Process Order: ");
                 System.out.println("(1) Select Order ");
                 System.out.println("(2) Update order status ");
+                System.out.println("(3) Back to Staff Main View");
                 break;
             case 4:
                 break;
         }
     }
 
+    public void displayingOrderView(int orderID){
+        System.out.printf("Order ID: %d\n", orderID); // print the orderID
+        System.out.printf("   Name - Quantity\n");
+        System.out.printf(" ---------------------------------------\n");
+
+    }
 
     @Override
     public void renderChoice(){
         // to print the borders -> override the superclass method
-        super.printBorder("Staff View");
+        super.printBorder("Staff Main Page");
     }
+
 }
