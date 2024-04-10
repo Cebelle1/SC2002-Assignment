@@ -1,7 +1,9 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import controller.StaffController;
 import model.abstracts.AEmployee;
 import model.menus.MenuItem;
 import model.menus.SetMealCategory;
@@ -9,53 +11,108 @@ import view.OrderView;
 
 public class StaffRole extends AEmployee{
 
-    private Order orders = new Order();
-    private List<Order> order;
+    //private Order orders = new Order();
+    private List<Order> orders;
     private OrderView orderV = new OrderView();
+    private StaffController staffc;
     
     public StaffRole(String Name, String StaffID, String Role, String Gender,int Age, String Branch, String Password){
         super(Name, StaffID, Role, Gender,Age, Branch, Password);
     }
 
-    // display new orders -> only the PREPARING one
-    public List<Order> displayOrders(){
-        return order;
+    // filter orders by branch -> (1) displaying orders
+    // Just displaying the order numbers
+    public void displayOrders(){
+        orders = filterOrderByBranch();
+        for(Order order : orders){
+            System.out.printf("Order ID: %d\n", order.getOrderID()); // print the orderID
+        }
     }
 
+
     // view details
-    public List<Order> viewDetails(){
-        return order;
+    public void viewDetails(int orderID){
+        orders = filterOrderByBranch();
+
+        try{
+            for(Order order : orders){
+                List<MenuItem> items = order.getCurrentOrderItems();
+                if(orderID == (order.getOrderID())){
+                    for(MenuItem item : items){
+                        System.out.printf("%2s %s - %d\n", "",item.getName(), item.getQty()); // get the menu name and qty
+                        if ("set meal".equals(item.getCategory())) {
+                            SetMealCategory setMeal = (SetMealCategory) item.getSetMeal(); // type casting
+                            System.out.printf("%8s > Main: %s\n", "", setMeal.getMainDish().getName());
+                            System.out.printf("%8s > Side: %s\n", "", setMeal.getSideDish().getName());                            
+                            System.out.printf("%8s > Drink: %s\n", "", setMeal.getDrink().getName());   
+                        }
+                        System.out.printf("%2s Order customizations: %s" , "",item.getComments()); // get the comments
+                    }
+                }
+            }
+        }
+
+        catch (Exception e){
+            // null exception pointer -> there is no confirmed orders
+            System.out.println("There is no orders currently...");
+        }
     }
 
     // process orders
-    public List<Order> processOrder(){
+    public boolean processOrder(int orderID){
         // call markReady() in Order.java after processing the order
-        return order;
-    }
-
-    // filter orders by branch
-    public List<Order> filterOrdersByBranch(){
-        List<Order> confirmedOrders = Order.getConfirmedOrders(); // get the orders
-        // Iterate over each order and print its details
-        for (Order order : confirmedOrders) {
-            List<MenuItem> items= order.getCurrentOrderItems();
-            System.out.printf("Order ID: %d ", order.getOrderID());
-            for(MenuItem item : items){
-                System.out.println(item.getName());
-                if ("set meal".equals(item.getCategory())) {
-                    SetMealCategory setMeal = (SetMealCategory) item.getSetMeal();
-                    System.out.printf("%8s > Main: %s\n", "", setMeal.getMainDish().getName());
-                    System.out.printf("%8s > Side: %s\n", "", setMeal.getSideDish().getName());
-                    System.out.printf("%8s > Drink: %s\n", "", setMeal.getDrink().getName());
-
-                    
-                }
+        orders = filterOrderByBranch();
+        for(Order order : orders){
+            if(order.getOrderID() == orderID){
+                System.out.println(order.getOrderStatus());
+                // that particular order will be marked as ready
+                order.markReady();
+                System.out.println(order.getOrderStatus());
+                return true;
             }
-            
         }
-        return order;
+        return false;
     }
 
-    //add your staff responsibility here, i.e display new order, view deta2il process order. 
-    //for display new order, i am working on the visiblity of the orders. 
+
+    // Filter orders by branch
+    public List<Order> filterOrderByBranch(){
+
+        // get the confirmed orders
+        List<Order> confirmedOrders = Order.getConfirmedOrders();
+
+        // get the branch staff is working at
+        String branch = this.getBranch();
+
+        // create a new array list to store the orders by staff's branch
+        List<Order> ordersByBranch = new ArrayList<>();
+
+        // iterate through the orders to get the orders from the right branch
+        for(Order orders : confirmedOrders){
+            List<MenuItem> items = orders.getCurrentOrderItems();
+            // need to get the specific branch staff is working at
+                for(MenuItem item : items){
+                    if(item.getBranch().equals(branch)){
+                        ordersByBranch.add(orders);
+                        break;
+                    }
+                }
+        }
+        return ordersByBranch;
+    }
+
+    // check if such orderID exists first
+    public boolean checkOrderID(int orderID){
+
+        orders = filterOrderByBranch();
+
+        for(Order order : orders){
+            if(orderID == order.getOrderID()){
+                return true;
+            }
+        }
+        return false; //default
+
+    }
+
 }

@@ -2,6 +2,7 @@ package view.abstracts;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
 import view.interfaces.ViewInterface;
 
 public abstract class ARenderView implements ViewInterface{
