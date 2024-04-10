@@ -33,11 +33,11 @@ public class ManagerController extends AController {
             case 0:
                 // Manager Main Page
                 // Load the branch when the manager logs in successfully such that all methods in the ManagerRole can access the same branch
-                area = manager.loadBranches();
-                System.out.println(area.getName());
+                //area = manager.loadBranches();
+                //System.out.println(area.getName());
                 managerView.renderApp(0);
                 int choice  = managerView.getInputInt("");
-                if(choice > 4){
+                if(choice > 3){
                     System.out.println("Invalid Option");
                     this.navigate(0);
                 }
@@ -62,46 +62,68 @@ public class ManagerController extends AController {
                 // Edit Menu Item
                 managerView.renderApp(1);
                 int option  = managerView.getInputInt("");
-                if(option > 3){
+                if(option > 4){
                     System.out.println("Invalid Option");
                     // Go back to Edit menu list
                     managerView.renderApp(1);
                 }
                 editMenu(option);
                 break;
+
+            case 4:
+                // Load the branch when the manager logs in successfully such that all methods in the ManagerRole can access the same branch
+                area = manager.loadBranches();
+                System.out.println(area.getName());
+                this.navigate(0);
+                break;
         }
     }
 
     public void editMenu(int selection){
+        boolean found = false;
         switch(selection){
             case 1:
                 // Add new item
-                //menuItem = promptInput();
                 String newItem = managerView.getInputString("Enter the name of new item: ");
-                double cost = Double.parseDouble(managerView.getInputString("Enter the price of the item: "));
-                String category = managerView.getInputString("Enter the category it belongs to: ");
-                String branch = area.getName();
-                MenuItem menuItem = new MenuItem(newItem, cost, branch, category);
-                manager.addItem(menuItem, area);
-                //managerView.renderApp(2);
-                this.navigate(3);
+                found = manager.itemAvailable(newItem, area);
+                // Item not in the menu list
+                if(found == false)
+                {
+                    double cost = Double.parseDouble(managerView.getInputString("Enter the price of the item: "));
+                    String category = managerView.getInputString("Enter the category it belongs to: ");
+                    String branch = area.getName();
+                    MenuItem menuItem = new MenuItem(newItem, cost, branch, category);
+                    manager.addItem(menuItem, area);
+                    this.navigate(3);
+                }
+                // Item in menu list
+                else
+                {
+                    // Set flag back to false in case it was true in other cases
+                    //found = false;
+                    this.navigate(3);
+                }
                 break;
 
             case 2:
                 // Remove menu item
-                //menuItem = promptInput();
                 String itemToRemove = managerView.getInputString("Enter the item name to remove: ");
-                manager.removeItem(itemToRemove, area);
-                //managerView.renderApp(2);
-                this.navigate(3);
+                found = manager.itemAvailable(itemToRemove, area);
+                if(found == true)
+                {
+                    manager.removeItem(itemToRemove, area);
+                    this.navigate(3);
+                }
+                else
+                {
+                    //found = false;
+                    this.navigate(3);
+                }
+               
                 break;
 
             case 3:
                 // Edit menu item name
-                // String oldName = managerView.getInputString("Enter old name: ");
-                // String editName = managerView.getInputString("Enter new name: ");
-                // manager.editItemName(oldName, editName, area);
-                // this.navigate(3);
                 managerView.renderApp(2);
                 int option  = managerView.getInputInt("");
                 if(option > 3){
@@ -111,30 +133,55 @@ public class ManagerController extends AController {
                 }
                 editFeatures(option);
                 break;
+
+            case 4:
+                // Go back to Manager Home Page
+                this.navigate(0);
+                break;
         }
     }
 
     public void editFeatures(int choice){
+        boolean found = false;
         switch(choice){
             case 1: 
                 // Edit item name
                 String oldName = managerView.getInputString("Enter old name: ");
-                String editName = managerView.getInputString("Enter new name: ");
-                manager.editItemName(oldName, editName, area);
-                this.navigate(3);
+                found = manager.itemAvailable(oldName, area);
+                if(found == true)
+                {
+                    String editName = managerView.getInputString("Enter new name: ");
+                    manager.editItemName(oldName, editName, area);
+                    this.editMenu(3);
+                }
+                else
+                {
+                    //found = false;
+                    this.editMenu(3);
+                }
                 break;
 
             case 2:
                 // Edit item price
                 String name = managerView.getInputString("Enter item name: ");
-                double cost = Double.parseDouble(managerView.getInputString("Enter the new price: ")); 
-                manager.editItemPrice(name, cost, area);
+                found = manager.itemAvailable(name, area);
+                if(found == true)
+                {
+                    double cost = Double.parseDouble(managerView.getInputString("Enter the new price: ")); 
+                    manager.editItemPrice(name, cost, area);
+                    this.editMenu(3);
+                }
+                else
+                {
+                    //found = false;
+                    this.editMenu(3);
+                }
+                break;
+
+            case 3:
+                // Go back to Edit Menu List
                 this.navigate(3);
                 break;
         }
     }
-
-
-
-
 }

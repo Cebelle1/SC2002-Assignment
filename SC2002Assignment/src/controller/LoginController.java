@@ -102,7 +102,7 @@ public class LoginController extends AController {
                 if(loggedIn == true)
                 {
                     managerController = new ManagerController(this.currentUser);
-                    managerController.navigate(0);
+                    managerController.navigate(4);
                 }
                 else
                 {
