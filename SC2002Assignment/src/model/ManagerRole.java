@@ -45,21 +45,21 @@ public class ManagerRole extends StaffRole{
 
     // Add menu item 
     public void addItem(MenuItem itemName, Branch selectedBranch){
-        //System.out.println(selectedBranch.getName());
         selectedBranch.addMenuItem(itemName);
         // Update the menu list
         DataManager.addItemToMenu(itemName);
-        System.out.println("New item added to menu");
+        System.out.println("New item added to menu!"); 
     }
 
     // Remove menu item
     public void removeItem(String itemName, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
         for(MenuItem item : menu){
-            if(item.getRawName().equals(itemName)){
+            if(item.getRawName().equals(itemName) && item.getBranch().equals(selectedBranch.getName())){
                 selectedBranch.removeMenuItem(item);
+                // Update the menu list
                 DataManager.removeItemFromMenu(item);
-                System.out.println("Item removed");
+                System.out.println("Item removed!");
                 break;
             }
         }
@@ -69,10 +69,10 @@ public class ManagerRole extends StaffRole{
     public void editItemName(String oldName, String itemName, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
         for(MenuItem item : menu){
-            // Check if item was in the list before editing
-            if(oldName.equals(item.getRawName()))
+            if(oldName.equals(item.getRawName()) && item.getBranch().equals(selectedBranch.getName()))
             {
                 // Edit name
+                item.setRawName(itemName);
                 DataManager.editItemName(oldName, itemName);
                 System.out.println("Item name edited");
                 break;
@@ -85,13 +85,29 @@ public class ManagerRole extends StaffRole{
     public void editItemPrice(String itemName, double price, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
         for(MenuItem item : menu){
-            if(item.getRawName().equals(itemName)){
+            if(item.getRawName().equals(itemName) && item.getBranch().equals(selectedBranch.getName())){
 
                 // Edit price
+                item.setPrice(price);
                 DataManager.editItemPrice(itemName, price);
                 System.out.println("Price edited");
                 break;
             }
         }
+    }
+
+    // Check if item is in the menu list
+    public boolean itemAvailable(String itemName, Branch selectedBranch){
+        List<MenuItem> menu = selectedBranch.getMenu();
+        for(MenuItem item : menu){
+            if(item.getRawName().equals(itemName) && item.getBranch().equals(selectedBranch.getName()))
+            {
+                //System.out.println("Item exists");
+                return true;
+            }
+        }
+        // Item not in the list
+        //System.out.println("Item not in menu list!");
+        return false;
     }
 }

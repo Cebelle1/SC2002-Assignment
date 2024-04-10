@@ -23,7 +23,7 @@ public class ManagerHomePageView extends ARenderView{
                 // Manager Main Page
                 renderChoice();
                 int choice  = super.getInputInt("");
-                if(choice > 4){
+                if(choice > 3){
                     System.out.println("Invalid Option");
                     this.renderApp(0);;
                 }
@@ -45,7 +45,7 @@ public class ManagerHomePageView extends ARenderView{
                 // What to edit
                 renderEdit();
                 int edit  = super.getInputInt("");
-                if(edit > 2){
+                if(edit > 3){
                     System.out.println("Invalid Option");
                     this.renderApp(2);;
                 }
@@ -67,12 +67,14 @@ public class ManagerHomePageView extends ARenderView{
         System.out.println("(1) Add new item");
         System.out.println("(2) Remove menu item");
         System.out.println("(3) Edit menu item");
+        System.out.println("(4) Back to Manager Home Page");
     }
 
     public void renderEdit(){
         super.printBorder("What to edit");
         System.out.println("(1) Item name");
         System.out.println("(2) Item price");
+        System.out.println("(3) Back to Edit Menu List");
     }
 
     public void displayBranchStaff(List<AEmployee> employees){
