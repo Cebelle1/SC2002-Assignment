@@ -9,3 +9,4 @@ pepsi	2.1	JE	drink
 coffee	1	NTU	drink
 Spaghetti	2	NTU	pasta
 cheeseburger	1.5	NTU	burger
+chicken	6.0	JP	food    
