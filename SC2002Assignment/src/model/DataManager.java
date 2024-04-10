@@ -302,6 +302,7 @@ public class DataManager {
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
                     if(parts.length == 4 && parts[0].equals(name)){
+                        StringBuffer sb = new StringBuffer();
                         sb.append(price);
                         parts[1] = sb.toString();
                         line = String.join("\t", parts);
