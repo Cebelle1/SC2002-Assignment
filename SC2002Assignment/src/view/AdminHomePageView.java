@@ -32,7 +32,11 @@ public class AdminHomePageView extends ARenderView {
                 renderChoiceFilterDisplay();
                 break;
             case 3:
+                addStaffAccountDisplay();
+                break;
 
+            case 10: // error handling
+                errorintinput();
                 break;
 
         }
@@ -41,7 +45,7 @@ public class AdminHomePageView extends ARenderView {
     public void renderChoice() {
         super.printBorder("Admin Home Page View");
         System.out.println("(1) Edit Staff Accounts");
-        System.out.println("(2) Display All Staff List");
+        System.out.println("(2) Display Staff List");
         System.out.println("(3) Assign Managers");
         System.out.println("(4) Promotion");
         System.out.println("(5) Transfer Staff");
@@ -67,10 +71,14 @@ public class AdminHomePageView extends ARenderView {
 
     public void renderChoiceEdit() {
         super.printBorder("Edit Staff Accounts");
-        System.out.println("Select Branch staff is from: ");
-        System.out.println("(1) JP");
-        System.out.println("(2) JE");
-        System.out.println("(3) NTU");
+        System.out.println("(1) Add Staff Account");
+        System.out.println("(2) Remove Staff Account");
+        System.out.println("(3) Edit Staff Account");
+    }
+
+    public void addStaffAccountDisplay() {
+        super.printBorder("Edit Staff Accounts");
+        System.out.println("Enter New Staff Info");
     }
 
     // ==================Display Staff List With filter
@@ -90,19 +98,21 @@ public class AdminHomePageView extends ARenderView {
 
     // display filtered by (branch,role,gender.age)
     public void printFilterStaff(List<AEmployee> printfiltered) {
-        System.out.println("Role Gender Branch  Age Name");
+        System.out.println("Name    StaffID    Role     Gender    Age    Branch     Password");
         for (AEmployee test : printfiltered) {
             // for now print age with name!Later can change to printing all attribute of
             // employee
-            System.out.println(test.getRole() + " " + test.getGender() + " " + test.getBranch() + " " + test.getAge()
-                    + " " + test.getName()
-                    + " " + test.getRole());
+            System.out.println(test.getName() + " " + test.getStaffID() + " " + test.getRole() + " " + test.getGender()
+                    + " " + test.getAge()
+                    + " " + test.getPassword());
 
         }
+        super.delay(10);
     }
 
     public void errorintinput() {
         System.out.println("Invalid choice, please enter a valid number");
+        System.out.println(" ");
     }
 
 }
