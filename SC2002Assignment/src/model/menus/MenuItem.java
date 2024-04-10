@@ -44,8 +44,16 @@ public class MenuItem implements Serializable{
         return formatPrice(this.price);
     }
 
+    public void setPrice(double price){
+        this.price = price;
+    }
+
     public String getRawName(){
         return this.name;
+    }
+
+    public void setRawName(String name){
+        this.name = name;
     }
 
     public String getName(){

@@ -73,6 +73,7 @@ public class ManagerRole extends StaffRole{
             if(oldName.equals(item.getRawName()))
             {
                 // Edit name
+                item.setRawName(itemName);
                 DataManager.editItemName(oldName, itemName);
                 System.out.println("Item name edited");
                 break;
@@ -88,6 +89,7 @@ public class ManagerRole extends StaffRole{
             if(item.getRawName().equals(itemName)){
 
                 // Edit price
+                item.setPrice(price);
                 DataManager.editItemPrice(itemName, price);
                 System.out.println("Price edited");
                 break;
