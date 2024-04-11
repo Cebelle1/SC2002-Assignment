@@ -29,9 +29,15 @@ public class Branch {
     public static void setOpenBranches(List<Branch> branches){
         openBranches = branches;
     }
-
-    public static List<Branch>  getOpenBranches(){
+    
+    public static List<Branch> getOpenBranches(){
         return openBranches;
+    }
+
+    public static List<Branch> getClosedBranches(){
+        List<Branch> closedBranches = new ArrayList<>(allBranches);
+        closedBranches.removeAll(openBranches);
+        return closedBranches;
     }
 
     public List<MenuItem> getMenu() {

@@ -136,7 +136,7 @@ public abstract class ARenderView implements ViewInterface{
             System.out.println(prompt);
         }
         try {
-            int input = sc.nextInt();
+            double input = sc.nextDouble();
             sc.nextLine();    
             return input;
             

@@ -103,7 +103,6 @@ public class BranchDataManager {
                         boolean canOpen = branch.getEmployees().size() >= staffQuota;
                         branch.setOperation(canOpen);
                         
-                        
                         if (canOpen) {
                             openBranches.add(branch);
                         }
@@ -169,6 +168,43 @@ public class BranchDataManager {
             roleCategories.add(roleCategory);
         }
         return roleCategories;
+    }
+
+    private static String filePath = "branch_list.txt";
+
+    public static void updateBranchList(Branch branch) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+             BufferedWriter bw = new BufferedWriter(new FileWriter("temp_branch.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length == 4 && parts[0].equals(branch.getName())) {
+                    // Update the operation status
+                    parts[3] = branch.getOperation() ? "open" : "close";
+                    line = String.join("\t", parts);
+                }
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the branch list file: " + e.getMessage());
+        }
+
+        // Replace the original file with the updated one
+        File original = new File(filePath);
+        File tempFile = new File("temp_branch.txt");
+
+        Path originalPath = Paths.get(original.getPath());
+        Path tempPath = Paths.get(tempFile.getPath());
+
+        try {
+            Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.err.println("Error replacing the branch list file: " + e.getMessage());
+        }
+        List<Branch> openBranches = Branch.getOpenBranches();
+        openBranches.remove(branch); // Remove the branch from the list
+        Branch.setOpenBranches(openBranches);
     }
 
     

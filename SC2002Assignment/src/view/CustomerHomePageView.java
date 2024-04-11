@@ -8,10 +8,8 @@ import model.Order;
 import view.OrderMenuView;
 
 public class CustomerHomePageView extends ARenderView{
-    CustomerController custCon;
     
-    public CustomerHomePageView(CustomerController custController){
-        this.custCon=custController;
+    public CustomerHomePageView(){
     }
 
     @Override
@@ -19,12 +17,7 @@ public class CustomerHomePageView extends ARenderView{
         switch(selection){
             case 0: //Render the option
                 renderChoice();
-                
                 break;
-            //case 1:
-              //  displayBranch();
-                
-                //break;
         }
     }
 
@@ -35,21 +28,4 @@ public class CustomerHomePageView extends ARenderView{
         System.out.println("(2) Place a New Order");
     }
 
-    public void displayBranch(List<Branch> branches){
-        super.printBorder("Logged in as Customer > Select Branch");
-        int i=0;
-        for(Branch branch: branches){
-            if(branch.getOperation()==true){
-                System.out.println("(" + (i + 1) + ") " + branches.get(i).getName());
-                i++;
-            }
-        }
-        
-    }
-
-
-    public void displayBranchError(){
-        System.out.println("Please select branch first");
-        delay(2);
-    }
 }

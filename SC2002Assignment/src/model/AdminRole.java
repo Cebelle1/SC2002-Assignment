@@ -1,6 +1,8 @@
 package model;
 
 import model.payments.*;
+import view.AdminHomePageView;
+import view.BranchView;
 
 import java.util.List;
 
@@ -56,12 +58,14 @@ public class AdminRole extends AEmployee {
     public List<AEmployee> EmpFilterByAge(int min, int max) {
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
         EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
-        List<AEmployee> filterbyage = empfilter.filterEmployeesByAgeRange(min, max);
+        List<AEmployee> filterbyage = empfilter.filterEmployeesByAgeRange(min, max);  //TO DO: either change the method in class to static or change this line to non-static
         return filterbyage;
 
     }
 
+
     public List<AEmployee> EmpFilterByBranch(int inputBranch) {
+        //TO DO: change the selection to dynamic. you need to account for new branches. refer to CustomerCon case 10 
         String inputStrBranch;
         if (inputBranch == 1) {
             inputStrBranch = "JP";
@@ -72,7 +76,7 @@ public class AdminRole extends AEmployee {
         }
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
         EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
-        List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputStrBranch);
+        List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputStrBranch); //TO DO: either change the method in class to static or change this line to non-static
         return filterbyBranch;
     }
 
@@ -100,8 +104,23 @@ public class AdminRole extends AEmployee {
 
     }
 
-    // Not tested, designing.
+    // TO DO: the actual function works in your AdminController, just organize it.
     public void addPaymentMethod(String type) {
         IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod("MasterCardPayment");
+    }
+
+    
+    public void closeOpenedBranch(List<Branch> openedBranch, int closeBranchChoice){
+        
+        Branch closingBranch = openedBranch.get(closeBranchChoice);
+        closingBranch.setOperation(false);
+        // Update the branch list file with the new operation status
+        BranchDataManager.updateBranchList(closingBranch);
+
+  
+    }
+
+    public void openClosedBranch(){
+
     }
 }

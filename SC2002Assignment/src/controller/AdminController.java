@@ -4,7 +4,9 @@ import java.util.List;
 
 import controller.abstracts.AController;
 import view.AdminHomePageView;
+import view.BranchView;
 import model.AdminRole;
+import model.Branch;
 import model.EmployeeHandler;
 import model.StaffRole;
 import model.abstracts.AEmployee;
@@ -15,6 +17,7 @@ import model.payments.PaymentMethodFactory;
 //====
 public class AdminController extends AController {
     private AdminHomePageView adminHomePageView = new AdminHomePageView(this);
+    private BranchView branchV = new BranchView();
     private AdminRole adminRole;
     private AEmployee currentuser;
     int inputBranch;
@@ -74,6 +77,9 @@ public class AdminController extends AController {
                 break;
 
             case 7: // Manage Branch
+                adminHomePageView.renderManageBranch();
+                int manageBranch = adminHomePageView.getInputInt("Choose an option");
+                manageBranch(manageBranch);
                 break;
 
         }
@@ -185,4 +191,17 @@ public class AdminController extends AController {
 
     }
 
+    //======
+    public void manageBranch(int choice){
+        switch(choice){
+            case 1:
+                adminRole.openClosedBranch();
+                break;
+            case 2:
+                List<Branch> openedBranch = Branch.getOpenBranches();
+                branchV.displayOpenBranch(openedBranch, true);
+                int closeBranchChoice = adminHomePageView.getInputInt("Which branch do you want to close?");
+                adminRole.closeOpenedBranch(openedBranch, closeBranchChoice-1);
+        }
+    }
 }

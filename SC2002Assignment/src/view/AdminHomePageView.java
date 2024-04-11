@@ -34,6 +34,8 @@ public class AdminHomePageView extends ARenderView {
             case 3:
                 addStaffAccountDisplay();
                 break;
+            case 7:
+                renderManageBranch();
 
             case 10: // error handling
                 errorintinput();
@@ -108,6 +110,13 @@ public class AdminHomePageView extends ARenderView {
 
         }
         super.delay(10);
+    }
+
+    public void renderManageBranch(){
+        super.printBorder("Manage Branch");
+        System.out.println("(1) Open a closed branch");
+        System.out.println("(2) Close a opened branch");
+        System.out.println("(3) Open a new branch");
     }
 
     public void errorintinput() {

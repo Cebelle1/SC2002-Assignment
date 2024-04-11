@@ -7,11 +7,13 @@ import java.util.Map;
 import controller.abstracts.AController;
 import model.Branch;
 import model.Order;
+import view.BranchView;
 import view.CustomerHomePageView;
 import view.OrderMenuView;
 import controller.OrderMenuController;
 public class CustomerController extends AController {
-    private CustomerHomePageView customerHomeView = new CustomerHomePageView(this);
+    private CustomerHomePageView customerHomeView;
+    private BranchView branchV;
     private Order currentOrder;
     private List<Order> orders = new ArrayList<>();
     private List<Branch> branches; // Ensure that this list is populated with branches containing menu items
@@ -40,7 +42,7 @@ public class CustomerController extends AController {
             case 1: // Display Completed Orders
                 selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
-                    customerHomeView.displayBranchError();
+                    branchV.displayBranchError();
                     this.navigate(0);
                 }
                 selectedOMC.displayOrderStatus();
@@ -49,7 +51,7 @@ public class CustomerController extends AController {
             case 2: // Edit Order
                 selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
-                    customerHomeView.displayBranchError();
+                    branchV.displayBranchError();
                     this.navigate(0);
                 }
                 selectedOMC.navigate(0);
@@ -63,7 +65,7 @@ public class CustomerController extends AController {
                 System.exit(page);
                 break;
             case 10: // Select Branch [Startup should come here first]
-                customerHomeView.displayBranch(branches);
+                branchV.displayOpenBranch(branches, false);
                 branchChoice = handleBranchInput();
                 Branch selectedBranch = branches.get(branchChoice);
                 OrderMenuController omc = branchOrderMenuControllers.get(selectedBranch);
