@@ -29,8 +29,11 @@ public class StaffController extends AController{
             // main staff page
             case 0:
                 staffView.renderApp(0); // displays what the staff can do
+                if(this.user.getRole().equals("M")){
+                    System.out.println("(4) Back to Manager Home Page");
+                }
                 int choice = staffView.getInputInt(""); // gets the input
-                if(choice > 4){
+                if(choice > 5){
                     System.out.println("Invalid Option");
                     this.navigate(0);
                 }
@@ -94,12 +97,24 @@ public class StaffController extends AController{
                     }
                 }
                 break;
-
-            // exit
+            
+            // navigate back to Manager Side
             case 4:
+                if(this.user.getRole().equals("M")){
+                    ManagerController mangC = new ManagerController(user);
+                    mangC.navigate(0);
+                }
+                else{
+                    System.out.println("Invalid Option");
+                    this.navigate(0);
+                }
+                break;
+                
+            // exit
+            case 5:
                 break;
 
         }
-    }
+    } // end of navigate method
     
 }
