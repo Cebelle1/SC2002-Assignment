@@ -49,6 +49,10 @@ public class Order implements Serializable {
         this.branch = branch;
         addShutdownSerialize();
     }
+    
+    public Branch getBranch(){
+        return this.branch;
+    }
 
     public void newOrder(Order order){
         order.orderID = ++orderIDCounter;
@@ -154,9 +158,6 @@ public class Order implements Serializable {
                 return true;
             }
             return false;
-            
-            
-        
     }
 
     private boolean checkoutOrder(){
@@ -194,8 +195,6 @@ public class Order implements Serializable {
     public OrderStatus getOrderStatus(){
         return this.status;
     }
-
-    //====================Serialization TESTING IN PROGRESS========================
 
     public void serializeConfirmedOrders() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ORDERS_FILE))) {
