@@ -210,7 +210,7 @@ public class MenuHandler {
         String comments = customizeItem();
         int qty = selectQty();
         //Create a MenuItem Set Meal Object
-        MenuItem mealItem = new MenuItem("Combo Meal", 10.99, branches.get(branchChoice).getName(),"set meal", new SetMealCategory(selectedMain, selectedSide, selectedDrink));
+        MenuItem mealItem = new MenuItem("Combo Meal", "Set meal with main, drink and side", 10.99, branches.get(branchChoice).getName(),"set meal", new SetMealCategory(selectedMain, selectedSide, selectedDrink));
         mealItem.setComments(comments);
         mealItem.setQty(qty);
         currentOrder.addItem(mealItem);

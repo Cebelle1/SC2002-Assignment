@@ -5,7 +5,6 @@ import java.util.List;
 
 import controller.ManagerController;
 import model.abstracts.AEmployee;
-import model.menus.MenuItem;
 import view.abstracts.ARenderView;
 
 public class ManagerHomePageView extends ARenderView{
@@ -45,7 +44,7 @@ public class ManagerHomePageView extends ARenderView{
                 // What to edit
                 renderEdit();
                 int edit  = super.getInputInt("");
-                if(edit > 3){
+                if(edit > 4){
                     System.out.println("Invalid Option");
                     this.renderApp(2);;
                 }
@@ -74,7 +73,8 @@ public class ManagerHomePageView extends ARenderView{
         super.printBorder("What to edit");
         System.out.println("(1) Item name");
         System.out.println("(2) Item price");
-        System.out.println("(3) Back to Edit Menu List");
+        System.out.println("(3) Item description");
+        System.out.println("(4) Back to Edit Menu List");
     }
 
     public void displayBranchStaff(List<AEmployee> employees){

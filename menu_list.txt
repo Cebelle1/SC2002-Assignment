@@ -1,12 +1,16 @@
-FRIES	3.2	NTU	side
-3PC set meal	9.9	NTU	set meal
-CAJUN FISH	5.6	JP	burger
-COLE SLAW	2.7	JE	side
-3PC set meal	10.4	JE	set meal
-chicken nugget	6.9	JP	side
-chicken nugget	6.6	NTU	side
-pepsi	2.1	JE	drink
-coffee	1	NTU	drink
-Spaghetti	2	NTU	pasta
-cheeseburger	1.5	NTU	burger
-chicken	6.0	JP	food    
+Name	Description	Price	Branch	Category
+FRIES	Deep-fried potatoes cut into thin strips	3.2	NTU	side
+3PC set meal	2 dumpsticks and 1 chicken wing	9.9	NTU	set meal
+CAJUN FISH	Grilled fish	5.6	JP	burger
+COLE SLAW	Finely-shredded raw cabbage with a salad dressing	2.7	JE	side
+3PC set meal	2 dumpsticks and 1 chicken wing	10.4	JE	set meal
+chicken nugget	Small deep-fried piece of chicken	6.9	JP	side
+chicken nugget	Small deep-fried piece of chicken	6.6	NTU	side
+pepsi	Carbonated soft drink with a cola flavour	2.1	JE	drink
+cheeseburger	Hamburger with a slice of melted cheese on top of the meat patty	1.5	NTU	burger
+sphagetti	Long and thin pasta	2	NTU	pasta
+coffee	Freshly-brewed	1	NTU	drink
+coca cola	carbonated soft drink	1.5	JP	drink
+lemon tea	Refreshing black tea with lemon slices	1.5	JP	drink
+iced milo	Made from milo powder	2.0	JP	drink
+fillet o fish	Topped with melty cheese and creamy tartar sauce between buns	2.0	JP	burger
