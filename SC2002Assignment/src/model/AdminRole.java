@@ -110,17 +110,14 @@ public class AdminRole extends AEmployee {
     }
 
     
-    public void closeOpenedBranch(List<Branch> openedBranch, int closeBranchChoice){
-        
-        Branch closingBranch = openedBranch.get(closeBranchChoice);
-        closingBranch.setOperation(false);
-        // Update the branch list file with the new operation status
+    public void closeOpenBranch(List<Branch> openedBranch, int branchChoice, int closeOrOpen){
+        Branch closingBranch = openedBranch.get(branchChoice);
+    
+        if(closeOrOpen == 1){   //1-Open an exising, 2-Close an exising
+            closingBranch.setOperation(true);
+        }else if ( closeOrOpen == 2){
+            closingBranch.setOperation(false);
+        }
         BranchDataManager.updateBranchList(closingBranch);
-
-  
-    }
-
-    public void openClosedBranch(){
-
     }
 }

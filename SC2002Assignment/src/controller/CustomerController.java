@@ -12,8 +12,8 @@ import view.CustomerHomePageView;
 import view.OrderMenuView;
 import controller.OrderMenuController;
 public class CustomerController extends AController {
-    private CustomerHomePageView customerHomeView;
-    private BranchView branchV;
+    private CustomerHomePageView customerHomeView = new CustomerHomePageView();
+    private BranchView branchV = new BranchView();
     private Order currentOrder;
     private List<Order> orders = new ArrayList<>();
     private List<Branch> branches; // Ensure that this list is populated with branches containing menu items

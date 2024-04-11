@@ -31,6 +31,7 @@ public class Branch {
     }
     
     public static List<Branch> getOpenBranches(){
+        System.out.println(openBranches);
         return openBranches;
     }
 

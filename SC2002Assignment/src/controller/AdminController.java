@@ -79,7 +79,7 @@ public class AdminController extends AController {
             case 7: // Manage Branch
                 adminHomePageView.renderManageBranch();
                 int manageBranch = adminHomePageView.getInputInt("Choose an option");
-                manageBranch(manageBranch);
+                manageExistingBranch(manageBranch);
                 break;
 
         }
@@ -192,16 +192,18 @@ public class AdminController extends AController {
     }
 
     //======
-    public void manageBranch(int choice){
-        switch(choice){
-            case 1:
-                adminRole.openClosedBranch();
-                break;
-            case 2:
-                List<Branch> openedBranch = Branch.getOpenBranches();
-                branchV.displayOpenBranch(openedBranch, true);
-                int closeBranchChoice = adminHomePageView.getInputInt("Which branch do you want to close?");
-                adminRole.closeOpenedBranch(openedBranch, closeBranchChoice-1);
+    public void manageExistingBranch(int choice){   //1-Open an exising, 2-Close an exising
+        List<Branch> openedClosedBranch = null;
+        if(choice == 1){
+            openedClosedBranch  = Branch.getClosedBranches();
+        }else if( choice == 2){
+            openedClosedBranch = Branch.getOpenBranches();
         }
+        
+        branchV.displayOpenBranch(openedClosedBranch, true);
+        int branchChoice = adminHomePageView.getInputInt("Which branch do you want to close/open?");
+        
+        adminRole.closeOpenBranch(openedClosedBranch, branchChoice-1, choice);
+        
     }
 }

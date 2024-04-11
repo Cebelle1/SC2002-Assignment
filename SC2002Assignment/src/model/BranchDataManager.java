@@ -99,11 +99,11 @@ public class BranchDataManager {
                         Branch branch = optionalBranch.get();
                         branch.setLocation(location);
                         branch.setStaffQuota(staffQuota);
-                    
+                        
                         boolean canOpen = branch.getEmployees().size() >= staffQuota;
                         branch.setOperation(canOpen);
                         
-                        if (canOpen) {
+                        if (isOpen && canOpen) {    //isOpen = previous stat, canOpen = recalculate
                             openBranches.add(branch);
                         }
                     } else {
