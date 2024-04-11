@@ -336,7 +336,7 @@ public class DataManager {
         List<String> lines = new ArrayList<>(); // Store file lines
         boolean staffExists = false; // Flag to check if the staff already exists
 
-        // Step 1: Read the existing content into 'lines'
+        // Read the existing content into 'lines'
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -355,7 +355,7 @@ public class DataManager {
             return -2; // Exit the method in case of read error
         }
 
-        // Step 2: Add new staff details if not already existing, then write back to the
+        // Add new staff details if not already existing, then write back to the
         // file
         if (!staffExists) {
             // Construct the line for the new staff member

@@ -65,10 +65,10 @@ public class AdminController extends AController {
                         .getInputString("Enter staff name to be promoted to Manager: ");
                 adminRole.promotionStaff(staffNameToPromote);
                 // this.navigate(0);
-
                 break;
 
             case 5: // Transfer Staff
+
                 break;
 
             case 6: // Edit paymnet method

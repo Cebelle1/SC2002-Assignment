@@ -6,4 +6,5 @@ Mary lee	MaryL	S	F	44	JE	password
 Justin Loh	JustinL	S	M	49	JP	password
 Boss	boss	A	F	62		password
 Jane Teh	JaneT	S	F	56	JP	helloworld123
-Rene Tan	ReneT	S	F	78	JE	yayapapaya  
+Amy Lim	AmyL	S	F	65	NTU	password
+Rene Gim	ReneG	M	M	23	JE	password

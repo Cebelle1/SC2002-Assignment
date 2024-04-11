@@ -54,21 +54,6 @@ public class AdminHomePageView extends ARenderView {
     }
     // =============Add Edit Staff List (1)========================================
 
-    /*
-     * MAKE CHANGES HERE
-     * public void printAllStaff(List<AEmployee> employees) {
-     * System.out.println("Role Gender Branch  Age Name");
-     * for (AEmployee test : employees) {
-     * // for now print age with name!Later can change to printing all attribute of
-     * // employee
-     * System.out.println(test.getRole() + " " + test.getGender() + " " +
-     * test.getBranch() + " " + test.getAge()
-     * + " " + test.getName()
-     * + " " + test.getRole());
-     * }
-     * }
-     */
-
     public void renderChoiceEdit() {
         super.printBorder("Edit Staff Accounts");
         System.out.println("(1) Add Staff Account");
@@ -92,12 +77,6 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("(4) Age");
     }
 
-    public void printemptyfilter() {
-        System.out.println("Invalid branch, please enter again: ");
-    }
-
-    // ======================display filtered staff
-    // list================================
     // error handling
     public void errorintinput() {
         System.out.println("Invalid choice, please enter a valid number");
