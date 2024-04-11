@@ -39,7 +39,7 @@ public class StaffRole extends AEmployee{
                 List<MenuItem> items = order.getCurrentOrderItems();
                 if(orderID == (order.getOrderID())){
                     for(MenuItem item : items){
-                        System.out.printf("%2s %s - %d\n", "",item.getName(), item.getQty()); // get the menu name and qty
+                        System.out.printf("\n%2s %s - %d\n", "",item.getName(), item.getQty()); // get the menu name and qty
                         if ("set meal".equals(item.getCategory())) {
                             SetMealCategory setMeal = (SetMealCategory) item.getSetMeal(); // type casting
                             System.out.printf("%8s > Main: %s\n", "", setMeal.getMainDish().getName());
