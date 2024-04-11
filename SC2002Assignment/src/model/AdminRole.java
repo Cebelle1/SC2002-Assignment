@@ -110,14 +110,20 @@ public class AdminRole extends AEmployee {
     }
 
     
-    public void closeOpenBranch(List<Branch> openedBranch, int branchChoice, int closeOrOpen){
-        Branch closingBranch = openedBranch.get(branchChoice);
+    public void closeOpenBranch(List<Branch> branches, int branchChoice, int closeOrOpen){
+        Branch selectedBranch = branches.get(branchChoice);
     
         if(closeOrOpen == 1){   //1-Open an exising, 2-Close an exising
-            closingBranch.setOperation(true);
+            if(selectedBranch.canOpenBranch()){
+                selectedBranch.setOperation(true);
+            }else{
+                System.out.println("Staff quota not met, cannot open branch");
+                return;
+            }
+            
         }else if ( closeOrOpen == 2){
-            closingBranch.setOperation(false);
+            selectedBranch.setOperation(false);
         }
-        BranchDataManager.updateBranchList(closingBranch);
+        BranchDataManager.updateBranchList(selectedBranch);
     }
 }

@@ -100,7 +100,8 @@ public class BranchDataManager {
                         branch.setLocation(location);
                         branch.setStaffQuota(staffQuota);
                         
-                        boolean canOpen = branch.getEmployees().size() >= staffQuota;
+                        //boolean canOpen = branch.getEmployees().size() >= staffQuota;
+                        boolean canOpen = branch.canOpenBranch();
                         branch.setOperation(canOpen);
                         
                         if (isOpen && canOpen) {    //isOpen = previous stat, canOpen = recalculate

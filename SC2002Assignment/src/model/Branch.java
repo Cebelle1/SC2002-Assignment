@@ -21,7 +21,7 @@ public class Branch {
         this.menu = menu;
         allBranches.add(this);
     }
-
+//================================
     public static List<Branch> getAllBranches() {
         return allBranches;
     }
@@ -41,6 +41,11 @@ public class Branch {
         return closedBranches;
     }
 
+    public boolean canOpenBranch(){
+        return this.getEmployees().size() >= this.staffQuota;
+    }
+
+//=====================
     public List<MenuItem> getMenu() {
         return this.menu;
     }
