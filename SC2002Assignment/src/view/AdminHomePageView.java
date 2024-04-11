@@ -96,23 +96,66 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("Invalid branch, please enter again: ");
     }
 
-    // display filtered by (branch,role,gender.age)
-    public void printFilterStaff(List<AEmployee> printfiltered) {
-        System.out.println("Name    StaffID    Role     Gender    Age    Branch     Password");
-        for (AEmployee test : printfiltered) {
-            // for now print age with name!Later can change to printing all attribute of
-            // employee
-            System.out.println(test.getName() + " " + test.getStaffID() + " " + test.getRole() + " " + test.getGender()
-                    + " " + test.getAge()
-                    + " " + test.getPassword());
-
-        }
-        super.delay(10);
-    }
-
+    // ======================display filtered staff
+    // list================================
+    // error handling
     public void errorintinput() {
         System.out.println("Invalid choice, please enter a valid number");
         System.out.println(" ");
     }
 
+    // display filtered by (branch,role,gender.age)
+    public void printFilterStaff(List<AEmployee> printfiltered) {
+        if (printfiltered == null || printfiltered.isEmpty()) {
+            System.out.println("No data to display.");
+            return;
+        }
+
+        // Headers
+        String[] headers = { "Name", "StaffID", "Role", "Gender", "Age", "Branch", "Password" };
+
+        // Determine maximum width for each column
+        int[] maxWidths = new int[headers.length];
+        for (int i = 0; i < headers.length; i++) {
+            maxWidths[i] = headers[i].length(); // Initialize with header length
+        }
+
+        for (AEmployee emp : printfiltered) {
+            maxWidths[0] = Math.max(maxWidths[0], emp.getName().length());
+            maxWidths[1] = Math.max(maxWidths[1], emp.getStaffID().length());
+            maxWidths[2] = Math.max(maxWidths[2], emp.getRole().length());
+            maxWidths[3] = Math.max(maxWidths[3], emp.getGender().length());
+            maxWidths[4] = Math.max(maxWidths[4], String.valueOf(emp.getAge()).length());
+            maxWidths[5] = Math.max(maxWidths[5], emp.getBranch().length());
+            maxWidths[6] = Math.max(maxWidths[6], emp.getPassword().length());
+        }
+
+        // Print header row
+        for (int i = 0; i < headers.length; i++) {
+            System.out.print(String.format("%-" + (maxWidths[i] + 2) + "s", headers[i]));
+        }
+        System.out.println();
+
+        // Print row separator
+        for (int width : maxWidths) {
+            for (int i = 0; i < width + 2; i++) {
+                System.out.print("-");
+            }
+            System.out.print(" ");
+        }
+        System.out.println();
+
+        // Print each row of data
+        for (AEmployee emp : printfiltered) {
+            System.out.print(String.format("%-" + (maxWidths[0] + 2) + "s", emp.getName()));
+            System.out.print(String.format("%-" + (maxWidths[1] + 2) + "s", emp.getStaffID()));
+            System.out.print(String.format("%-" + (maxWidths[2] + 2) + "s", emp.getRole()));
+            System.out.print(String.format("%-" + (maxWidths[3] + 2) + "s", emp.getGender()));
+            System.out.print(String.format("%-" + (maxWidths[4] + 2) + "d", emp.getAge()));
+            System.out.print(String.format("%-" + (maxWidths[5] + 2) + "s", emp.getBranch()));
+            System.out.print(String.format("%-" + (maxWidths[6] + 2) + "s", emp.getPassword()));
+            System.out.println();
+        }
+        super.delay(10);
+    }
 }

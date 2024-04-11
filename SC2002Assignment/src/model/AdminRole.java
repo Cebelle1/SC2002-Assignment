@@ -25,7 +25,6 @@ public class AdminRole extends AEmployee {
     public void addStaff(AEmployee newAEmployee) {
         int checker = DataManager.addNewStaffAccount(newAEmployee);
         if (checker == -1) {
-            System.out.println("StaffID already exist");
             System.out.println("Staff Account update list status: Not Successful");
             return;
         }
@@ -99,6 +98,15 @@ public class AdminRole extends AEmployee {
         return filterbyRole;
 
     }
+
+    // =====================Promotion from staff to manager within the same
+    // branch===================================
+    public void promotionStaff(String staffnameToPromote) {
+        DataManager.PromoteStaffToManager(staffnameToPromote);
+    }
+
+    // ===========================================Payment
+    // method==========================================================
 
     // Not tested, designing.
     public void addPaymentMethod(String type) {

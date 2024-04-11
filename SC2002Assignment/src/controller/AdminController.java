@@ -52,14 +52,20 @@ public class AdminController extends AController {
                 adminHomePageView.renderApp(2);
                 int choiceDisplay = adminHomePageView.getInputInt("");
                 displayNavigate(choiceDisplay);
-                this.navigate(0); // remove this later after, this is use for testing
+                // this.navigate(0); // remove this later after, this is use for testing
                 // use Employeefilter to print according to the filter
                 break;
 
             case 3: // Assign Managers
                 break;
 
-            case 4: // Promotion
+            case 4: // Promotion from staff to branch manager. Error handling: [when the staff is
+                    // already a manager]
+                String staffNameToPromote = adminHomePageView
+                        .getInputString("Enter staff name to be promoted to Manager: ");
+                adminRole.promotionStaff(staffNameToPromote);
+                // this.navigate(0);
+
                 break;
 
             case 5: // Transfer Staff
@@ -163,7 +169,7 @@ public class AdminController extends AController {
                 while (true) {
                     gender = adminHomePageView
                             .getInputString("Enter M for male or F for female as filter:  ");
-                    if (gender == "M" || gender == "F" || gender == "f" || gender == "m") {
+                    if (gender.equalsIgnoreCase("M") || gender.equalsIgnoreCase("F")) {
                         break;
                     }
                     adminHomePageView.renderApp(10);

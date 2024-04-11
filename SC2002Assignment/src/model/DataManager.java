@@ -28,7 +28,7 @@ public class DataManager {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-                
+
                 String[] parts = line.split("\t"); // Assuming tab-separated values
                 if (parts.length == 4) {
                     String name = parts[0];
@@ -58,23 +58,23 @@ public class DataManager {
 
         // Load employees separately
         List<EmployeeHandler> employees = DataManager.loadStaff("staff_list_with_pw.txt");
-       
+
         // Associate employees with branches
         for (Branch branch : branches) {
             String branchName = branch.getName();
             List<AEmployee> branchEmployees = employees.stream()
-                                                    .flatMap(roleCategory -> roleCategory.getAllEmployeesByRole().stream())
-                                                    .filter(employee -> employee.getBranch().equals(branchName))
-                                                    .collect(Collectors.toList());
+                    .flatMap(roleCategory -> roleCategory.getAllEmployeesByRole().stream())
+                    .filter(employee -> employee.getBranch().equals(branchName))
+                    .collect(Collectors.toList());
             branch.setEmployees(branchEmployees);
-           
+
         }
         return branches;
     }
 
-      // load the staff list here
+    // load the staff list here
     public static List<EmployeeHandler> loadStaff(String filePath) {
-        Map<String, List<AEmployee>> staffMap = new HashMap<>();    //Employee sorted into their roles
+        Map<String, List<AEmployee>> staffMap = new HashMap<>(); // Employee sorted into their roles
         List<AEmployee> allEmployees = new ArrayList<>(); // Unsorted employee
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -94,7 +94,7 @@ public class DataManager {
                         employee = new StaffRole(name, staffID, role, gender, age, branch, password);
                     } else if (role.equals("M")) {
                         employee = new ManagerRole(name, staffID, role, gender, age, branch, password);
-                    } else if (role.equals("A")){
+                    } else if (role.equals("A")) {
                         employee = new AdminRole(name, staffID, role, gender, age, branch, password);
                     }
 
@@ -109,7 +109,7 @@ public class DataManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //Save the list of all employees, unsorted
+        // Save the list of all employees, unsorted
         EmployeeHandler.setAllEmployees(allEmployees);
 
         // Convert the map into a list of role categories
@@ -117,28 +117,28 @@ public class DataManager {
         for (Map.Entry<String, List<AEmployee>> entry : staffMap.entrySet()) {
             String roleName = entry.getKey();
             List<AEmployee> employees = entry.getValue();
-            EmployeeHandler roleCategory = new EmployeeHandler(roleName,employees);
+            EmployeeHandler roleCategory = new EmployeeHandler(roleName, employees);
             roleCategories.add(roleCategory);
         }
         return roleCategories;
     }
 
-    //===================staff_list_with_pw.txt================================//
+    // ===================staff_list_with_pw.txt================================//
 
-     public static void updateFile(String filePath, String newPassword, String id){
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
+    public static void updateFile(String filePath, String newPassword, String id) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
             String line;
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\t");
-                if(parts.length == 7 && id.equals(parts[1])){
+                if (parts.length == 7 && id.equals(parts[1])) {
                     parts[6] = newPassword;
                     line = String.join("\t", parts);
                 }
                 bw.write(line);
                 bw.newLine();
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Error updating the password: " + e.getMessage());
         }
 
@@ -149,14 +149,14 @@ public class DataManager {
         Path originalPath = Paths.get(original.getPath());
         Path tempPath = Paths.get(tempFile.getPath());
 
-        try{
+        try {
             Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Error updating the file: " + e.getMessage());
         }
     }
 
-//===================Payment.txt================================//
+    // ===================Payment.txt================================//
     public static void appendPaymentMethod(String paymentMethod) {
         String fileName = "payments.txt";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
@@ -167,7 +167,7 @@ public class DataManager {
         }
     }
 
-    //Not tested
+    // Not tested
     public static void removePaymentMethod(String paymentMethodToRemove) {
         String fileName = "payments.txt";
         try {
@@ -197,17 +197,17 @@ public class DataManager {
         return paymentMethods;
     }
 
-    //=================== menu_list.txt ================================//
-    public static void addItemToMenu(MenuItem menuItem){
+    // =================== menu_list.txt ================================//
+    public static void addItemToMenu(MenuItem menuItem) {
         String filePath = "menu_list.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))){
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
             String line;
             boolean add = false;
-            while((line = br.readLine()) != null && add == false){
+            while ((line = br.readLine()) != null && add == false) {
                 String[] parts = line.split("\t");
                 // Add
-                if(parts.length == 4){
+                if (parts.length == 4) {
                     parts[0] = menuItem.getRawName();
                     parts[1] = Double.toString(menuItem.getPrice());
                     parts[2] = menuItem.getBranch();
@@ -219,22 +219,22 @@ public class DataManager {
                 bw.write(line);
                 bw.newLine();
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Error adding menu item to file: " + e.getMessage());
         }
     }
 
-    public static void removeItemFromMenu(MenuItem menuItem){
+    public static void removeItemFromMenu(MenuItem menuItem) {
         String filePath = "menu_list.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
             String line;
-            while((line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\t");
-                 // Remove
-                 if(parts.length == 4 && parts[0].equals(menuItem.getRawName())){
+                // Remove
+                if (parts.length == 4 && parts[0].equals(menuItem.getRawName())) {
                     // Check the branch before removing as different branches may have same item
-                    if(parts[2].equals(menuItem.getBranch())){
+                    if (parts[2].equals(menuItem.getBranch())) {
                         // Skip writing the line to the new file which will be updated later on
                         continue;
                     }
@@ -243,7 +243,7 @@ public class DataManager {
                 bw.write(line);
                 bw.newLine();
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Error removing menu item from file: " + e.getMessage());
         }
 
@@ -254,30 +254,30 @@ public class DataManager {
         Path originalPath = Paths.get(original.getPath());
         Path tempPath = Paths.get(tempFile.getPath());
 
-        try{
+        try {
             Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Error updating the file: " + e.getMessage());
         }
 
     }
 
-    public static void editItemName(String oldName, String newName){
+    public static void editItemName(String oldName, String newName) {
         String filePath = "menu_list.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
-                String line;
-                while((line = br.readLine()) != null){
-                    String[] parts = line.split("\t");
-                    if(parts.length == 4 && parts[0].equals(oldName)){
-                        parts[0] = newName;
-                        line = String.join("\t", parts);
-                    }
-
-                    bw.write(line);
-                    bw.newLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length == 4 && parts[0].equals(oldName)) {
+                    parts[0] = newName;
+                    line = String.join("\t", parts);
                 }
-        } catch(IOException e){
+
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
             System.err.println("Error updating the item name: " + e.getMessage());
         }
 
@@ -287,31 +287,31 @@ public class DataManager {
 
         Path originalPath = Paths.get(original.getPath());
         Path tempPath = Paths.get(tempFile.getPath());
-        try{
+        try {
             Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Error updating the file: " + e.getMessage());
         }
     }
 
-    public static void editItemPrice(String name, double price){
+    public static void editItemPrice(String name, double price) {
         String filePath = "menu_list.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
-                String line;
-                while((line = br.readLine()) != null){
-                    String[] parts = line.split("\t");
-                    if(parts.length == 4 && parts[0].equals(name)){
-                        StringBuffer sb = new StringBuffer();
-                        sb.append(price);
-                        parts[1] = sb.toString();
-                        line = String.join("\t", parts);
-                    }
-
-                    bw.write(line);
-                    bw.newLine();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length == 4 && parts[0].equals(name)) {
+                    StringBuffer sb = new StringBuffer();
+                    sb.append(price);
+                    parts[1] = sb.toString();
+                    line = String.join("\t", parts);
                 }
-        } catch(IOException e){
+
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
             System.err.println("Error updating the item name: " + e.getMessage());
         }
 
@@ -322,13 +322,12 @@ public class DataManager {
         Path originalPath = Paths.get(original.getPath());
         Path tempPath = Paths.get(tempFile.getPath());
 
-        try{
+        try {
             Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println("Error updating the file: " + e.getMessage());
         }
     }
-
 
     // ======================================ADMIN
     // EDITS===========================================
@@ -347,7 +346,7 @@ public class DataManager {
                 String[] parts = line.split("\t");
                 if (parts.length > 1 && parts[1].equals(newAEmployee.getStaffID())) {
                     staffExists = true; // Staff exists, maybe update this record instead of adding a new one
-                    System.out.println("StaffID already exist");
+                    // System.out.println("StaffID already exist");
                     return -1;
                 }
             }
@@ -418,4 +417,46 @@ public class DataManager {
             System.out.println("Staff member with ID " + staffNameToRemove + " not found.");
         }
     }
+
+    // For Promotion staff -> branch manager
+    public static void PromoteStaffToManager(String staffnameToPromote) {
+        String filePath = "staff_list_with_pw.txt";
+        boolean isPromoted = false;
+        boolean nonExistent = true;
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp1.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length > 1 && parts[0].equals(staffnameToPromote)) {
+                    nonExistent = false;
+                    if (parts[2].equals("M")) {
+                        System.out.println("Staff " + staffnameToPromote + " is already a Manager");
+                    } else {
+                        parts[2] = "M"; // Promote to Manager and continues to copy the rest into the temp file
+                        line = String.join("\t", parts);
+                        isPromoted = true;
+                    }
+                }
+                bw.write(line);
+                bw.newLine();
+            }
+            if (nonExistent) {
+                System.out.println("Staff " + staffnameToPromote + " does not exist");
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the item name: " + e.getMessage());
+        }
+
+        // Replace the original file with the updated one
+        try {
+            Files.move(Paths.get("temp1.txt"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+            if (isPromoted) {
+                System.out.println("Staff " + staffnameToPromote + " is promoted to a Manager");
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the file: " + e.getMessage());
+        }
+    }
+
 }
