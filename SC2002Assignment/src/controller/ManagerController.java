@@ -2,8 +2,6 @@ package controller;
 
 import controller.abstracts.AController;
 import model.Branch;
-import model.EmployeeFilter;
-import model.EmployeeHandler;
 import model.ManagerRole;
 import model.abstracts.AEmployee;
 import model.menus.MenuItem;
@@ -89,10 +87,11 @@ public class ManagerController extends AController {
                 // Item not in the menu list
                 if(found == false)
                 {
+                    String comment = managerView.getInputString("Enter the item description: ");
                     double cost = Double.parseDouble(managerView.getInputString("Enter the price of the item: "));
                     String category = managerView.getInputString("Enter the category it belongs to: ");
                     String branch = area.getName();
-                    MenuItem menuItem = new MenuItem(newItem, cost, branch, category);
+                    MenuItem menuItem = new MenuItem(newItem, comment, cost, branch, category);
                     manager.addItem(menuItem, area);
                     this.navigate(3);
                 }
@@ -151,7 +150,7 @@ public class ManagerController extends AController {
                 if(found == true)
                 {
                     String editName = managerView.getInputString("Enter new name: ");
-                    manager.editItemName(oldName, editName, area);
+                    manager.editName(oldName, editName, area);
                     this.editMenu(3);
                 }
                 else
@@ -167,8 +166,8 @@ public class ManagerController extends AController {
                 found = manager.itemAvailable(name, area);
                 if(found == true)
                 {
-                    double cost = Double.parseDouble(managerView.getInputString("Enter the new price: ")); 
-                    manager.editItemPrice(name, cost, area);
+                    double cost = Double.parseDouble(managerView.getInputString("Enter new price: ")); 
+                    manager.editPrice(name, cost, area);
                     this.editMenu(3);
                 }
                 else
@@ -179,6 +178,23 @@ public class ManagerController extends AController {
                 break;
 
             case 3:
+                // Edit item description
+                String itemName = managerView.getInputString("Enter item name: ");
+                found = manager.itemAvailable(itemName, area);
+                if(found == true)
+                {
+                    String note = managerView.getInputString("Enter new description: "); 
+                    manager.editDescription(itemName, note, area);
+                    this.editMenu(3);
+                }
+                else
+                {
+                    //found = false;
+                    this.editMenu(3);
+                }
+                break;
+
+            case 4:
                 // Go back to Edit Menu List
                 this.navigate(3);
                 break;

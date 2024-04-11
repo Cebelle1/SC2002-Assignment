@@ -11,6 +11,7 @@ import model.Order;
 
 public class MenuItem implements Serializable{
     private String name;
+    private String description;
     private double price;
     private String branch;
     private SetMealCategory setMeal;    //Menu has a SetMeal
@@ -18,8 +19,9 @@ public class MenuItem implements Serializable{
     private String comments;
     private int qty;
 
-    public MenuItem(String name, double price, String branch, String category) {
+    public MenuItem(String name, String description, double price, String branch, String category) {
         this.name = name;
+        this.description = description;
         this.price = price;
         this.branch = branch;
         this.category = category.trim();
@@ -27,12 +29,21 @@ public class MenuItem implements Serializable{
         this.setMeal = null;
     }
 
-    public MenuItem(String name, double price, String branch, String category, SetMealCategory setMeal) {
+    public MenuItem(String name, String description, double price, String branch, String category, SetMealCategory setMeal) {
         this.name = name;
+        this.description = description;
         this.price = price;
         this.branch = branch;
         this.category = category;
         this.setMeal = setMeal;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
     }
 
 

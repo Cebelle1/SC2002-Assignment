@@ -26,16 +26,19 @@ public class DataManager {
         Map<String, List<MenuItem>> branchMenuMap = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            // Read the headings first
+            br.readLine();
             String line;
+            // Start reading from the second line of the text file
             while ((line = br.readLine()) != null) {
-                
                 String[] parts = line.split("\t"); // Assuming tab-separated values
-                if (parts.length == 4) {
+                if (parts.length == 5) {
                     String name = parts[0];
-                    double price = Double.parseDouble(parts[1]);
-                    String branch = parts[2];
-                    String category = parts[3];
-                    MenuItem item = new MenuItem(name, price, branch, category);
+                    String description = parts[1];
+                    double price = Double.parseDouble(parts[2]);
+                    String branch = parts[3];
+                    String category = parts[4];
+                    MenuItem item = new MenuItem(name, description, price, branch, category);
                     // Add the menu item to the respective branch in the map
                     if (!branchMenuMap.containsKey(branch)) {
                         branchMenuMap.put(branch, new ArrayList<>());
@@ -196,139 +199,6 @@ public class DataManager {
         }
         return paymentMethods;
     }
-
-    //=================== menu_list.txt ================================//
-    public static void addItemToMenu(MenuItem menuItem){
-        String filePath = "menu_list.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))){
-            String line;
-            boolean add = false;
-            while((line = br.readLine()) != null && add == false){
-                String[] parts = line.split("\t");
-                // Add
-                if(parts.length == 4){
-                    parts[0] = menuItem.getRawName();
-                    parts[1] = Double.toString(menuItem.getPrice());
-                    parts[2] = menuItem.getBranch();
-                    parts[3] = menuItem.getCategory();
-                    line = String.join("\t", parts);
-                    add = true;
-                }
-
-                bw.write(line);
-                bw.newLine();
-            }
-        } catch(IOException e){
-            System.err.println("Error adding menu item to file: " + e.getMessage());
-        }
-    }
-
-    public static void removeItemFromMenu(MenuItem menuItem){
-        String filePath = "menu_list.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
-            String line;
-            while((line = br.readLine()) != null){
-                String[] parts = line.split("\t");
-                 // Remove
-                 if(parts.length == 4 && parts[0].equals(menuItem.getRawName())){
-                    // Check the branch before removing as different branches may have same item
-                    if(parts[2].equals(menuItem.getBranch())){
-                        // Skip writing the line to the new file which will be updated later on
-                        continue;
-                    }
-                }
-
-                bw.write(line);
-                bw.newLine();
-            }
-        } catch(IOException e){
-            System.err.println("Error removing menu item from file: " + e.getMessage());
-        }
-
-        // Update the new menu list file
-        File original = new File(filePath);
-        File tempFile = new File("temp.txt");
-
-        Path originalPath = Paths.get(original.getPath());
-        Path tempPath = Paths.get(tempFile.getPath());
-
-        try{
-            Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException e){
-            System.err.println("Error updating the file: " + e.getMessage());
-        }
-
-    }
-
-    public static void editItemName(String oldName, String newName){
-        String filePath = "menu_list.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
-                String line;
-                while((line = br.readLine()) != null){
-                    String[] parts = line.split("\t");
-                    if(parts.length == 4 && parts[0].equals(oldName)){
-                        parts[0] = newName;
-                        line = String.join("\t", parts);
-                    }
-
-                    bw.write(line);
-                    bw.newLine();
-                }
-        } catch(IOException e){
-            System.err.println("Error updating the item name: " + e.getMessage());
-        }
-
-        // Update the new menu list file
-        File original = new File(filePath);
-        File tempFile = new File("temp.txt");
-
-        Path originalPath = Paths.get(original.getPath());
-        Path tempPath = Paths.get(tempFile.getPath());
-        try{
-            Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException e){
-            System.err.println("Error updating the file: " + e.getMessage());
-        }
-    }
-
-    public static void editItemPrice(String name, double price){
-        String filePath = "menu_list.txt";
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
-                String line;
-                while((line = br.readLine()) != null){
-                    String[] parts = line.split("\t");
-                    if(parts.length == 4 && parts[0].equals(name)){
-                        StringBuffer sb = new StringBuffer();
-                        sb.append(price);
-                        parts[1] = sb.toString();
-                        line = String.join("\t", parts);
-                    }
-
-                    bw.write(line);
-                    bw.newLine();
-                }
-        } catch(IOException e){
-            System.err.println("Error updating the item name: " + e.getMessage());
-        }
-
-        // Update the new staff list file
-        File original = new File(filePath);
-        File tempFile = new File("temp.txt");
-
-        Path originalPath = Paths.get(original.getPath());
-        Path tempPath = Paths.get(tempFile.getPath());
-
-        try{
-            Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException e){
-            System.err.println("Error updating the file: " + e.getMessage());
-        }
-    }
-
 
     // ======================================ADMIN
     // EDITS===========================================
