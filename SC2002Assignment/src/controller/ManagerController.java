@@ -88,7 +88,7 @@ public class ManagerController extends AController {
                 if(found == false)
                 {
                     String comment = managerView.getInputString("Enter the item description: ");
-                    double cost = Double.parseDouble(managerView.getInputString("Enter the price of the item: "));
+                    double cost = managerView.getInputDouble("Enter the price of the item: ");
                     String category = managerView.getInputString("Enter the category it belongs to: ");
                     String branch = area.getName();
                     MenuItem menuItem = new MenuItem(newItem, comment, cost, branch, category);
@@ -166,7 +166,7 @@ public class ManagerController extends AController {
                 found = manager.itemAvailable(name, area);
                 if(found == true)
                 {
-                    double cost = Double.parseDouble(managerView.getInputString("Enter new price: ")); 
+                    double cost = managerView.getInputDouble("Enter new price: "); 
                     manager.editPrice(name, cost, area);
                     this.editMenu(3);
                 }

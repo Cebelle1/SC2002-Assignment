@@ -14,18 +14,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import model.abstracts.AEmployee;
 import model.menus.MenuItem;
-import model.payments.IPaymentProcessor;
 
-public class DataManager {
+public class BranchDataManager {
 
-    public static List<Branch> loadMenuIntoBranches(String filePath) {
+    public static List<Branch> loadMenuIntoBranches() {
+        final String MENU_LIST = "menu_list.txt";
         Map<String, List<MenuItem>> branchMenuMap = new HashMap<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(MENU_LIST))) {
             // Read the headings first
             br.readLine();
             String line;
@@ -58,10 +59,11 @@ public class DataManager {
             Branch branch = new Branch(branchName, menuItems);
             branches.add(branch);
         }
+        
+        return branches;
+    }
 
-        // Load employees separately
-        List<EmployeeHandler> employees = DataManager.loadStaff("staff_list_with_pw.txt");
-       
+    public static void loadStaffIntoBranch(List<Branch> branches, List<EmployeeHandler> employees){
         // Associate employees with branches
         for (Branch branch : branches) {
             String branchName = branch.getName();
@@ -70,16 +72,58 @@ public class DataManager {
                                                     .filter(employee -> employee.getBranch().equals(branchName))
                                                     .collect(Collectors.toList());
             branch.setEmployees(branchEmployees);
-           
         }
-        return branches;
+    }
+
+    public static void loadQuotaNStatus(List<Branch> branches) {
+        String filePath = "branch_list.txt";
+        List<Branch> openBranches = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            // Skip the header line
+            br.readLine();
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length == 4) {
+                    String name = parts[0];
+                    String location = parts[1];
+                    int staffQuota = Integer.parseInt(parts[2]);
+                    boolean isOpen = parts[3].equalsIgnoreCase("open");
+    
+                    // Find the branch by name
+                    Optional<Branch> optionalBranch = branches.stream()
+                            .filter(branch -> branch.getName().equals(name))
+                            .findFirst();
+    
+                    if (optionalBranch.isPresent()) {
+                        Branch branch = optionalBranch.get();
+                        // Update branch details
+                        branch.setLocation(location);
+                        branch.setStaffQuota(staffQuota);
+                        branch.setOperation(isOpen);
+                        
+                        
+                        if (isOpen) {
+                            openBranches.add(branch);
+                        }
+                    } else {
+                        // Create a new branch
+                        System.out.println("Unknown branch in branch.txt, does not match with the ones in menu_list");
+                    }
+                }
+            }
+            Branch.setOpenBranches(openBranches);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
       // load the staff list here
-    public static List<EmployeeHandler> loadStaff(String filePath) {
+    public static List<EmployeeHandler> loadStaff() {
+        final String STAFF_LIST = "staff_list_with_pw.txt";
         Map<String, List<AEmployee>> staffMap = new HashMap<>();    //Employee sorted into their roles
         List<AEmployee> allEmployees = new ArrayList<>(); // Unsorted employee
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(STAFF_LIST))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\t"); // Assuming tab-separated values
@@ -126,38 +170,7 @@ public class DataManager {
         return roleCategories;
     }
 
-    //===================staff_list_with_pw.txt================================//
-
-     public static void updateFile(String filePath, String newPassword, String id){
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-            BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
-            String line;
-            while((line = br.readLine()) != null){
-                String[] parts = line.split("\t");
-                if(parts.length == 7 && id.equals(parts[1])){
-                    parts[6] = newPassword;
-                    line = String.join("\t", parts);
-                }
-                bw.write(line);
-                bw.newLine();
-            }
-        } catch(IOException e){
-            System.err.println("Error updating the password: " + e.getMessage());
-        }
-
-        // Update the new staff list file
-        File original = new File(filePath);
-        File tempFile = new File("temp.txt");
-
-        Path originalPath = Paths.get(original.getPath());
-        Path tempPath = Paths.get(tempFile.getPath());
-
-        try{
-            Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-        } catch(IOException e){
-            System.err.println("Error updating the file: " + e.getMessage());
-        }
-    }
+    
 
 //===================Payment.txt================================//
     public static void appendPaymentMethod(String paymentMethod) {
@@ -200,92 +213,5 @@ public class DataManager {
         return paymentMethods;
     }
 
-    // ======================================ADMIN
-    // EDITS===========================================
-    public static int addNewStaffAccount(AEmployee newAEmployee) {
-        String filePath = "staff_list_with_pw.txt";
-        List<String> lines = new ArrayList<>(); // Store file lines
-        boolean staffExists = false; // Flag to check if the staff already exists
-
-        // Step 1: Read the existing content into 'lines'
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                lines.add(line);
-                // Optional: Check if the staff already exists based on a unique identifier,
-                // e.g., StaffID
-                String[] parts = line.split("\t");
-                if (parts.length > 1 && parts[1].equals(newAEmployee.getStaffID())) {
-                    staffExists = true; // Staff exists, maybe update this record instead of adding a new one
-                    System.out.println("StaffID already exist");
-                    return -1;
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading staff file: " + e.getMessage());
-            return -2; // Exit the method in case of read error
-        }
-
-        // Step 2: Add new staff details if not already existing, then write back to the
-        // file
-        if (!staffExists) {
-            // Construct the line for the new staff member
-            String newLine = String.join("\t", newAEmployee.getName(), newAEmployee.getStaffID(),
-                    newAEmployee.getRole(), newAEmployee.getGender(), Integer.toString(newAEmployee.getAge()),
-                    newAEmployee.getBranch(), newAEmployee.getPassword());
-
-            // Add the new staff details to 'lines'
-            lines.add(newLine);
-        }
-
-        // Write the updated 'lines' back to the file
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for (String updatedLine : lines) {
-                bw.write(updatedLine);
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Error writing staff file: " + e.getMessage());
-        }
-        return 0;
-
-    }
-
-    public static void removeStaffAccount(String staffNameToRemove) {
-        String filePath = "staff_list_with_pw.txt";
-        List<String> lines = new ArrayList<>(); // Store file lines
-        boolean staffFound = false; // Flag to check if the staff was found and removed
-
-        // Step 1: Read the existing content and filter out the staff to remove
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split("\t");
-                // Check if the staffID matches the one to remove
-                if (parts.length > 1 && parts[0].equals(staffNameToRemove)) {
-                    staffFound = true; // Mark that the staff was found
-                } else {
-                    lines.add(line); // Add line to 'lines' if it's not the staff to remove
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading staff file: " + e.getMessage());
-            return; // Exit the method in case of read error
-        }
-
-        // If the staff was found and 'lines' has been updated, write it back to the
-        // file
-        if (staffFound) {
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-                for (String updatedLine : lines) {
-                    bw.write(updatedLine);
-                    bw.newLine();
-                }
-            } catch (IOException e) {
-                System.err.println("Error writing staff file: " + e.getMessage());
-            }
-        } else {
-            System.out.println("Staff member with ID " + staffNameToRemove + " not found.");
-        }
-    }
+    
 }

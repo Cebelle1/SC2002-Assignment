@@ -9,7 +9,7 @@ import java.net.URLClassLoader;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 
-import model.DataManager;
+import model.BranchDataManager;
 
 public class GenerateNewPayment {
 
@@ -22,7 +22,7 @@ public class GenerateNewPayment {
         "public class %s implements IPaymentProcessor {\n" +
         "    public boolean payment(double amount) {\n" +
         "        System.out.println(\"Paid with %s\");\n" +
-        "        System.out.printf(\"Processing\", amount);\n" +
+        "        System.out.printf(\"Processing $%%.2f\", amount);\n" +
         "        // Just gonna use the PaymentView for now\n" +
         "        PaymentView pnv = new PaymentView();\n" +
         "        return pnv.confirmPayment();\n" +
@@ -42,7 +42,7 @@ public class GenerateNewPayment {
         }
 
         //Step 4: Update Payment.txt file
-        DataManager.appendPaymentMethod(paymentMethodName);
+        BranchDataManager.appendPaymentMethod(paymentMethodName+"\n");
 
         // Step 5: Compile the Source Code
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();

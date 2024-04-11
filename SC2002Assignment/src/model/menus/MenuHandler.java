@@ -233,6 +233,10 @@ public class MenuHandler {
     private int selectQty(){
         System.out.println("Select qty for this item");
         int qty = omv.getInputInt("Qty: ");
+        while(qty <=0){
+            System.out.println("Please enter a valid (positive) number:");
+            qty = omv.getInputInt("Qty: ");
+        }
         return qty;
     }
 }

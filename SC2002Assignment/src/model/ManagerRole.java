@@ -16,7 +16,7 @@ public class ManagerRole extends StaffRole{
 
     // To load the Branch data
     public Branch loadBranches(){
-        branches = DataManager.loadMenuIntoBranches("menu_list.txt");
+        branches = Branch.getAllBranches();
         for(Branch selectedBranch : branches)
         {
             if(selectedBranch.getName().equals(this.getBranch()))
@@ -65,11 +65,11 @@ public class ManagerRole extends StaffRole{
     public void editName(String oldName, String itemName, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
         for(MenuItem item : menu){
-            if(oldName.equals(item.getRawName().toLowerCase()) && item.getBranch().equals(selectedBranch.getName()))
+            if(oldName.toLowerCase().equals(item.getRawName().toLowerCase()) && item.getBranch().equals(selectedBranch.getName()))
             {
                 // Edit name
+                UpdateMenu.editItemName(item, itemName);
                 item.setRawName(itemName);
-                UpdateMenu.editItemName(oldName, itemName);
                 System.out.println("Item name edited");
                 break;
             }
@@ -81,11 +81,11 @@ public class ManagerRole extends StaffRole{
     public void editPrice(String itemName, double price, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
         for(MenuItem item : menu){
-            if(item.getRawName().toLowerCase().equals(itemName) && item.getBranch().equals(selectedBranch.getName())){
+            if(item.getRawName().toLowerCase().equals(itemName.toLowerCase()) && item.getBranch().equals(selectedBranch.getName())){
 
                 // Edit price
+                UpdateMenu.editItemPrice(item, price);
                 item.setPrice(price);
-                UpdateMenu.editItemPrice(itemName, price);
                 System.out.println("Price edited");
                 break;
             }
@@ -96,11 +96,11 @@ public class ManagerRole extends StaffRole{
     public void editDescription(String name, String description, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
         for(MenuItem item : menu){
-            if(item.getRawName().toLowerCase().equals(name) && item.getBranch().equals(selectedBranch.getName())){
+            if(item.getRawName().toLowerCase().equals(name.toLowerCase()) && item.getBranch().equals(selectedBranch.getName())){
 
                 // Edit descirption
-                item.setDescription(description);;
-                UpdateMenu.editItemDescription(name, description);
+                UpdateMenu.editItemDescription(item, description);
+                item.setDescription(description);
                 System.out.println("Description edited");
                 break;
             }
@@ -111,7 +111,10 @@ public class ManagerRole extends StaffRole{
     public boolean itemAvailable(String itemName, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
         for(MenuItem item : menu){
-            if(item.getRawName().toLowerCase().equals(itemName) && item.getBranch().equals(selectedBranch.getName()))
+            item.getRawName().toLowerCase();
+            itemName.toLowerCase();
+            if(item.getRawName().toLowerCase().equals(itemName.toLowerCase()) && item.getBranch().equals(selectedBranch.getName()))
+            //if(item.getRawName().equals(itemName) && item.getBranch().equals(selectedBranch.getName()))
             {
                 // System.out.println("Item exists");
                 return true;

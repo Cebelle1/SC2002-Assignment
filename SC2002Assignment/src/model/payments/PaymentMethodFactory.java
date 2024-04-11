@@ -2,7 +2,7 @@ package model.payments;
 
 import java.lang.reflect.InvocationTargetException;
 
-import model.DataManager;
+import model.BranchDataManager;
 import model.Order;
 import model.Order.OrderStatus;
 import view.payments.PaymentView;
@@ -52,7 +52,7 @@ public class PaymentMethodFactory {
     }
 
     private static int getPaymentModeFromUser(PaymentView pnv) {
-        List<String> paymentMethods = DataManager.readPaymentMethods();
+        List<String> paymentMethods = BranchDataManager.readPaymentMethods();
         if (paymentMethods.isEmpty()) {
             System.out.println("No payment methods available.");
             return 0;
@@ -76,7 +76,7 @@ public class PaymentMethodFactory {
     }
 
     private static String getPaymentProcessorClassName(int paymentMode) {
-        List<String> paymentMethods = DataManager.readPaymentMethods();
+        List<String> paymentMethods = BranchDataManager.readPaymentMethods();
         if (paymentMode >= 1 && paymentMode <= paymentMethods.size()) {
             return "model.payments."+paymentMethods.get(paymentMode - 1);
         } else {

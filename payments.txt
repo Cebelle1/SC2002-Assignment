@@ -1,3 +1,7 @@
 DebitCardPayment
 CreditCardPayment
 PayNowPayment
+Alipay
+
+OCBC
+

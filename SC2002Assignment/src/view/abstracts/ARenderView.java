@@ -131,6 +131,22 @@ public abstract class ARenderView implements ViewInterface{
         }
     }
 
+    public double getInputDouble(String prompt){
+        if (!prompt.isEmpty()) {
+            System.out.println(prompt);
+        }
+        try {
+            int input = sc.nextInt();
+            sc.nextLine();    
+            return input;
+            
+        } catch (Exception e) {
+            System.err.println("Please enter an integer/double.");
+            sc.nextLine(); // Consume invalid input to prevent infinite loop
+            return -1;
+        }
+    }
+        
     protected String formatName(String name) {
         // Split the name into words
         String[] words = name.split(" ");

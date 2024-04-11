@@ -72,7 +72,7 @@ public class MenuItem implements Serializable{
     }
 
     public String getFormattedName(){
-        return String.format("| %-15s", formatName(this.name));
+        return String.format(" %-15s", formatName(this.name));
     }
 
     public String getCategory(){
@@ -125,6 +125,7 @@ public class MenuItem implements Serializable{
     // Implement custom serialization and deserialization methods
     private void writeObject(ObjectOutputStream out) throws IOException {
         out.writeObject(name);
+        out.writeObject(description);
         out.writeDouble(price);
         out.writeObject(branch);
         out.writeObject(setMeal);
@@ -135,6 +136,7 @@ public class MenuItem implements Serializable{
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         name = (String) in.readObject();
+        description =  (String) in.readObject();
         price = in.readDouble();
         branch = (String) in.readObject();
         setMeal = (SetMealCategory) in.readObject();

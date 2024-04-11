@@ -68,7 +68,7 @@ public class AdminController extends AController {
             case 6: // Edit paymnet method
                 // =====Testing===
                 String paymentMethod = adminHomePageView.getInputString(
-                        "Input new payment method (Class name) with no space, uppercammel naming convention");
+                        "Input new payment method (Class name) with no space, UpperCammel naming convention");
                 IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod(paymentMethod);
 
                 break;

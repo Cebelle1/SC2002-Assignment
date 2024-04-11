@@ -23,7 +23,7 @@ public class AdminRole extends AEmployee {
     // =======================================Edit (add, remove, edit) staff
     // list======================================================
     public void addStaff(AEmployee newAEmployee) {
-        int checker = DataManager.addNewStaffAccount(newAEmployee);
+        int checker = EmployeeDataManager.addNewStaffAccount(newAEmployee);
         if (checker == -1) {
             System.out.println("StaffID already exist");
             System.out.println("Staff Account update list status: Not Successful");
@@ -38,7 +38,7 @@ public class AdminRole extends AEmployee {
         List<AEmployee> allAEmployees = EmpAllWithoutFilter();
         for (AEmployee employee : allAEmployees) {
             if (employee.getName().equals(staffNameToRemove)) {
-                DataManager.removeStaffAccount(staffNameToRemove);
+                EmployeeDataManager.removeStaffAccount(staffNameToRemove);
                 // System.out.println("Staff account removed from staff list");
                 return;
             }

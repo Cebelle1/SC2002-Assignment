@@ -66,14 +66,16 @@ public class UpdateMenu {
 
     }
 
-    public static void editItemName(String oldName, String newName){
+    
+
+    public static void editItemName(MenuItem menuItem, String newName){
         //String filePath = "menu_list.txt";
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].toLowerCase().equals(oldName)){
+                    if(parts.length == 5 && parts[0].toLowerCase().equals(menuItem.getRawName().toLowerCase()) && parts[3].equals(menuItem.getBranch())){
                         parts[0] = newName;
                         line = String.join("\t", parts);
                     }
@@ -98,14 +100,14 @@ public class UpdateMenu {
         }
     }
 
-    public static void editItemPrice(String name, double price){
+    public static void editItemPrice(MenuItem menuItem, double price){
         //String filePath = "menu_list.txt";
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].toLowerCase().equals(name)){
+                    if(parts.length == 5 && parts[0].toLowerCase().equals(menuItem.getRawName().toLowerCase()) && parts[3].equals(menuItem.getBranch())){
                         StringBuffer sb = new StringBuffer();
                         sb.append(price);
                         parts[2] = sb.toString();
@@ -133,14 +135,14 @@ public class UpdateMenu {
         }
     }
 
-    public static void editItemDescription(String name, String description){
+    public static void editItemDescription(MenuItem menuItem, String description){
         //String filePath = "menu_list.txt";
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].toLowerCase().equals(name)){
+                    if(parts.length == 5 && parts[0].toLowerCase().equals(menuItem.getRawName().toLowerCase()) && parts[3].equals(menuItem.getBranch())){
                         parts[1] = description;
                         line = String.join("\t", parts);
                     }

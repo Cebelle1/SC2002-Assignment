@@ -37,8 +37,12 @@ public class CustomerHomePageView extends ARenderView{
 
     public void displayBranch(List<Branch> branches){
         super.printBorder("Logged in as Customer > Select Branch");
-        for (int i = 0; i < branches.size(); i++) {
-            System.out.println("(" + (i + 1) + ") " + branches.get(i).getName());
+        int i=0;
+        for(Branch branch: branches){
+            if(branch.getOperation()==true){
+                System.out.println("(" + (i + 1) + ") " + branches.get(i).getName());
+                i++;
+            }
         }
         
     }

@@ -25,7 +25,7 @@ public class ResetPassword {
                 }
             }
             // Update the file
-            DataManager.updateFile("staff_list_with_pw.txt", cfmNewPassword, id);
+            EmployeeDataManager.updateFile("staff_list_with_pw.txt", cfmNewPassword, id);
             return true;
         }
         // Passwords are different
