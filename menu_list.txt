@@ -1,5 +1,4 @@
 Name	Description	Price	Branch	Category
-FRIES	Deep-fried potatoes cut into thin strips	3.2	NTU	side
 3PC set meal	2 dumpsticks and 1 chicken wing	9.9	NTU	set meal
 CAJUN FISH	Grilled fish	5.6	JP	burger
 COLE SLAW	Finely-shredded raw cabbage with a salad dressing	2.7	JE	side
@@ -14,3 +13,5 @@ coca cola	carbonated soft drink	1.5	JP	drink
 lemon tea	Refreshing black tea with lemon slices	1.5	JP	drink
 iced milo	Made from milo powder	2.0	JP	drink
 fillet o fish	Topped with melty cheese and creamy tartar sauce between buns	2.0	JP	burger
+La Mian	springy chinese noodle	5.6	NTU	noodle
+FRIES	fried potato	4.0	NTU	side

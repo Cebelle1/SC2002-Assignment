@@ -73,7 +73,7 @@ public class UpdateMenu {
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].equals(oldName)){
+                    if(parts.length == 5 && parts[0].toLowerCase().equals(oldName)){
                         parts[0] = newName;
                         line = String.join("\t", parts);
                     }
@@ -105,7 +105,7 @@ public class UpdateMenu {
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].equals(name)){
+                    if(parts.length == 5 && parts[0].toLowerCase().equals(name)){
                         StringBuffer sb = new StringBuffer();
                         sb.append(price);
                         parts[2] = sb.toString();
@@ -140,7 +140,7 @@ public class UpdateMenu {
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].equals(name)){
+                    if(parts.length == 5 && parts[0].toLowerCase().equals(name)){
                         parts[1] = description;
                         line = String.join("\t", parts);
                     }

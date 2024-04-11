@@ -83,6 +83,12 @@ public class ManagerHomePageView extends ARenderView{
             System.out.printf("%s", person.getRole());
             System.out.println();
         }
+        //super.delay(3);
+        getInputString("Enter a key to exit");
+    }
+
+    public void displayNotFound(){
+        System.out.println("Item not found");
         super.delay(3);
     }
 }

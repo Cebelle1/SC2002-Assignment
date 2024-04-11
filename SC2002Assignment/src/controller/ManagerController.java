@@ -145,7 +145,7 @@ public class ManagerController extends AController {
         switch(choice){
             case 1: 
                 // Edit item name
-                String oldName = managerView.getInputString("Enter old name: ");
+                String oldName = managerView.getInputString("Enter old name: ").toLowerCase();
                 found = manager.itemAvailable(oldName, area);
                 if(found == true)
                 {
@@ -155,14 +155,14 @@ public class ManagerController extends AController {
                 }
                 else
                 {
-                    //found = false;
+                    managerView.displayNotFound();
                     this.editMenu(3);
                 }
                 break;
 
             case 2:
                 // Edit item price
-                String name = managerView.getInputString("Enter item name: ");
+                String name = managerView.getInputString("Enter item name: ").toLowerCase();
                 found = manager.itemAvailable(name, area);
                 if(found == true)
                 {
@@ -172,14 +172,14 @@ public class ManagerController extends AController {
                 }
                 else
                 {
-                    //found = false;
+                    managerView.displayNotFound();
                     this.editMenu(3);
                 }
                 break;
 
             case 3:
                 // Edit item description
-                String itemName = managerView.getInputString("Enter item name: ");
+                String itemName = managerView.getInputString("Enter item name: ").toLowerCase();
                 found = manager.itemAvailable(itemName, area);
                 if(found == true)
                 {
@@ -189,7 +189,7 @@ public class ManagerController extends AController {
                 }
                 else
                 {
-                    //found = false;
+                    managerView.displayNotFound();
                     this.editMenu(3);
                 }
                 break;
