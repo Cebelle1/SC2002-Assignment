@@ -97,13 +97,14 @@ public class BranchDataManager {
     
                     if (optionalBranch.isPresent()) {
                         Branch branch = optionalBranch.get();
-                        // Update branch details
                         branch.setLocation(location);
                         branch.setStaffQuota(staffQuota);
-                        branch.setOperation(isOpen);
+                    
+                        boolean canOpen = branch.getEmployees().size() >= staffQuota;
+                        branch.setOperation(canOpen);
                         
                         
-                        if (isOpen) {
+                        if (canOpen) {
                             openBranches.add(branch);
                         }
                     } else {
