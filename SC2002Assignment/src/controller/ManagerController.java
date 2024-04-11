@@ -45,7 +45,7 @@ public class ManagerController extends AController {
             case 1:
                 // Everything a staff is able to do
                 // Create the staff controller only before navigating to the staff mode
-                StaffController staffcon = new StaffController(user);
+                StaffController staffcon = new StaffController(this.user);
                 staffcon.navigate(0);
                 break;    
 
