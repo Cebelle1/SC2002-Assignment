@@ -35,8 +35,6 @@ public class EmployeeHandler {
         return this.role;
     }
 
-    // ========Not Yet Tested==================
-
     public static void setAllEmployees(List<AEmployee> allEmps) {
         allEmployees = allEmps;
     }

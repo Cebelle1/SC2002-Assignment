@@ -32,7 +32,7 @@ public class BranchDataManager {
             String line;
             // Start reading from the second line of the text file
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split("\t"); // Assuming tab-separated values
+                String[] parts = line.split("\t"); // Tab-separated values
                 if (parts.length == 5) {
                     String name = parts[0];
                     String description = parts[1];

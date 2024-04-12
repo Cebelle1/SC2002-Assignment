@@ -15,6 +15,7 @@ public class Branch {
     private boolean isOpen;
     private int staffQuota;
     private String location;
+    private int managerCount;
     
     public Branch(String name, List<MenuItem> menu) {
         this.name = name;
@@ -42,8 +43,22 @@ public class Branch {
     }
 
     public boolean canOpenBranch(){
-        return this.getEmployees().size() >= this.staffQuota;
+        return staffQuota() && managerQuota();
     }
+
+    public boolean staffQuota(){
+        if(this.getEmployees().size() < this.staffQuota) return false;
+        return true;
+    }
+    public boolean managerQuota(){
+        int staffRoleSize = this.getEmployees().size() - this.managerCount;
+        //im using guard clause here to reduce if-else statements
+        if(staffRoleSize < 5 && this.managerCount <1) return false;
+        if(staffRoleSize > 4 && staffRoleSize < 9 && this.managerCount <2) return false;
+        if(staffRoleSize > 8 && staffRoleSize < 16 && this.managerCount < 3) return false;
+        return true;
+    }
+
 
 //=====================
     public List<MenuItem> getMenu() {
@@ -70,10 +85,22 @@ public class Branch {
 
     public void setEmployees(List<AEmployee> branchAEmployees){
         this.employees = branchAEmployees;
+
+        int managers = 0;
+        for(AEmployee employee : branchAEmployees){
+            if("M".equals(employee.getRole())){
+                managers++;
+            }
+        }
+        this.managerCount = managers;
     }
 
     public List<AEmployee> getEmployees(){
         return this.employees;
+    }
+
+    public int getManagerCount(){
+        return this.managerCount;
     }
 
     public void loadStaff(List<AEmployee> staff) {
