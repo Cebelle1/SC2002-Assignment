@@ -22,6 +22,7 @@ public class AdminController extends AController {
     private AEmployee currentuser;
     int inputBranch;
     int inputRole;
+    int checker;
     String gender;
 
     public AdminController(AEmployee user) {
@@ -70,7 +71,12 @@ public class AdminController extends AController {
                 break;
 
             case 5: // Transfer Staff
-                break;
+                // String nameOfStaff = adminHomePageView.getInputString("Enter staff name to be
+                // tranfered: ");
+                // String branchToTransferredTo = adminHomePageView.getInputString("Enter Branch
+                // to be tranfered to: ");
+                // adminRole.tranferStaff(nameOfStaff, branchToTransferredTo);
+                // break;
 
             case 6: // Edit paymnet method
                 // =====Testing===
@@ -127,7 +133,7 @@ public class AdminController extends AController {
                 String branchUpdate = adminHomePageView.getInputString("Enter Staff's Branch: ");
                 String passwordUpdate = adminHomePageView.getInputString("Enter Staff's new password: ");// default
                                                                                                          // password
-                // for new users is
+                                                                                                         // for new users is
                 AEmployee EditStaffAcc = new AdminRole(nameUpdate, staffIDUpdate, roleUpdate, genderUpdate, ageUpdate,
                         branchUpdate, passwordUpdate);
                 adminRole.addStaff(EditStaffAcc);
@@ -144,22 +150,22 @@ public class AdminController extends AController {
         switch (num) {
             case 1: // branch
                 while (true) {
+                    List<Branch> branches = Branch.getAllBranches();
+                    checker = branchV.displayAllBranch(branches);
                     inputBranch = adminHomePageView
-                            .getInputInt("Select Branch Name as filter: (1)JP (2)JE (3)NTU:  ");
-                    if (inputBranch > 0 && inputBranch < 4) {
+                            .getInputInt("Select Branch Name as filter:");
+                    if (inputBranch > 0 && inputBranch < (checker + 1)) {
                         break;
                     }
                     adminHomePageView.renderApp(10);
                 }
                 List<AEmployee> filterbybranch = adminRole.EmpFilterByBranch(inputBranch);
-                adminHomePageView.printFilterStaff(filterbybranch); // continue coding from end, do i filter by
-                                                                    // asking string or int?
+                adminHomePageView.printFilterStaff(filterbybranch);
                 break;
 
             case 2: // role
                 while (true) {
-                    inputRole = adminHomePageView
-                            .getInputInt("Select Role Name as filter: (1)Staffs (2)Managers ");
+                    inputRole = adminHomePageView.getInputInt("Select Role Name as filter: (1)Staffs (2)Managers ");
                     if (inputRole > 0 && inputRole < 3) {
                         break;
                     }
@@ -171,9 +177,9 @@ public class AdminController extends AController {
 
             case 3: // gender
                 while (true) {
-                    gender = adminHomePageView
-                            .getInputString("Enter M for male or F for female as filter:  ");
-                    if (gender == "M" || gender == "F" || gender == "f" || gender == "m") {
+                    gender = adminHomePageView.getInputString("Enter gender(M/F) as filter:  ");
+                    if (gender.equalsIgnoreCase("M") || gender.equalsIgnoreCase("F")) {
+                        gender = gender.toUpperCase();
                         break;
                     }
                     adminHomePageView.renderApp(10);

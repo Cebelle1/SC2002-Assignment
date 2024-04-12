@@ -38,7 +38,7 @@ public class AdminHomePageView extends ARenderView {
                 renderManageBranch();
 
             case 10: // error handling
-                errorintinput();
+                errorIntInput();
                 break;
 
         }
@@ -71,7 +71,7 @@ public class AdminHomePageView extends ARenderView {
     // ==================Display Staff List With
     // filter(2)===========================
     public void renderChoiceFilterDisplay() {
-        super.printBorder("Display Staff List");
+        super.printBorder("Display Staff List ");
         System.out.println("Filter in terms of: ");
         System.out.println("(1) Branch");
         System.out.println("(2) Role");
@@ -135,7 +135,7 @@ public class AdminHomePageView extends ARenderView {
             System.out.print(String.format("%-" + (maxWidths[6] + 2) + "s", emp.getPassword()));
             System.out.println();
         }
-        super.delay(10);
+        super.exitPrompt();
     }
 
     public void renderManageBranch() {
@@ -145,7 +145,7 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("(3) Open a new branch");
     }
 
-    public void errorintinput() {
+    public void errorIntInput() {
         System.out.println("Invalid choice, please enter a valid number");
         System.out.println(" ");
     }

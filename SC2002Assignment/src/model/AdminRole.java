@@ -22,8 +22,7 @@ public class AdminRole extends AEmployee {
     // Add your individual role method here like edit staffacc, display staff list
     // etc
     // create with i can get the fill Employee with no filter
-    // =======================================Edit (add, remove, edit) staff
-    // list======================================================
+    // =======================================Edit (add, remove, edit) staff list======================================================
     public void addStaff(AEmployee newAEmployee) {
         int checker = EmployeeDataManager.addNewStaffAccount(newAEmployee);
         if (checker == -1) {
@@ -45,21 +44,21 @@ public class AdminRole extends AEmployee {
                 return;
             }
         }
-        // System.out.println("Staff Name Do Not exist");
+
     }
 
-    // =======================================Display filter staff
-    // list======================================================
+    // =======================================Display filter staff list======================================================
     public List<AEmployee> EmpAllWithoutFilter() {
         List<AEmployee> allAEmployees = EmployeeHandler.getAllUnsortedEmployees();
         return allAEmployees;
     }
 
     public List<AEmployee> EmpFilterByAge(int min, int max) {
-        List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
-        EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
-        List<AEmployee> filterbyage = empfilter.filterEmployeesByAgeRange(min, max); // TO DO: either change the method
-                                                                                     // in class to static or change
+        List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees();
+        EmployeeFilter empfilter = new EmployeeFilter(filter);
+        List<AEmployee> filterbyage = empfilter.filterEmployeesByAgeRange(min, max); // TO DO: either change the
+                                                                                     // method in class to static or
+                                                                                     // change
                                                                                      // this line to non-static
         return filterbyage;
 
@@ -69,13 +68,10 @@ public class AdminRole extends AEmployee {
         // TO DO: change the selection to dynamic. you need to account for new branches.
         // refer to CustomerCon case 10
         String inputStrBranch;
-        if (inputBranch == 1) {
-            inputStrBranch = "JP";
-        } else if (inputBranch == 2) {
-            inputStrBranch = "JE";
-        } else {
-            inputStrBranch = "NTU";
-        }
+
+        List<Branch> branches = Branch.getAllBranches();
+        inputStrBranch = branches.get(inputBranch - 1).getName();
+
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
         EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
         List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputStrBranch); // TO DO: either change the
@@ -109,10 +105,14 @@ public class AdminRole extends AEmployee {
 
     }
 
-    // =====================Promotion from staff to manager within the same
-    // branch===================================
+    // =====================Promotion from staff to manager within the same branch===================================
     public void promotionStaff(String staffnameToPromote) {
         EmployeeDataManager.promoteStaffToManager(staffnameToPromote);
+    }
+
+    // ======================Transfer a staff/manager amongst branches===================
+    public void tranferStaff(String nameOfStaff, String branchToTransferredTo) {
+
     }
 
     // ========================Payment method========================
