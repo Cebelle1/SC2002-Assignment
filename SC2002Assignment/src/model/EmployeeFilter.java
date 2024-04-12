@@ -21,13 +21,13 @@ public class EmployeeFilter {
     }
 
     // Filter employees by branch
-    public static List<AEmployee> filterEmployeesByBranch(String branch) {
+    public List<AEmployee> filterEmployeesByBranch(String branch) {
         Predicate<AEmployee> byBranch = employee -> employee.getBranch().equals(branch);
         return filterEmployees(byBranch);
     }
 
     // Filter employees by age range
-    public static List<AEmployee> filterEmployeesByAgeRange(int minAge, int maxAge) {
+    public List<AEmployee> filterEmployeesByAgeRange(int minAge, int maxAge) {
         Predicate<AEmployee> byAgeRange = employee -> employee.getAge() >= minAge && employee.getAge() <= maxAge;
         return filterEmployees(byAgeRange);
     }
