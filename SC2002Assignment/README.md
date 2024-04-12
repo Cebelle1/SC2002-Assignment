@@ -1,18 +1,117 @@
-## Getting Started
+# Folder Structure
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
-
-## Folder Structure
-
-The workspace contains two folders by default, where:
-
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+|   branch_list.txt
+|   branch_list.xlsx
+|   Fastfood ordering and management System (FOMS) SC2002 Assignment 2023S2.pdf
+|   LICENSE
+|   menu_list.txt
+|   menu_list.xlsx
+|   orders_serialize.txt
+|   payments.txt
+|   README.md
+|   staff_list.xlsx
+|   staff_list_with_pw.txt
+|
++---.vscode
+|       settings.json
+|
+\---SC2002Assignment
+    |   README.md
+    |
+    +---bin
+    |   |   App.class
+    |   |   Main.class
+    |   |
+    |   +---controller
+    |   |       AuthenticationController.class
+    |   |       LoginController.class
+    |   |
+    |   +---model
+    |   |   |   Staff.class
+    |   |   |
+    |   |   \---abstracts
+    |   |           AUser.class
+    |   |
+    |   \---view
+    |       |   LoginView.class
+    |       |   OrderView.class
+    |       |
+    |       \---interfaces
+    |               ViewInterface.class
+    |
+    \---src
+        |   App$DataFiles.class
+        |   App.java
+        |   Main.java
+        |
+        +---controller
+        |   |   AdminController.java
+        |   |   AuthenticationController.java
+        |   |   CustomerController.java
+        |   |   LoginController.java
+        |   |   ManagerController.java
+        |   |   OrderMenuController.java
+        |   |   StaffController.java
+        |   |
+        |   \---abstracts
+        |           AController.java
+        |
+        +---model
+        |   |   AdminRole.java
+        |   |   Branch.java
+        |   |   BranchDataManager.java
+        |   |   EmployeeDataManager.java
+        |   |   EmployeeFilter.java
+        |   |   EmployeeHandler.java
+        |   |   ManagerRole.java
+        |   |   Order$OrderStatus.class
+        |   |   Order.java
+        |   |   ResetPassword.java
+        |   |   SerializationManager.java
+        |   |   StaffRole.java
+        |   |   UpdateMenu.java
+        |   |
+        |   +---abstracts
+        |   |       AEmployee.java
+        |   |
+        |   +---interfaces
+        |   |       IMenuHandler.java
+        |   |
+        |   +---menus
+        |   |       MenuHandler.java
+        |   |       MenuItem.java
+        |   |       SetMealCategory.java
+        |   |
+        |   \---payments
+        |           Alipay.class
+        |           Alipay.java
+        |           CreditCardPayment.java
+        |           DebitCardPayment.java
+        |           GenerateNewPayment.java
+        |           IPaymentProcessor.java
+        |           OCBC.class
+        |           OCBC.java
+        |           PaymentMethodFactory.java
+        |           PayNowPayment.java
+        |
+        \---view
+            |   AdminHomePageView.java
+            |   BranchView.java
+            |   CustomerHomePageView.java
+            |   LoginView.java
+            |   ManagerHomePageView.java
+            |   MenuView.java
+            |   OrderMenuView.java
+            |   OrderView.java
+            |   ReceiptView.java
+            |   StaffHomePageView.java
+            |
+            +---abstracts
+            |       ARenderPayment.java
+            |       ARenderView.java
+            |
+            +---interfaces
+            |       ViewInterface.java
+            |
+            \---payments
+                    PaymentView.java
