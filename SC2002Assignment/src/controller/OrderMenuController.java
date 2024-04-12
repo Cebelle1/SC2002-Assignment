@@ -2,19 +2,12 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import controller.CustomerController;
 import controller.abstracts.AController;
 import model.Branch;
-import model.menus.MenuItem;
-import model.menus.SetMealCategory;
-import model.payments.IPaymentProcessor;
 import model.payments.PaymentMethodFactory;
 import view.MenuView;
 import view.OrderMenuView;
 import view.OrderView;
-import view.payments.PaymentView;
 import model.Order;
 import model.menus.MenuHandler;
 
@@ -74,7 +67,7 @@ public class OrderMenuController extends AController {
                 if(!checkedOut){
                     System.out.println("No dining mode selected, please select a dining mode first!");
                 }else{
-                    orderV.displayCheckout(this.orders);
+                    orderV.displayCheckout(Order.getCurrentOrder());
                 }
                 omv.getInputString("Enter a key to exit");
 

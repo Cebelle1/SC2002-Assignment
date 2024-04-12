@@ -1,4 +1,8 @@
 package model;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +40,6 @@ public class Branch {
     }
     
     public static List<Branch> getOpenBranches(){
-        System.out.println(openBranches);
         return openBranches;
     }
 
@@ -136,5 +139,4 @@ public class Branch {
     public void setLocation(String location){
         this.location = location;
     }
-    
 }

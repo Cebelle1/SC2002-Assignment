@@ -42,7 +42,7 @@ public class MenuHandler {
                 removeItemFromCart();
                 break;
             case 3:
-                createNewOrder();
+                Order newOrder = new Order(branches.get(branchChoice));
                 omc.navigate(2);
                 break;
         }
@@ -63,12 +63,14 @@ public class MenuHandler {
             omv.displayEmptyOrderListError();
             omc.navigate(2);
         }
-
-        if (orders.getOrders().size() < 1) {
-            createNewOrder();
+        Order currentOrder = Order.getCurrentOrder();
+        
+        if (currentOrder == null) {
+            Order newOrder = new Order(branches.get(branchChoice));
+            currentOrder = newOrder;
         }
 
-        Order currentOrder = Order.getCurrentOrder();
+       
 
         //If already checked out, i.e process status >= PENDING, cannot add. But still can add if just selected dining mode
         if(currentOrder.getOrderStatus() != OrderStatus.NEW && currentOrder.getOrderStatus() != OrderStatus.ORDERING){
@@ -78,7 +80,7 @@ public class MenuHandler {
 
         menuV.displayMenu(branchChoice, branches);    //shift to BranchView
         
-        int menuItemIndex = omv.getInputInt("Select menu item for Order " + (orders.getOrders().size()) + ":") - 1;
+        int menuItemIndex = omv.getInputInt("Select menu item for Order " + (Order.getCurrentOrder().getOrderID()) + ":") - 1;
         try {
             MenuItem selectedItem = getSelectedItem(menuItemIndex);
             if (!orders.getOrders().isEmpty()) {
@@ -130,12 +132,12 @@ public class MenuHandler {
         }
     }
 
-    private void createNewOrder() {
+    /*private void createNewOrder() {
         // Create a new order and add it to the list of orders
-        Order newOrder = new Order();
+        Order newOrder = new Order(branches.get(branchChoice));
         orders.newOrder(newOrder);
         System.out.println("New order created.");
-    }
+    }*/
 
 //===============Return the menu item selected, by categories==================//   
     public MenuItem getSelectedItem(int menuIndex) {

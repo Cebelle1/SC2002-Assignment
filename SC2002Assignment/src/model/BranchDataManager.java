@@ -104,7 +104,7 @@ public class BranchDataManager {
                         boolean canOpen = branch.canOpenBranch();
                         branch.setOperation(canOpen);
                         
-                        if (isOpen && canOpen) {    //isOpen = previous stat, canOpen = recalculate
+                        if (isOpen || canOpen) {    //isOpen = previous stat, canOpen = recalculate
                             openBranches.add(branch);
                         }
                     } else {

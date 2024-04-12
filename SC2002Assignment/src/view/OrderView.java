@@ -43,8 +43,6 @@ public class OrderView extends ARenderView{
 
     //General display for MenuItems for a single order by inputing OrderID
     public void displayOrderList(Order orders, int selectedOrderIndex) {
-        // Display the selected order's items
-        //Order selectedOrder = orders.get(selectedOrderIndex);
         Order selectedOrder = orders.getOrders().get(selectedOrderIndex);
         List<MenuItem> items = selectedOrder.getCurrentOrderItems();
         if (items.isEmpty()) {
