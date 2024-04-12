@@ -104,24 +104,60 @@ public class AdminRole extends AEmployee {
         return filterbyRole;
 
     }
+    //======================Assign Managers to each branch with quota constraints=====================================
+        public void assignManagers (String staffName,String branchToAssignTo){
+            // Bring out checking if entered staff first!**
+            if (EmployeeDataManager.checkifManager(staffName) == true){
+                List<Branch> branches = Branch.getAllBranches();
+                for(Branch branch : branches){
+                    if( branch.getName().equals(branchToAssignTo)){
+                        //System.out.println(branch.getName());
+                        //System.out.println(branch.managerQuota());
+                        if(branch.managerQuota()== false && branch.staffQuota() == false){ // can add the staff in
+                            EmployeeDataManager.assignManagerToBranch(staffName,branchToAssignTo);
+                        }
+                        else{
+                            System.out.println(branchToAssignTo+" outlet has already met the quota. Staff "+ staffName+ " not assigned to outlet.");
+                            return;
+                        }
+                    }
+                }
+            }
+            else{
+                System.out.println("Staff "+ staffName + " is not a manager. Staff not assigned.");
+            }
+        }
 
     // =====================Promotion from staff to manager within the same branch===================================
     public void promotionStaff(String staffnameToPromote) {
         EmployeeDataManager.promoteStaffToManager(staffnameToPromote);
     }
 
-    // ======================Transfer a staff/manager amongst branches===================
+    // ======================Transfer a staff/manager amongst branches================================================
     public void tranferStaff(String nameOfStaff, String branchToTransferredTo) {
+        //check the person's branch and see if he is from that (no -> return)
+        if (EmployeeDataManager.checkifStaffExists(nameOfStaff) == false){
+            System.out.println("Staff " + nameOfStaff + " does not exist");
+            return;
+        }
+        
+        //(yes) check the quotation of the outlet if they person can be added (no -> return "Do not adhere quotation constraints, branch remains close")
+        //(yes) change the person's outlet in staff_list_with_pwd.txt
+        //
 
+
+
+
+        
     }
 
-    // ========================Payment method========================
+    // ========================Payment method======================================================================
     // TO DO: the actual function works in your AdminController, just organize it.
     public void addPaymentMethod(String type) {
         IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod("MasterCardPayment");
     }
 
-    // ======================open/clos branch=================
+    // ======================open/clos branch=======================================================================
     public void closeOpenBranch(List<Branch> branches, int branchChoice, int closeOrOpen) {
         Branch selectedBranch = branches.get(branchChoice);
 

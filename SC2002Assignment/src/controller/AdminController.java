@@ -61,22 +61,21 @@ public class AdminController extends AController {
                 break;
 
             case 3: // Assign Managers
+                String staffName = adminHomePageView.getInputString("Enter Manager name to be tranfered: ");
+                String branchToAssignTo = adminHomePageView.getInputString("Enter Branch to be assigned to: ");
+                adminRole.assignManagers(staffName,branchToAssignTo);
                 break;
 
             case 4: // Promotion
-                String staffNameToPromote = adminHomePageView
-                        .getInputString("Enter staff name to be promoted to Manager: ");
+                String staffNameToPromote = adminHomePageView.getInputString("Enter staff name to be promoted to Manager: ");
                 adminRole.promotionStaff(staffNameToPromote);
-
                 break;
 
             case 5: // Transfer Staff
-                // String nameOfStaff = adminHomePageView.getInputString("Enter staff name to be
-                // tranfered: ");
-                // String branchToTransferredTo = adminHomePageView.getInputString("Enter Branch
-                // to be tranfered to: ");
+                // String nameOfStaff = adminHomePageView.getInputString("Enter staff name to be tranfered: ");
+                // String branchToTransferredTo = adminHomePageView.getInputString("Enter Branchto be tranfered to: ");
                 // adminRole.tranferStaff(nameOfStaff, branchToTransferredTo);
-                // break;
+                break;
 
             case 6: // Edit paymnet method
                 // =====Testing===
@@ -96,8 +95,7 @@ public class AdminController extends AController {
 
     }
 
-    // =============================navigate for edit staff
-    // list===================================
+    // =============================navigate for edit staff list===================================
     public void editNavigate(int num) {
         switch (num) {
             case 1: // Add staff account if there an STAFFID already existing it will return
@@ -144,8 +142,7 @@ public class AdminController extends AController {
 
     }
 
-    // =============================navigate for display staff list with filters
-    // ===================================
+    // =============================navigate for display staff list with filters===================================
     public void displayNavigate(int num) {
         switch (num) {
             case 1: // branch
