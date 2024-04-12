@@ -22,7 +22,11 @@ public class Branch {
         this.menu = menu;
         allBranches.add(this);
     }
-//================================
+
+    public String getName() {
+        return name;
+    }
+//===================Get Branches====================
     public static List<Branch> getAllBranches() {
         return allBranches;
     }
@@ -42,6 +46,7 @@ public class Branch {
         return closedBranches;
     }
 
+//=============Branch Operation Quota Requirements==================
     public boolean canOpenBranch(){
         return staffQuota() && managerQuota();
     }
@@ -59,8 +64,10 @@ public class Branch {
         return true;
     }
 
-
-//=====================
+    public int getManagerCount(){
+        return this.managerCount;
+    }
+//==================Branch Menu===================
     public List<MenuItem> getMenu() {
         return this.menu;
     }
@@ -71,10 +78,6 @@ public class Branch {
                    .collect(Collectors.toList());
     }
 
-    public String getName() {
-        return name;
-    }
-
     public void addMenuItem(MenuItem menuItem){
         menu.add(menuItem);
     }
@@ -83,6 +86,7 @@ public class Branch {
         menu.remove(menuItem);
     }
 
+//==================Employees====================
     public void setEmployees(List<AEmployee> branchAEmployees){
         this.employees = branchAEmployees;
 
@@ -99,10 +103,8 @@ public class Branch {
         return this.employees;
     }
 
-    public int getManagerCount(){
-        return this.managerCount;
-    }
 
+//==========Getters and Mutators===================
     public void loadStaff(List<AEmployee> staff) {
         this.employees = staff.stream()
                               .filter(employee -> employee.getBranch().equals(this.name))
