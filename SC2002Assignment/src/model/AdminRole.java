@@ -58,14 +58,16 @@ public class AdminRole extends AEmployee {
     public List<AEmployee> EmpFilterByAge(int min, int max) {
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
         EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
-        List<AEmployee> filterbyage = empfilter.filterEmployeesByAgeRange(min, max);  //TO DO: either change the method in class to static or change this line to non-static
+        List<AEmployee> filterbyage = empfilter.filterEmployeesByAgeRange(min, max); // TO DO: either change the method
+                                                                                     // in class to static or change
+                                                                                     // this line to non-static
         return filterbyage;
 
     }
 
-
     public List<AEmployee> EmpFilterByBranch(int inputBranch) {
-        //TO DO: change the selection to dynamic. you need to account for new branches. refer to CustomerCon case 10 
+        // TO DO: change the selection to dynamic. you need to account for new branches.
+        // refer to CustomerCon case 10
         String inputStrBranch;
         if (inputBranch == 1) {
             inputStrBranch = "JP";
@@ -76,7 +78,10 @@ public class AdminRole extends AEmployee {
         }
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
         EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
-        List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputStrBranch); //TO DO: either change the method in class to static or change this line to non-static
+        List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputStrBranch); // TO DO: either change the
+                                                                                            // method in class to static
+                                                                                            // or change this line to
+                                                                                            // non-static
         return filterbyBranch;
     }
 
@@ -104,24 +109,31 @@ public class AdminRole extends AEmployee {
 
     }
 
+    // =====================Promotion from staff to manager within the same
+    // branch===================================
+    public void promotionStaff(String staffnameToPromote) {
+        EmployeeDataManager.promoteStaffToManager(staffnameToPromote);
+    }
+
+    // ========================Payment method========================
     // TO DO: the actual function works in your AdminController, just organize it.
     public void addPaymentMethod(String type) {
         IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod("MasterCardPayment");
     }
 
-    
-    public void closeOpenBranch(List<Branch> branches, int branchChoice, int closeOrOpen){
+    // ======================open/clos branch=================
+    public void closeOpenBranch(List<Branch> branches, int branchChoice, int closeOrOpen) {
         Branch selectedBranch = branches.get(branchChoice);
-    
-        if(closeOrOpen == 1){   //1-Open an exising, 2-Close an exising
-            if(selectedBranch.canOpenBranch()){
+
+        if (closeOrOpen == 1) { // 1-Open an exising, 2-Close an exising
+            if (selectedBranch.canOpenBranch()) {
                 selectedBranch.setOperation(true);
-            }else{
+            } else {
                 System.out.println("Staff quota not met, cannot open branch");
                 return;
             }
-            
-        }else if ( closeOrOpen == 2){
+
+        } else if (closeOrOpen == 2) {
             selectedBranch.setOperation(false);
         }
         BranchDataManager.updateBranchList(selectedBranch);
