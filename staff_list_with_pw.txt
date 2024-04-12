@@ -7,4 +7,3 @@ Justin Loh	JustinL	S	M	49	JP	password
 Boss	boss	A	F	62		password
 Jane Teh	JaneT	S	F	56	JP	helloworld123
 Rene Tan	ReneT	M	F	78	JE	yayapapaya  
-Glen Goh	GlenG	S	M	23	NTU	password
