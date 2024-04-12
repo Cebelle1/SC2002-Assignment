@@ -63,6 +63,10 @@ public class AdminController extends AController {
                 break;
 
             case 4: // Promotion
+                String staffNameToPromote = adminHomePageView
+                        .getInputString("Enter staff name to be promoted to Manager: ");
+                adminRole.promotionStaff(staffNameToPromote);
+
                 break;
 
             case 5: // Transfer Staff
@@ -191,19 +195,19 @@ public class AdminController extends AController {
 
     }
 
-    //======
-    public void manageExistingBranch(int choice){   //1-Open an exising, 2-Close an exising
+    // ======
+    public void manageExistingBranch(int choice) { // 1-Open an exising, 2-Close an exising
         List<Branch> openedClosedBranch = null;
-        if(choice == 1){
-            openedClosedBranch  = Branch.getClosedBranches();
-        }else if( choice == 2){
+        if (choice == 1) {
+            openedClosedBranch = Branch.getClosedBranches();
+        } else if (choice == 2) {
             openedClosedBranch = Branch.getOpenBranches();
         }
-        
+
         branchV.displayOpenBranch(openedClosedBranch, true);
         int branchChoice = adminHomePageView.getInputInt("Which branch do you want to close/open?");
-        
-        adminRole.closeOpenBranch(openedClosedBranch, branchChoice-1, choice);
-        
+
+        adminRole.closeOpenBranch(openedClosedBranch, branchChoice - 1, choice);
+
     }
 }

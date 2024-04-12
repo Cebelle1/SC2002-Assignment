@@ -40,7 +40,7 @@ public class StaffHomePageView extends ARenderView{
                 System.out.println("Process Order: ");
                 System.out.println("(1) Select Order ");
                 System.out.println("(2) Update order status ");
-                System.out.println("(3) Back to Staff Main View");
+                System.out.println("(3) Back to Staff Home Page");
                 break;
             case 4:
                 break;
@@ -57,7 +57,7 @@ public class StaffHomePageView extends ARenderView{
     @Override
     public void renderChoice(){
         // to print the borders -> override the superclass method
-        super.printBorder("Staff Main Page");
+        super.printBorder("Staff Home Page");
     }
 
 }

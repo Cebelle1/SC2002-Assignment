@@ -16,40 +16,40 @@ import java.util.List;
 import model.abstracts.AEmployee;
 
 public class EmployeeDataManager {
-    
 
-//===================staff_list_with_pw.txt================================//
+    // ===================staff_list_with_pw.txt================================//
 
-public static void updateFile(String filePath, String newPassword, String id){
-    try(BufferedReader br = new BufferedReader(new FileReader(filePath));
-        BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
-        String line;
-        while((line = br.readLine()) != null){
-            String[] parts = line.split("\t");
-            if(parts.length == 7 && id.equals(parts[1])){
-                parts[6] = newPassword;
-                line = String.join("\t", parts);
+    public static void updateFile(String filePath, String newPassword, String id) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length == 7 && id.equals(parts[1])) {
+                    parts[6] = newPassword;
+                    line = String.join("\t", parts);
+                }
+                bw.write(line);
+                bw.newLine();
             }
-            bw.write(line);
-            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("Error updating the password: " + e.getMessage());
         }
-    } catch(IOException e){
-        System.err.println("Error updating the password: " + e.getMessage());
+
+        // Update the new staff list file
+        File original = new File(filePath);
+        File tempFile = new File("temp.txt");
+
+        Path originalPath = Paths.get(original.getPath());
+        Path tempPath = Paths.get(tempFile.getPath());
+
+        try {
+            Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.err.println("Error updating the file: " + e.getMessage());
+        }
     }
 
-    // Update the new staff list file
-    File original = new File(filePath);
-    File tempFile = new File("temp.txt");
-
-    Path originalPath = Paths.get(original.getPath());
-    Path tempPath = Paths.get(tempFile.getPath());
-
-    try{
-        Files.move(tempPath, originalPath, StandardCopyOption.REPLACE_EXISTING);
-    } catch(IOException e){
-        System.err.println("Error updating the file: " + e.getMessage());
-    }
-}
     // ======================================ADMIN
     // EDITS===========================================
     public static int addNewStaffAccount(AEmployee newAEmployee) {
@@ -138,4 +138,46 @@ public static void updateFile(String filePath, String newPassword, String id){
             System.out.println("Staff member with ID " + staffNameToRemove + " not found.");
         }
     }
+
+    // For Promotion staff -> branch manager
+    public static void promoteStaffToManager(String staffnameToPromote) {
+        String filePath = "staff_list_with_pw.txt";
+        boolean isPromoted = false;
+        boolean nonExistent = true;
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp1.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length > 1 && parts[0].equals(staffnameToPromote)) {
+                    nonExistent = false;
+                    if (parts[2].equals("M")) {
+                        System.out.println("Staff " + staffnameToPromote + " is already a Manager");
+                    } else {
+                        parts[2] = "M"; // Promote to Manager and continues to copy the rest into the temp file
+                        line = String.join("\t", parts);
+                        isPromoted = true;
+                    }
+                }
+                bw.write(line);
+                bw.newLine();
+            }
+            if (nonExistent) {
+                System.out.println("Staff " + staffnameToPromote + " does not exist");
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the item name: " + e.getMessage());
+        }
+
+        // Replace the original file with the updated one
+        try {
+            Files.move(Paths.get("temp1.txt"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+            if (isPromoted) {
+                System.out.println("Staff " + staffnameToPromote + " is promoted to a Manager");
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the file: " + e.getMessage());
+        }
+    }
+
 }
