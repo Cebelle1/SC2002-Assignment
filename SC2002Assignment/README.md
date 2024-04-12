@@ -1,5 +1,5 @@
 # Folder Structure
-
+```
 |   branch_list.txt
 |   branch_list.xlsx
 |   Fastfood ordering and management System (FOMS) SC2002 Assignment 2023S2.pdf
@@ -115,3 +115,4 @@
             |
             \---payments
                     PaymentView.java
+```
