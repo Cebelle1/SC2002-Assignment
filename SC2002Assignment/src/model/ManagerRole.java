@@ -111,8 +111,8 @@ public class ManagerRole extends StaffRole{
     public boolean itemAvailable(String itemName, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
         for(MenuItem item : menu){
-            item.getRawName().toLowerCase();
-            itemName.toLowerCase();
+            //item.getRawName().toLowerCase();
+            //itemName.toLowerCase();
             if(item.getRawName().toLowerCase().equals(itemName.toLowerCase()) && item.getBranch().equals(selectedBranch.getName()))
             //if(item.getRawName().equals(itemName) && item.getBranch().equals(selectedBranch.getName()))
             {
