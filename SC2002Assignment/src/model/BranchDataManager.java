@@ -21,9 +21,15 @@ import model.abstracts.AEmployee;
 import model.menus.MenuItem;
 
 public class BranchDataManager {
+    private static final String rootPath = "SC2002Assignment/src/database/";
+    private static final String paymentTxt = "payments.txt";
+    private static final String menuListTxt = "menu_list.txt";
+    private static final String branchListTxt = "branch_list.txt";
+    private static final String staffListTxt = "staff_list_with_pw.txt";
+    private static final String tempBranchTxt = "temp_branch.txt";
 
     public static List<Branch> loadMenuIntoBranches() {
-        final String MENU_LIST = "menu_list.txt";
+        final String MENU_LIST = rootPath+ menuListTxt;
         Map<String, List<MenuItem>> branchMenuMap = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(MENU_LIST))) {
@@ -76,7 +82,7 @@ public class BranchDataManager {
     }
 
     public static void loadQuotaNStatus(List<Branch> branches) {
-        String filePath = "branch_list.txt";
+        String filePath = rootPath + branchListTxt;
         List<Branch> openBranches = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             // Skip the header line
@@ -121,7 +127,7 @@ public class BranchDataManager {
 
       // load the staff list here
     public static List<EmployeeHandler> loadStaff() {
-        final String STAFF_LIST = "staff_list_with_pw.txt";
+        final String STAFF_LIST = rootPath + staffListTxt;
         Map<String, List<AEmployee>> staffMap = new HashMap<>();    //Employee sorted into their roles
         List<AEmployee> allEmployees = new ArrayList<>(); // Unsorted employee
         try (BufferedReader br = new BufferedReader(new FileReader(STAFF_LIST))) {
@@ -171,11 +177,11 @@ public class BranchDataManager {
         return roleCategories;
     }
 
-    private static String filePath = "branch_list.txt";
+    private static String filePath = rootPath + branchListTxt;
 
     public static void updateBranchList(Branch branch) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath));
-             BufferedWriter bw = new BufferedWriter(new FileWriter("temp_branch.txt"))) {
+             BufferedWriter bw = new BufferedWriter(new FileWriter(rootPath + tempBranchTxt))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\t");
@@ -193,7 +199,7 @@ public class BranchDataManager {
 
         // Replace the original file with the updated one
         File original = new File(filePath);
-        File tempFile = new File("temp_branch.txt");
+        File tempFile = new File(rootPath + tempBranchTxt);
 
         Path originalPath = Paths.get(original.getPath());
         Path tempPath = Paths.get(tempFile.getPath());
@@ -212,7 +218,7 @@ public class BranchDataManager {
 
 //===================Payment.txt================================//
     public static void appendPaymentMethod(String paymentMethod) {
-        String fileName = "payments.txt";
+        String fileName = rootPath + paymentTxt;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             writer.write(paymentMethod + "\n");
             System.out.println("Payment method appended successfully.");
@@ -223,7 +229,7 @@ public class BranchDataManager {
 
     //Not tested
     public static void removePaymentMethod(String paymentMethodToRemove) {
-        String fileName = "payments.txt";
+        String fileName = rootPath + paymentTxt;
         try {
             List<String> lines = Files.readAllLines(Paths.get(fileName));
             if (lines.remove(paymentMethodToRemove)) {
@@ -238,7 +244,7 @@ public class BranchDataManager {
     }
 
     public static List<String> readPaymentMethods() {
-        String fileName = "payments.txt";
+        String fileName = rootPath + paymentTxt;
         List<String> paymentMethods = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
