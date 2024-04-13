@@ -227,13 +227,17 @@ public static void assignManagerToBranch(String staffName,String branchToAssignT
 public static boolean checkifManager(String nameOfStaff) {
     String filePath = "staff_list_with_pw.txt";
     boolean managerCheck = true;
+    boolean staffExists = false;
     try (BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp1.txt"))) {
         String line;
         while ((line = br.readLine()) != null) {
-            String[] parts = line.split("\t");
-            if (parts.length > 1 && parts[0].equals(nameOfStaff) && parts[2].equals("S")) {
-                managerCheck = false;                   
+            String[] parts = line.split("\t");{
+            if (parts.length > 1 && parts[0].equals(nameOfStaff)); 
+            staffExists = true;
+                if( parts[2].equals("S")) {
+                    managerCheck = false; 
+                }                  
             }
             bw.write(line);
             bw.newLine();
@@ -248,7 +252,7 @@ public static boolean checkifManager(String nameOfStaff) {
     } catch (IOException e) {
         System.err.println("Error updating the file: " + e.getMessage());
     }
-    return managerCheck;
+    return managerCheck && staffExists;
 }
 
 

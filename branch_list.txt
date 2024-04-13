@@ -1,4 +1,4 @@
 Name	Location	Staff Quota	Operation
 NTU	North spine Plaza	2	open
-JP	Jurong point	3	close
-JE	Jurong east	2	open
+JP	Jurong point	3	open
+JE	Jurong east	3	close

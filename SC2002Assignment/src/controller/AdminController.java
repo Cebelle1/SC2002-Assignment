@@ -62,7 +62,8 @@ public class AdminController extends AController {
 
             case 3: // Assign Managers
                 String staffName = adminHomePageView.getInputString("Enter Manager name to be tranfered: ");
-                String branchToAssignTo = adminHomePageView.getInputString("Enter Branch to be assigned to: ");
+                
+                int branchToAssignTo = getBranchName();
                 adminRole.assignManagers(staffName,branchToAssignTo);
                 break;
 
@@ -94,7 +95,6 @@ public class AdminController extends AController {
         }
 
     }
-
     // =============================navigate for edit staff list===================================
     public void editNavigate(int num) {
         switch (num) {
@@ -198,7 +198,7 @@ public class AdminController extends AController {
 
     }
 
-    // ======
+    // ===========================open/close branch=====================================================
     public void manageExistingBranch(int choice) { // 1-Open an exising, 2-Close an exising
         List<Branch> openedClosedBranch = null;
         if (choice == 1) {
@@ -212,5 +212,19 @@ public class AdminController extends AController {
 
         adminRole.closeOpenBranch(openedClosedBranch, branchChoice - 1, choice);
 
+    }
+
+    //=============================Assign Managers to Branches with quota constratits=============================
+    public int getBranchName(){
+        List<Branch> branches = Branch.getAllBranches();
+                while(true){
+                    checker = branchV.displayAllBranch(branches);
+                    inputBranch = adminHomePageView.getInputInt("Select Branch to be assigned to: ");
+                        if (inputBranch > 0 && inputBranch < (checker + 1)) {
+                            break;
+                        }
+                    adminHomePageView.renderApp(10);
+                }
+        return inputBranch;
     }
 }

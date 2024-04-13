@@ -105,26 +105,29 @@ public class AdminRole extends AEmployee {
 
     }
     //======================Assign Managers to each branch with quota constraints=====================================
-        public void assignManagers (String staffName,String branchToAssignTo){
-            // Bring out checking if entered staff first!**
-            if (EmployeeDataManager.checkifManager(staffName) == true){
+        public void assignManagers (String staffName,int branchToAssignTo){
+
+            List<Branch> allbranches = Branch.getAllBranches();
+            String inputStrBranch = allbranches.get(branchToAssignTo - 1).getName();
+            
+            if (EmployeeDataManager.checkIfStaffExits(staffName) == true ){
                 List<Branch> branches = Branch.getAllBranches();
                 for(Branch branch : branches){
-                    if( branch.getName().equals(branchToAssignTo)){
+                    if( branch.getName().equals(inputStrBranch)){
                         //System.out.println(branch.getName());
                         //System.out.println(branch.managerQuota());
                         if(branch.managerQuota()== false && branch.staffQuota() == false){ // can add the staff in
-                            EmployeeDataManager.assignManagerToBranch(staffName,branchToAssignTo);
+                            EmployeeDataManager.assignManagerToBranch(staffName,inputStrBranch);
                         }
                         else{
-                            System.out.println(branchToAssignTo+" outlet has already met the quota. Staff "+ staffName+ " not assigned to outlet.");
+                            System.out.println("Branch "+ inputStrBranch +" has already met the quota. Staff "+ staffName+ " not assigned.");
                             return;
                         }
                     }
                 }
             }
             else{
-                System.out.println("Staff "+ staffName + " is not a manager. Staff not assigned.");
+                System.out.println("Staff "+ staffName + " is not a manager or does not exist. Staff not assigned.");
             }
         }
 
