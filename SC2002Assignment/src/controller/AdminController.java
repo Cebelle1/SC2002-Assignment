@@ -48,8 +48,8 @@ public class AdminController extends AController {
                 adminHomePageView.renderApp(1);
                 int choiceEdit = adminHomePageView.getInputInt("");
                 editNavigate(choiceEdit);
-                // this.navigate(0); // remove this later after, this is use for testing
-                // purposes!!
+                adminHomePageView.exitPrompt();
+                this.navigate(0);
                 break;
 
             case 2: // Display All Staff List in term of branch, role, gender, age
@@ -64,17 +64,23 @@ public class AdminController extends AController {
                 String staffName = adminHomePageView.getInputString("Enter Manager name to be tranfered: ");
                 int branchToAssignTo = getBranchName();
                 adminRole.assignManagers(staffName,branchToAssignTo);
+                adminHomePageView.exitPrompt();
+                this.navigate(0);
                 break;
 
             case 4: // Promotion
                 String staffNameToPromote = adminHomePageView.getInputString("Enter staff name to be promoted to Manager: ");
                 adminRole.promotionStaff(staffNameToPromote);
+                adminHomePageView.exitPrompt();
+                this.navigate(0);
                 break;
 
             case 5: // Transfer Staff
                 String nameOfStaff = adminHomePageView.getInputString("Enter staff/Manager name to be tranfered: ");
                 int branchToTransferTo = getBranchName();
                 adminRole.tranferStaff(nameOfStaff, branchToTransferTo);
+                adminHomePageView.exitPrompt();
+                this.navigate(0);
                 break;
 
             case 6: // Edit paymnet method
@@ -89,6 +95,8 @@ public class AdminController extends AController {
                 adminHomePageView.renderManageBranch();
                 int manageBranch = adminHomePageView.getInputInt("Choose an option");
                 manageExistingBranch(manageBranch);
+                adminHomePageView.exitPrompt();
+                this.navigate(0);
                 break;
 
         }
@@ -109,14 +117,14 @@ public class AdminController extends AController {
                 String password = "password";// default password for new users is "password"
                 AEmployee newStaffAcc = new AdminRole(name, staffID, role, gender, age, branch, password);
                 adminRole.addStaff(newStaffAcc);
-                // this.navigate(2); // go back to edit account
-                this.navigate(1);
+
+                //this.navigate(1);
                 break;
 
             case 2: // Remove Staff account
                 String staffNameToRemove = adminHomePageView.getInputString("Enter Staff Name to remove: ");
                 adminRole.removeStaff(staffNameToRemove);
-                this.navigate(1);
+                //this.navigate(1);
                 break;
 
             case 3: // edit staff account
@@ -134,7 +142,7 @@ public class AdminController extends AController {
                 AEmployee EditStaffAcc = new AdminRole(nameUpdate, staffIDUpdate, roleUpdate, genderUpdate, ageUpdate,
                         branchUpdate, passwordUpdate);
                 adminRole.addStaff(EditStaffAcc);
-                this.navigate(1);
+                //this.navigate(1);
                 break;
 
         }
