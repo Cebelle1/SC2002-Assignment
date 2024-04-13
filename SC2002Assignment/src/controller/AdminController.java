@@ -61,22 +61,21 @@ public class AdminController extends AController {
                 break;
 
             case 3: // Assign Managers
+                String staffName = adminHomePageView.getInputString("Enter Manager name to be tranfered: ");
+                int branchToAssignTo = getBranchName();
+                adminRole.assignManagers(staffName,branchToAssignTo);
                 break;
 
             case 4: // Promotion
-                String staffNameToPromote = adminHomePageView
-                        .getInputString("Enter staff name to be promoted to Manager: ");
+                String staffNameToPromote = adminHomePageView.getInputString("Enter staff name to be promoted to Manager: ");
                 adminRole.promotionStaff(staffNameToPromote);
-
                 break;
 
             case 5: // Transfer Staff
-                // String nameOfStaff = adminHomePageView.getInputString("Enter staff name to be
-                // tranfered: ");
-                // String branchToTransferredTo = adminHomePageView.getInputString("Enter Branch
-                // to be tranfered to: ");
-                // adminRole.tranferStaff(nameOfStaff, branchToTransferredTo);
-                // break;
+                String nameOfStaff = adminHomePageView.getInputString("Enter staff/Manager name to be tranfered: ");
+                int branchToTransferTo = getBranchName();
+                adminRole.tranferStaff(nameOfStaff, branchToTransferTo);
+                break;
 
             case 6: // Edit paymnet method
                 // =====Testing===
@@ -95,9 +94,7 @@ public class AdminController extends AController {
         }
 
     }
-
-    // =============================navigate for edit staff
-    // list===================================
+    // =============================navigate for edit staff list===================================
     public void editNavigate(int num) {
         switch (num) {
             case 1: // Add staff account if there an STAFFID already existing it will return
@@ -144,8 +141,7 @@ public class AdminController extends AController {
 
     }
 
-    // =============================navigate for display staff list with filters
-    // ===================================
+    // =============================navigate for display staff list with filters===================================
     public void displayNavigate(int num) {
         switch (num) {
             case 1: // branch
@@ -201,7 +197,7 @@ public class AdminController extends AController {
 
     }
 
-    // ======
+    // ===========================open/close branch=====================================================
     public void manageExistingBranch(int choice) { // 1-Open an exising, 2-Close an exising
         List<Branch> openedClosedBranch = null;
         if (choice == 1) {
@@ -215,5 +211,19 @@ public class AdminController extends AController {
 
         adminRole.closeOpenBranch(openedClosedBranch, branchChoice - 1, choice);
 
+    }
+
+    //=============================Assign Managers to Branches with quota constratits=============================
+    public int getBranchName(){
+        List<Branch> branches = Branch.getAllBranches();
+                while(true){
+                    checker = branchV.displayAllBranch(branches);
+                    inputBranch = adminHomePageView.getInputInt("Select Branch to be assigned to: ");
+                        if (inputBranch > 0 && inputBranch < (checker + 1)) {
+                            break;
+                        }
+                    adminHomePageView.renderApp(10);
+                }
+        return inputBranch;
     }
 }

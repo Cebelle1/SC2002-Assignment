@@ -50,8 +50,7 @@ public class EmployeeDataManager {
         }
     }
 
-    // ======================================ADMIN
-    // EDITS===========================================
+    // ======================================ADMIN  EDITS===========================================
     public static int addNewStaffAccount(AEmployee newAEmployee) {
         String filePath = "staff_list_with_pw.txt";
         List<String> lines = new ArrayList<>(); // Store file lines
@@ -179,5 +178,157 @@ public class EmployeeDataManager {
             System.err.println("Error updating the file: " + e.getMessage());
         }
     }
+
+//==================Assign Managers to each branch with quota constraints====================
+
+public static void assignManagerToBranch(String staffName,String branchToAssignTo) {
+    String filePath = "staff_list_with_pw.txt";
+    boolean isAssigned = false;
+    boolean nonExistent = true;
+    try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("temp1.txt"))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split("\t");
+            if (parts.length > 1 && parts[0].equals(staffName)) {
+                nonExistent = false;
+                if (parts[5].equals(branchToAssignTo)) {
+                    System.out.println("Staff " + staffName + " is already a Manager in "+ branchToAssignTo);
+                } else {
+                    parts[5] = branchToAssignTo; // Assign manager to new branch 
+                    line = String.join("\t", parts);
+                    isAssigned = true;
+                }
+                
+            }
+            bw.write(line);
+            bw.newLine();
+        
+        }
+        if (nonExistent) {
+            System.out.println("Staff " + staffName + " does not exist");
+        }
+    } catch (IOException e) {
+        System.err.println("Error updating the item name: " + e.getMessage());
+    }
+
+    // Replace the original file with the updated one
+    try {
+        Files.move(Paths.get("temp1.txt"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+        if (isAssigned) {
+            System.out.println("Staff " + staffName + " is assigned to Branch "+ branchToAssignTo);
+        }
+    } catch (IOException e) {
+        System.err.println("Error updating the file: " + e.getMessage());
+    }
+}
+
+
+public static boolean checkIfStaffExits(String nameOfStaff) {
+    String filePath = "staff_list_with_pw.txt";
+    boolean managerCheck = true;
+    boolean staffExists = false;
+    try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+            BufferedWriter bw = new BufferedWriter(new FileWriter("temp1.txt"))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] parts = line.split("\t");
+            if (parts.length > 1 && parts[0].equals(nameOfStaff)) {
+                staffExists = true;
+                if( parts[2].equals("S")) {
+                    managerCheck = false; 
+                }                  
+            }
+            bw.write(line);
+            bw.newLine();
+        }
+    } catch (IOException e) {
+        System.err.println("Error updating the item name: " + e.getMessage());
+    }
+
+    // Replace the original file with the updated one
+    try {
+        Files.move(Paths.get("temp1.txt"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+        System.err.println("Error updating the file: " + e.getMessage());
+    }
+    
+    return managerCheck && staffExists;
+}
+
+
+
+
+//================== Transfer a staff/manager amongst branches==========================
+    //check if the person is existent in the list 
+    public static boolean checkifStaffOrManager(String nameOfStaff) {
+        String filePath = "staff_list_with_pw.txt";
+        boolean staffAManager = false; 
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp1.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length > 1 && parts[0].equals(nameOfStaff)) {
+                    if (parts[2].equals("M")){
+                        staffAManager = true;
+                    }                   
+                }
+                bw.write(line);
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the item name: " + e.getMessage());
+        }
+
+        // Replace the original file with the updated one
+        try {
+            Files.move(Paths.get("temp1.txt"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.err.println("Error updating the file: " + e.getMessage());
+        }
+        return staffAManager;
+    }
+
+    public static void transferStaffToBranch (String nameOfStaff, String branchToTransferTo){
+        String filePath = "staff_list_with_pw.txt";
+        boolean isTransferred = false;
+        boolean nonExistent = true;
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+                BufferedWriter bw = new BufferedWriter(new FileWriter("temp1.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split("\t");
+                if (parts.length > 1 && parts[0].equals(nameOfStaff)) {
+                    nonExistent = false;
+                    if (parts[5].equals(branchToTransferTo)) {
+                        System.out.println("Staff " + nameOfStaff + " is already in Branch "+ branchToTransferTo);
+                    } else {
+                        parts[5] = branchToTransferTo; // Promote to Manager and continues to copy the rest into the temp file
+                        line = String.join("\t", parts);
+                        isTransferred = true;
+                    }
+                }
+                bw.write(line);
+                bw.newLine();
+            }
+            if (nonExistent) {
+                System.out.println("Staff " + nameOfStaff + " does not exist");
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the item name: " + e.getMessage());
+        }
+
+        // Replace the original file with the updated one
+        try {
+            Files.move(Paths.get("temp1.txt"), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+            if (isTransferred) {
+                System.out.println("Staff " + nameOfStaff + " is transferred to Branch "+ branchToTransferTo);
+            }
+        } catch (IOException e) {
+            System.err.println("Error updating the file: " + e.getMessage());
+        }
+    }
+    
 
 }

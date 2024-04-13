@@ -104,24 +104,57 @@ public class AdminRole extends AEmployee {
         return filterbyRole;
 
     }
+    //======================Assign Managers to each branch with quota constraints=====================================
+        public void assignManagers (String staffName,int branchToAssignTo){
+
+            List<Branch> allbranches = Branch.getAllBranches();
+            String inputStrBranch = allbranches.get(branchToAssignTo - 1).getName();
+            
+            if (EmployeeDataManager.checkIfStaffExits(staffName) == true ){
+                List<Branch> branches = Branch.getAllBranches();
+                for(Branch branch : branches){
+                    if( branch.getName().equals(inputStrBranch)){
+                        if(branch.managerQuota()== false && branch.staffQuota() == false){ // can add the staff in
+                            EmployeeDataManager.assignManagerToBranch(staffName,inputStrBranch);
+                        }
+                        else{
+                            System.out.println("Branch "+ inputStrBranch +" has already met the quota. Staff "+ staffName+ " not assigned.");
+                            return;
+                        }
+                    }
+                }
+            }
+            else{
+                System.out.println("Staff "+ staffName + " is not a manager or does not exist. Staff not assigned.");
+            }
+        }
 
     // =====================Promotion from staff to manager within the same branch===================================
     public void promotionStaff(String staffnameToPromote) {
         EmployeeDataManager.promoteStaffToManager(staffnameToPromote);
     }
 
-    // ======================Transfer a staff/manager amongst branches===================
-    public void tranferStaff(String nameOfStaff, String branchToTransferredTo) {
+    // ======================Transfer a staff/manager amongst branches================================================
+    public void tranferStaff(String nameOfStaff, int branchToTransferTo) {
 
+        List<Branch> allbranches = Branch.getAllBranches();
+        String inputStrBranch = allbranches.get(branchToTransferTo - 1).getName();
+        //check the person's branch and see if he is from that (no -> return)
+        if (EmployeeDataManager.checkifStaffOrManager(nameOfStaff) == true){ //the person is a manager -> check quota before transfer
+            assignManagers(nameOfStaff,branchToTransferTo);
+        }
+        else {
+            EmployeeDataManager.transferStaffToBranch(nameOfStaff,inputStrBranch);
+        }        
     }
 
-    // ========================Payment method========================
+    // ========================Payment method======================================================================
     // TO DO: the actual function works in your AdminController, just organize it.
     public void addPaymentMethod(String type) {
         IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod("MasterCardPayment");
     }
 
-    // ======================open/clos branch=================
+    // ======================open/clos branch=======================================================================
     public void closeOpenBranch(List<Branch> branches, int branchChoice, int closeOrOpen) {
         Branch selectedBranch = branches.get(branchChoice);
 

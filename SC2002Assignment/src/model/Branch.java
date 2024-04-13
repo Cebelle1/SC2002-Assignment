@@ -59,9 +59,9 @@ public class Branch {
         return true;
     }
     public boolean managerQuota(){
-        int staffRoleSize = this.getEmployees().size() - this.managerCount;
+        int staffRoleSize = this.getEmployees().size() - this.managerCount;        
         //im using guard clause here to reduce if-else statements
-        if(staffRoleSize < 5 && this.managerCount <1) return false;
+        if(staffRoleSize < 5 && this.managerCount <1){ return false;}
         if(staffRoleSize > 4 && staffRoleSize < 9 && this.managerCount <2) return false;
         if(staffRoleSize > 8 && staffRoleSize < 16 && this.managerCount < 3) return false;
         return true;
