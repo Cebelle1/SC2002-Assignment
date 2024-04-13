@@ -294,10 +294,10 @@ public static boolean checkIfStaffExits(String nameOfStaff) {
     }
 
     public static void transferStaffToBranch (String nameOfStaff, String branchToTransferTo){
-        final String filePath = rootPath + staffListTxt ;
+        final String FILEPATH = rootPath + staffListTxt ;
         boolean isTransferred = false;
         boolean nonExistent = true;
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath));
+        try (BufferedReader br = new BufferedReader(new FileReader(FILEPATH));
                 BufferedWriter bw = new BufferedWriter(new FileWriter(rootPath+temp1Txt))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -332,6 +332,53 @@ public static boolean checkIfStaffExits(String nameOfStaff) {
             System.err.println("Error updating the file: " + e.getMessage());
         }
     }
-    
+
+//======Open new branch
+
+public static int addNewBranch(Branch newBranch) {
+    final 
+    List<String> lines = new ArrayList<>(); // Store file lines
+    boolean branchExists = false; // Flag to check if the branch already exists
+
+    // Step 1: Read the existing content into 'lines'
+    try (BufferedReader br = new BufferedReader(new FileReader(BRANCH_FILE))) {
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
+            // Check if the branch already exists based on its name
+            String[] parts = line.split(TAB_SEPARATOR);
+            if (parts.length > 0 && parts[0].equals(newBranch.getName())) {
+                branchExists = true;
+                System.out.println("Branch already exists");
+                return -1;
+            }
+        }
+    } catch (IOException e) {
+        System.err.println("Error reading branch file: " + e.getMessage());
+        return -2; // Exit the method in case of read error
+    }
+
+    // Step 2: Add new branch details if not already existing, then write back to the file
+    if (!branchExists) {
+        // Construct the line for the new branch
+        String newLine = String.join("\t",
+                newBranch.getName(), newBranch.getLocation(),
+                String.valueOf(newBranch.getStaffQuota()), newBranch.getOperation());
+
+        // Add the new branch details to 'lines'
+        lines.add(newLine);
+    }
+
+    // Write the updated 'lines' back to the file
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(BRANCH_FILE))) {
+        for (String updatedLine : lines) {
+            bw.write(updatedLine);
+            bw.newLine();
+        }
+    } catch (IOException e) {
+        System.err.println("Error writing branch file: " + e.getMessage());
+    }
+    return 0;
+}
 
 }

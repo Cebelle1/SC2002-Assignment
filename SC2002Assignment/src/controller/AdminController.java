@@ -5,8 +5,11 @@ import java.util.List;
 import controller.abstracts.AController;
 import view.AdminHomePageView;
 import view.BranchView;
+import view.payments.PaymentView;
 import model.AdminRole;
 import model.Branch;
+import model.BranchDataManager;
+import model.EmployeeDataManager;
 import model.EmployeeHandler;
 import model.StaffRole;
 import model.abstracts.AEmployee;
@@ -17,6 +20,7 @@ import model.payments.PaymentMethodFactory;
 //====
 public class AdminController extends AController {
     private AdminHomePageView adminHomePageView = new AdminHomePageView(this);
+    private PaymentView paymentV = new PaymentView();
     private BranchView branchV = new BranchView();
     private AdminRole adminRole;
     private AEmployee currentuser;
@@ -84,17 +88,14 @@ public class AdminController extends AController {
                 break;
 
             case 6: // Edit paymnet method
-                // =====Testing===
-                String paymentMethod = adminHomePageView.getInputString(
-                        "Input new payment method (Class name) with no space, UpperCammel naming convention");
-                IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod(paymentMethod);
-
+                editPayments();
+                
                 break;
 
             case 7: // Manage Branch
                 adminHomePageView.renderManageBranch();
-                int manageBranch = adminHomePageView.getInputInt("Choose an option");
-                manageExistingBranch(manageBranch);
+                int manageBranchChoice = adminHomePageView.getInputInt("Choose an option");
+                manageBranch(manageBranchChoice);
                 adminHomePageView.exitPrompt();
                 this.navigate(0);
                 break;
@@ -206,18 +207,31 @@ public class AdminController extends AController {
     }
 
     // ===========================open/close branch=====================================================
-    public void manageExistingBranch(int choice) { // 1-Open an exising, 2-Close an exising
+    public void manageBranch(int choice) { // 1-Open an exising, 2-Close an exising
         List<Branch> openedClosedBranch = null;
         if (choice == 1) {
             openedClosedBranch = Branch.getClosedBranches();
         } else if (choice == 2) {
             openedClosedBranch = Branch.getOpenBranches();
+        }else if (choice == 3){
+            openNewBranch();
+            return;
         }
 
         branchV.displayOpenBranch(openedClosedBranch, true);
         int branchChoice = adminHomePageView.getInputInt("Which branch do you want to close/open?");
 
         adminRole.closeOpenBranch(openedClosedBranch, branchChoice - 1, choice);
+
+    }
+
+    private void openNewBranch(){
+        String branchName = adminHomePageView.getInputString("Enter Branch Name: ");
+        String branchAddress = adminHomePageView.getInputString("Enter Branch Address: ");
+        int staffQuota = adminHomePageView.getInputInt("Enter Staff Quota:");
+        String operation = "close";
+        
+        EmployeeDataManager.createNewBranch(branchName, branchAddress, staffQuota, operation);
 
     }
 
@@ -233,5 +247,25 @@ public class AdminController extends AController {
                     adminHomePageView.renderApp(10);
                 }
         return inputBranch;
+    }
+
+    //=========================Manage Payment
+
+    private void editPayments(){
+        adminHomePageView.displayManagePayment();
+        int managePaymentChoice = adminHomePageView.getInputInt("Choice: ");
+        switch (managePaymentChoice) {
+            case 1: // add new payment method
+                String paymentMethod = adminHomePageView.getInputString(
+                "Input new payment method (Class name) with no space, UpperCammel naming convention");
+                IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod(paymentMethod);
+                break;
+            case 2: // remove payment method
+                String paymentName = paymentV.getPaymentName(BranchDataManager.readPaymentMethods());
+                BranchDataManager.removePaymentMethod(paymentName);
+                break;
+        }
+        
+
     }
 }

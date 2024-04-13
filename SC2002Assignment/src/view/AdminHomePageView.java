@@ -145,6 +145,12 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("(3) Open a new branch");
     }
 
+    public void displayManagePayment(){
+        super.printBorder("Manage Payment");
+        System.out.println("(1) Add a new payment method");
+        System.out.println("(2) Remove a payment method");
+    }
+
     public void errorIntInput() {
         System.out.println("Invalid choice, please enter a valid number");
         System.out.println(" ");

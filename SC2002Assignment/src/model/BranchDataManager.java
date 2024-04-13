@@ -214,8 +214,6 @@ public class BranchDataManager {
         Branch.setOpenBranches(openBranches);
     }
 
-    
-
 //===================Payment.txt================================//
     public static void appendPaymentMethod(String paymentMethod) {
         final String fileName = rootPath + paymentTxt;

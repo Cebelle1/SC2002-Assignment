@@ -45,7 +45,7 @@ public class GenerateNewPayment {
         BranchDataManager.appendPaymentMethod(paymentMethodName+"\n");
 
         // Step 5: Compile the Source Code
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        /*JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         int compilationResult = compiler.run(null, null, null, filePath);
         if (compilationResult == 0) {
             System.out.println("Compilation successful.");
@@ -58,10 +58,12 @@ public class GenerateNewPayment {
             } catch (ReflectiveOperationException e) {
                 e.printStackTrace();
             }
+
         } else {
             System.out.println("Compilation failed.");
             return null;
-        }
+        }*/
+        System.out.println("Relogin to see updated payment methods");
         return null;
     }
 

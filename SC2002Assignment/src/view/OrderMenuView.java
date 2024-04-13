@@ -67,9 +67,7 @@ public class OrderMenuView extends ARenderView {
                 System.out.println("(1) Dine In");
                 System.out.println("(2) Take Out");
                 break;
-            case 4: // Check Out (Complete placing a single order)
-                // check out means make payment?
-                // select dine in mode
+            case 4: // Check Out
                 super.printBorder("Checkout");
                 break;
             case 5: // Pay for Order (Pay multiple orders)

@@ -22,24 +22,6 @@ public class AuthenticationController {
         return this.cd;
     }
 
-    // checking if the password and staffID matches with the data
-    /*
-     * public boolean authenticate(String password, String id, String staffRole){
-     * for (RoleCategory roleCategory : roleCategories) {
-     * List<AEmployee> employees = roleCategory.getAllEmployees();
-     * for (AEmployee employee : employees) {
-     * if (staffRole.equals(employee.getRole()) &&
-     * id.equals(employee.getStaffID()) &&
-     * password.equals(employee.getPassword())) {
-     * // Set current user
-     * loginC.setCurrentUser(employee);
-     * return true;
-     * }
-     * }
-     * }
-     * return false; // no such staff located
-     * }
-     */
 
     public boolean authenticate(String password, String id, String staffRole) {
         AEmployee authEmployee = checkAccData(password, id, staffRole);

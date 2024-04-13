@@ -24,8 +24,7 @@ public class PaymentMethodFactory {
         }
 
         PaymentView pnv = new PaymentView();
-        //pnv.renderApp(0);
-        int paymentMode = getPaymentModeFromUser(pnv);
+        int paymentMode = pnv.getPaymentMode(BranchDataManager.readPaymentMethods());
 
         IPaymentProcessor paymentProcessor = null;
         try {
@@ -49,30 +48,6 @@ public class PaymentMethodFactory {
             System.out.printf("Order Status Now: %s\n", currentOrder.getOrderStatus());
             return true;
         }
-    }
-
-    private static int getPaymentModeFromUser(PaymentView pnv) {
-        List<String> paymentMethods = BranchDataManager.readPaymentMethods();
-        if (paymentMethods.isEmpty()) {
-            System.out.println("No payment methods available.");
-            return 0;
-        }
-
-        System.out.println("Select payment method:");
-        for (int i = 0; i < paymentMethods.size(); i++) {
-            System.out.printf("(%d) %s\n", i + 1, paymentMethods.get(i));
-        }
-
-        int userInput;
-        while (true) {
-            userInput = pnv.getInputInt("Enter your choice: ");
-            if (userInput < 1 || userInput > paymentMethods.size()) {
-                System.out.println("Invalid choice. Please try again.");
-            } else {
-                break;
-            }
-        }
-        return userInput;
     }
 
     private static String getPaymentProcessorClassName(int paymentMode) {
