@@ -1,18 +1,15 @@
 package model.menus;
 
-import model.Branch;
-import model.Order;
-import model.Order.OrderStatus;
-import model.menus.MenuItem;
-import view.MenuView;
-import view.OrderMenuView;
-import view.OrderView;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 import controller.OrderMenuController;
-import model.interfaces.IMenuHandler;
+import model.Branch;
+import model.Order;
+import model.Order.OrderStatus;
+import view.MenuView;
+import view.OrderMenuView;
+import view.OrderView;
 
 public class MenuHandler {
     private List<Branch> branches;

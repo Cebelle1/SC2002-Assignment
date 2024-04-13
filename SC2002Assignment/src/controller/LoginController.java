@@ -2,7 +2,6 @@ package controller;
 
 import java.util.List;
 
-
 import controller.abstracts.AController;
 import model.EmployeeHandler;
 import model.ResetPassword;
@@ -101,7 +100,7 @@ public class LoginController extends AController {
                 if(loggedIn == true)
                 {
                     managerController = new ManagerController(this.currentUser);
-                    managerController.navigate(4);
+                    managerController.navigate(0);
                 }
                 else
                 {

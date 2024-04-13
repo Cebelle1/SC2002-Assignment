@@ -166,7 +166,7 @@ public abstract class ARenderView implements ViewInterface {
     }
 
     public void exitPrompt() {
-        System.out.println("Press Enter key to exit...");
+        System.out.println("\nPress Enter key to exit...");
 
         try {
             System.in.read(); // Waits for user input
