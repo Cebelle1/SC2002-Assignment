@@ -2,12 +2,12 @@ package controller;
 
 import java.util.List;
 
+
 import controller.abstracts.AController;
 import model.EmployeeHandler;
 import model.ResetPassword;
 import model.abstracts.AEmployee;
 import view.LoginView;
-import model.EmployeeFilter;
 
 public class LoginController extends AController {
     AEmployee currentUser;
@@ -60,7 +60,6 @@ public class LoginController extends AController {
     public void navigate(int page) {
         switch (page) {
             case 0:
-                // System.out.println("LoginControllerTest");
                 loginView.renderApp(0); // default 0
                 // then from LoginView it comes to this method
                 int choice = loginView.getInputInt(""); // pass nothing to prompt
@@ -113,9 +112,6 @@ public class LoginController extends AController {
             case 3: // login staff
                 loggedIn = handleLogin(page);
                 if (loggedIn == true) {
-                    // StaffRole staffRole = new StaffRole(currentUser.getName(),
-                    // currentUser.getStaffID(), currentUser.getRole(), currentUser.getGender(),
-                    // currentUser.getAge(), currentUser.getBranch(), currentUser.getPassword());
                     staffController = new StaffController(this.currentUser);
                     staffController.navigate(0);
                 } else {
@@ -125,7 +121,6 @@ public class LoginController extends AController {
 
             case 4: // reset password
                 // Login id
-                // loginView.renderApp(1);
                 String id = loginView.getInputString("Enter Staff ID: ");
                 String oldPassword = loginView.getInputString("Enter Old Password:");
                 boolean validAcc = authentication.checkAccExist(id, oldPassword);
@@ -157,7 +152,6 @@ public class LoginController extends AController {
         else if (page == 3)
             staffRole = "S";
         String id = loginView.getInputString("Enter Staff ID:");
-        // loginView.passwordPrompt();
         String password = loginView.getInputString("Enter Password: ");
         boolean auth = authentication.authenticate(password, id, staffRole);
         loginView.loggedInPrompt(auth);

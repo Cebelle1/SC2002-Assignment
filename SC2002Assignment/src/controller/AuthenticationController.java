@@ -10,6 +10,7 @@ public class AuthenticationController {
     private LoginController loginC;
     private List<EmployeeHandler> roleCategories;
     private boolean cd = false;
+    private static final String defaultPassword = "password";
 
     // constructor
     public AuthenticationController(LoginController lc, List<EmployeeHandler> roleCategories) {
@@ -55,14 +56,22 @@ public class AuthenticationController {
             List<AEmployee> employees = roleCategory.getAllEmployeesByRole();
             for (AEmployee employee : employees) {
                 if (staffRole != "") { // If known staffRole, for login Auth
-                    if (staffRole.equals(employee.getRole()) &&
-                            id.equals(employee.getStaffID()) &&
-                            password.equals(employee.getPassword())) {
+                    // Retrieve the staff
+                    if (staffRole.trim().equals(employee.getRole().trim()) &&
+                        id.trim().equals(employee.getStaffID().trim()) &&
+                        password.trim().equals(employee.getPassword().trim())) {
+                            // First time login
+                            if(checkFirstLogin(employee)){
+                                System.out.println("Please reset password!");
+                                // Navigate to reset password page
+                                loginC.navigate(4);
+                            }
                         return employee;
                     }
-                } else { // Unknown staff role, for resetting pw
-                    if (id.equals(employee.getStaffID()) &&
-                            password.equals(employee.getPassword())) {
+                }  
+                else { // Unknown staff role, for resetting pw
+                    if (id.trim().equals(employee.getStaffID().trim()) &&
+                            password.trim().equals(employee.getPassword().trim())) {
                         return employee;
                     }
                 }
@@ -71,11 +80,21 @@ public class AuthenticationController {
         return null; // no such staff located
     }
 
+
     public boolean checkAccExist(String id, String password) {
         AEmployee authEmployee = checkAccData(password, id, "");
         if (authEmployee != null) {
             return true;
         }
+        return false;
+    }
+
+    private boolean checkFirstLogin(AEmployee user){
+        // First time login
+        if(user.getPassword().trim().equals(defaultPassword)){
+            return true;
+        }
+        // Not first time
         return false;
     }
 }

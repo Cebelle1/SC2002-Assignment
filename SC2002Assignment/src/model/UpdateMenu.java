@@ -14,13 +14,12 @@ import model.menus.MenuItem;
 
 public class UpdateMenu {
 
-    private static String filePath = "menu_list.txt";
+    private static final String filePath = "SC2002Assignment/src/database/menu_list.txt";
 
     //=================== menu_list.txt ================================//
     public static void addItemToMenu(MenuItem menuItem){
-        //String filePath = "menu_list.txt";
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))){
-            String line = String.join("\t", menuItem.getRawName(), menuItem.getDescription(), Double.toString(menuItem.getPrice()), menuItem.getBranch(), menuItem.getCategory());
+            String line = String.join("\t", menuItem.getRawName().trim(), menuItem.getDescription().trim(), Double.toString(menuItem.getPrice()).trim(), menuItem.getBranch().trim(), menuItem.getCategory().trim());
             bw.write(line);
             bw.newLine();
             }catch(IOException e){
@@ -29,16 +28,15 @@ public class UpdateMenu {
     }
 
     public static void removeItemFromMenu(MenuItem menuItem){
-        //String filePath = "menu_list.txt";
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
             String line;
             while((line = br.readLine()) != null){
                 String[] parts = line.split("\t");
                  // Remove
-                 if(parts.length == 5 && parts[0].equals(menuItem.getRawName())){
+                 if(parts.length == 5 && parts[0].trim().equals(menuItem.getRawName().trim())){
                     // Check the branch before removing as different branches may have same item
-                    if(parts[3].equals(menuItem.getBranch())){
+                    if(parts[3].trim().equals(menuItem.getBranch().trim())){
                         // Skip writing the line to the new file which will be updated later on
                         continue;
                     }
@@ -69,14 +67,13 @@ public class UpdateMenu {
     
 
     public static void editItemName(MenuItem menuItem, String newName){
-        //String filePath = "menu_list.txt";
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].toLowerCase().equals(menuItem.getRawName().toLowerCase()) && parts[3].equals(menuItem.getBranch())){
-                        parts[0] = newName;
+                    if(parts.length == 5 && parts[0].toLowerCase().trim().equals(menuItem.getRawName().toLowerCase().trim()) && parts[3].trim().equals(menuItem.getBranch().trim())){
+                        parts[0] = newName.trim();
                         line = String.join("\t", parts);
                     }
 
@@ -101,16 +98,15 @@ public class UpdateMenu {
     }
 
     public static void editItemPrice(MenuItem menuItem, double price){
-        //String filePath = "menu_list.txt";
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].toLowerCase().equals(menuItem.getRawName().toLowerCase()) && parts[3].equals(menuItem.getBranch())){
+                    if(parts.length == 5 && parts[0].toLowerCase().trim().equals(menuItem.getRawName().toLowerCase().trim()) && parts[3].trim().equals(menuItem.getBranch().trim())){
                         StringBuffer sb = new StringBuffer();
                         sb.append(price);
-                        parts[2] = sb.toString();
+                        parts[2] = sb.toString().trim();
                         line = String.join("\t", parts);
                     }
 
@@ -136,14 +132,13 @@ public class UpdateMenu {
     }
 
     public static void editItemDescription(MenuItem menuItem, String description){
-        //String filePath = "menu_list.txt";
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
                 String line;
                 while((line = br.readLine()) != null){
                     String[] parts = line.split("\t");
-                    if(parts.length == 5 && parts[0].toLowerCase().equals(menuItem.getRawName().toLowerCase()) && parts[3].equals(menuItem.getBranch())){
-                        parts[1] = description;
+                    if(parts.length == 5 && parts[0].toLowerCase().trim().equals(menuItem.getRawName().toLowerCase().trim()) && parts[3].trim().equals(menuItem.getBranch().trim())){
+                        parts[1] = description.trim();
                         line = String.join("\t", parts);
                     }
 

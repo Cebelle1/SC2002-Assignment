@@ -25,8 +25,8 @@ public class EmployeeDataManager {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\t");
-                if (parts.length == 7 && id.equals(parts[1])) {
-                    parts[6] = newPassword;
+                if (parts.length == 7 && id.trim().equals(parts[1].trim())) {
+                    parts[6] = newPassword.trim();
                     line = String.join("\t", parts);
                 }
                 bw.write(line);
