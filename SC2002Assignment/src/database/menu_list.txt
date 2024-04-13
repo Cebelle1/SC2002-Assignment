@@ -15,3 +15,5 @@ iced milo	Made from milo powder	2.0	JP	drink
 fillet o fish	Topped with melty cheese and creamy tartar sauce between buns	2.0	JP	burger
 La Mian	springy chinese noodle	5.6	NTU	noodle
 FRIES	fried potato	4.0	NTU	side
+beef burger	chicken patty with lettuce	3.5	JE	burger
+beef burger	beef patty	3.5	JP	burger

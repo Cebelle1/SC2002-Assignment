@@ -70,7 +70,7 @@ public class LoginView extends ARenderView{
         }
         else{
             // Go back to the reset password page
-            System.out.print("Password does not match ");
+            System.out.print("Password does not match or update unsuccessful ");
             renderApp(2);
         }
     }
