@@ -57,9 +57,9 @@ public class AuthenticationController {
             for (AEmployee employee : employees) {
                 if (staffRole != "") { // If known staffRole, for login Auth
                     // Retrieve the staff
-                    if (staffRole.trim().equals(employee.getRole().trim()) &&
-                        id.trim().equals(employee.getStaffID().trim()) &&
-                        password.trim().equals(employee.getPassword().trim())) {
+                    if (staffRole.trim().equals(employee.getRole()) &&
+                        id.trim().equals(employee.getStaffID()) &&
+                        password.trim().equals(employee.getPassword())) {
                             // First time login
                             if(checkFirstLogin(employee)){
                                 System.out.println("Please reset password!");
@@ -70,8 +70,8 @@ public class AuthenticationController {
                     }
                 }  
                 else { // Unknown staff role, for resetting pw
-                    if (id.trim().equals(employee.getStaffID().trim()) &&
-                            password.trim().equals(employee.getPassword().trim())) {
+                    if (id.trim().equals(employee.getStaffID()) &&
+                            password.trim().equals(employee.getPassword())) {
                         return employee;
                     }
                 }
@@ -79,7 +79,6 @@ public class AuthenticationController {
         }
         return null; // no such staff located
     }
-
 
     public boolean checkAccExist(String id, String password) {
         AEmployee authEmployee = checkAccData(password, id, "");

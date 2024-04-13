@@ -15,14 +15,14 @@ public class ResetPassword {
 
     public boolean updatePass(String id, String newPassword, String cfmNewPassword) {
         // Passwords match
-        if (newPassword.trim().equals(cfmNewPassword.trim())) {
-            if(!cfmNewPassword.trim().equals(defaultPassword)){
+        if (newPassword.equals(cfmNewPassword)) {
+            if(!cfmNewPassword.equals(defaultPassword)){
                 for (EmployeeHandler roleCategory : staffs) {
                     List<AEmployee> employees = roleCategory.getAllEmployeesByRole(); // Retrieve the list of employees in this category
                     for (AEmployee employee : employees) {
                         // Access properties of each employee
-                        if (id.trim().equals(employee.getStaffID().trim())) {
-                            employee.setPassword(cfmNewPassword.trim());
+                        if (id.equals(employee.getStaffID())) {
+                            employee.setPassword(cfmNewPassword);
                         }
                     }
                 }
