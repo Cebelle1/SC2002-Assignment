@@ -114,8 +114,6 @@ public class AdminRole extends AEmployee {
                 List<Branch> branches = Branch.getAllBranches();
                 for(Branch branch : branches){
                     if( branch.getName().equals(inputStrBranch)){
-                        //System.out.println(branch.getName());
-                        //System.out.println(branch.managerQuota());
                         if(branch.managerQuota()== false && branch.staffQuota() == false){ // can add the staff in
                             EmployeeDataManager.assignManagerToBranch(staffName,inputStrBranch);
                         }
@@ -137,21 +135,17 @@ public class AdminRole extends AEmployee {
     }
 
     // ======================Transfer a staff/manager amongst branches================================================
-    public void tranferStaff(String nameOfStaff, String branchToTransferredTo) {
+    public void tranferStaff(String nameOfStaff, int branchToTransferTo) {
+
+        List<Branch> allbranches = Branch.getAllBranches();
+        String inputStrBranch = allbranches.get(branchToTransferTo - 1).getName();
         //check the person's branch and see if he is from that (no -> return)
-        if (EmployeeDataManager.checkifStaffExists(nameOfStaff) == false){
-            System.out.println("Staff " + nameOfStaff + " does not exist");
-            return;
+        if (EmployeeDataManager.checkifStaffOrManager(nameOfStaff) == true){ //the person is a manager -> check quota before transfer
+            assignManagers(nameOfStaff,branchToTransferTo);
         }
-        
-        //(yes) check the quotation of the outlet if they person can be added (no -> return "Do not adhere quotation constraints, branch remains close")
-        //(yes) change the person's outlet in staff_list_with_pwd.txt
-        //
-
-
-
-
-        
+        else {
+            EmployeeDataManager.transferStaffToBranch(nameOfStaff,inputStrBranch);
+        }        
     }
 
     // ========================Payment method======================================================================

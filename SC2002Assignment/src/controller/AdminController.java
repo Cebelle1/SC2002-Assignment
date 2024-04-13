@@ -62,7 +62,6 @@ public class AdminController extends AController {
 
             case 3: // Assign Managers
                 String staffName = adminHomePageView.getInputString("Enter Manager name to be tranfered: ");
-                
                 int branchToAssignTo = getBranchName();
                 adminRole.assignManagers(staffName,branchToAssignTo);
                 break;
@@ -73,9 +72,9 @@ public class AdminController extends AController {
                 break;
 
             case 5: // Transfer Staff
-                // String nameOfStaff = adminHomePageView.getInputString("Enter staff name to be tranfered: ");
-                // String branchToTransferredTo = adminHomePageView.getInputString("Enter Branchto be tranfered to: ");
-                // adminRole.tranferStaff(nameOfStaff, branchToTransferredTo);
+                String nameOfStaff = adminHomePageView.getInputString("Enter staff/Manager name to be tranfered: ");
+                int branchToTransferTo = getBranchName();
+                adminRole.tranferStaff(nameOfStaff, branchToTransferTo);
                 break;
 
             case 6: // Edit paymnet method
