@@ -3,7 +3,7 @@ package controller;
 import java.util.List;
 
 import controller.abstracts.AController;
-import model.Order;
+import model.Branch;
 import model.StaffRole;
 import model.abstracts.AEmployee;
 import view.StaffHomePageView;
@@ -11,7 +11,8 @@ import view.StaffHomePageView;
 public class StaffController extends AController{
 
     private StaffHomePageView staffView;
-    private List<Order> orders;
+    //private List<Order> orders = Order.getConfirmedOrders();
+    private List<Branch> closeBranch = Branch.getClosedBranches();
     private StaffRole staffRole;
     AEmployee user;
     int orderid = -1;
@@ -43,25 +44,29 @@ public class StaffController extends AController{
             // Display new orders
             case 1:
                 staffView.renderApp(1);
-                staffRole.displayOrders(); // get the order in the branch the staff is working at
-                staffView.getInputString("\n\nPress any key to go back to Staff Main Menu");
+                if(!staffRole.displayOrders()){
+                    System.out.println("There are no orders to display");
+                }// get the order in the branch the staff is working at
+                staffView.exitPrompt();
                 this.navigate(0);
                 break;
 
             // View Details
             case 2:
-                int orderID = staffView.getInputInt("Type in the OrderID:"); // gets the OrderId
+                int orderID = staffView.getInputInt("Please enter OrderID"); // gets the OrderId
+
                 // Error Handling -> checking if the OrderID exists
                 if(!staffRole.checkOrderID(orderID)){
                     System.out.println("\nPlease enter a valid Order ID");
                     staffView.delay(1);
-                    this.navigate(2); // request for valid Order ID again
+                    this.navigate(0); // request for valid Order ID again
                 }
+
                 else{
                     staffView.renderApp(2);
                     staffView.displayingOrderView(orderID);
                     staffRole.viewDetails(orderID);
-                    staffView.getInputString("\n\nPress any key to go back to Staff Main Menu");
+                    staffView.exitPrompt();
                     this.navigate(0);
                 }
                 break;
@@ -83,7 +88,7 @@ public class StaffController extends AController{
                     orderid = staffView.getInputInt("Type in the orderID: "); // gets the input
                     // Error Handling -> checking if the OrderID exists
                     if(!staffRole.checkOrderID(orderid)){
-                        System.out.println("Please enter a valid Order ID");
+                        System.out.println("You've entered an invalid OrderID");
                         staffView.delay(1);
                     }
                     this.navigate(3);
@@ -91,9 +96,13 @@ public class StaffController extends AController{
                 else{
                     // processsed the order status to 'Ready to collect'
                     if(staffRole.processOrder(orderid)){
-                        staffView.getInputString("\nPress any key to go back to Staff Main Menu");
-                        staffView.delay(1);
+                        staffView.exitPrompt();
                         this.navigate(3);
+                    }
+                    else{
+                        System.out.println("Error processing order!");
+                        staffView.exitPrompt();
+                        this.navigate(0);
                     }
                 }
                 break;

@@ -6,7 +6,7 @@ import model.abstracts.AEmployee;
 import model.menus.MenuItem;
 
 
-public class ManagerRole extends StaffRole{ 
+public class ManagerRole extends StaffRole{
 
     private List<Branch> branches;
 

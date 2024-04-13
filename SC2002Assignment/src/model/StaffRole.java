@@ -22,46 +22,59 @@ public class StaffRole extends AEmployee{
 
     // filter orders by branch -> (1) displaying orders
     // Just displaying the order numbers
-    public void displayOrders(){
+    public boolean displayOrders(){
         orders = filterOrderByBranch();
+
+        // no orders
+        if(orders.isEmpty()){
+            return false;
+        }
+
         for(Order order : orders){
             System.out.printf("Order ID: %d\n", order.getOrderID()); // print the orderID
         }
+        return true;
     }
 
 
     // view details
-    public void viewDetails(int orderID){
+    public boolean viewDetails(int orderID){
         orders = filterOrderByBranch();
 
-        try{
-            for(Order order : orders){
-                List<MenuItem> items = order.getCurrentOrderItems();
-                if(orderID == (order.getOrderID())){
-                    for(MenuItem item : items){
-                        System.out.printf("\n%2s %s - %d\n", "",item.getName(), item.getQty()); // get the menu name and qty
-                        if ("set meal".equals(item.getCategory())) {
-                            SetMealCategory setMeal = (SetMealCategory) item.getSetMeal(); // type casting
-                            System.out.printf("%8s > Main: %s\n", "", setMeal.getMainDish().getName());
-                            System.out.printf("%8s > Side: %s\n", "", setMeal.getSideDish().getName());                            
-                            System.out.printf("%8s > Drink: %s\n", "", setMeal.getDrink().getName());   
-                        }
-                        System.out.printf("%2s Order customizations: %s" , "",item.getComments()); // get the comments
+        // no orders
+        if(orders.isEmpty()){
+            return false;
+        }
+
+        for(Order order : orders){
+            List<MenuItem> items = order.getCurrentOrderItems();
+            if(orderID == (order.getOrderID())){
+                for(MenuItem item : items){
+                    System.out.printf("\n%2s %s - %d\n", "",item.getName(), item.getQty()); // get the menu name and qty
+                    if ("set meal".equals(item.getCategory())) {
+                        SetMealCategory setMeal = (SetMealCategory) item.getSetMeal(); // type casting
+                        System.out.printf("%8s > Main: %s\n", "", setMeal.getMainDish().getName());
+                        System.out.printf("%8s > Side: %s\n", "", setMeal.getSideDish().getName());                            
+                        System.out.printf("%8s > Drink: %s\n", "", setMeal.getDrink().getName());   
                     }
+                    System.out.printf("%2s Order customizations: %s" , "",item.getComments()); // get the comments
                 }
             }
         }
 
-        catch (Exception e){
-            // null exception pointer -> there is no confirmed orders
-            System.out.println("There is no orders currently...");
-        }
+        return true;
     }
 
     // process orders
     public boolean processOrder(int orderID){
         // call markReady() in Order.java after processing the order
         orders = filterOrderByBranch();
+        
+        // no orders
+        if(orders.isEmpty()){
+            return false;
+        }
+        
         for(Order order : orders){
             if(order.getOrderID() == orderID){
                 System.out.println(order.getOrderStatus());
@@ -76,7 +89,7 @@ public class StaffRole extends AEmployee{
 
 
     // Filter orders by branch
-    public List<Order> filterOrderByBranch(){
+    private  List<Order> filterOrderByBranch(){
 
         // get the confirmed orders
         List<Order> confirmedOrders = Order.getConfirmedOrders();
@@ -106,11 +119,17 @@ public class StaffRole extends AEmployee{
 
         orders = filterOrderByBranch();
 
+        // no orders
+        if(orders.isEmpty()){
+            return false;
+        }
+
         for(Order order : orders){
             if(orderID == order.getOrderID()){
                 return true;
             }
         }
+
         return false; //default
 
     }
