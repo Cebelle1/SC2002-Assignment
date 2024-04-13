@@ -39,9 +39,9 @@ public class AuthenticationController {
             for (AEmployee employee : employees) {
                 if (staffRole != "") { // If known staffRole, for login Auth
                     // Retrieve the staff
-                    if (staffRole.trim().equals(employee.getRole()) &&
-                        id.trim().equals(employee.getStaffID()) &&
-                        password.trim().equals(employee.getPassword())) {
+                    if (staffRole.equals(employee.getRole()) &&
+                        id.equals(employee.getStaffID()) &&
+                        password.equals(employee.getPassword())) {
                             // First time login
                             if(checkFirstLogin(employee)){
                                 System.out.println("Please reset password!");
@@ -52,8 +52,8 @@ public class AuthenticationController {
                     }
                 }  
                 else { // Unknown staff role, for resetting pw
-                    if (id.trim().equals(employee.getStaffID()) &&
-                            password.trim().equals(employee.getPassword())) {
+                    if (id.equals(employee.getStaffID()) &&
+                            password.equals(employee.getPassword())) {
                         return employee;
                     }
                 }
@@ -72,7 +72,7 @@ public class AuthenticationController {
 
     private boolean checkFirstLogin(AEmployee user){
         // First time login
-        if(user.getPassword().trim().equals(defaultPassword)){
+        if(user.getPassword().equals(defaultPassword)){
             return true;
         }
         // Not first time

@@ -121,12 +121,12 @@ public class LoginController extends AController {
 
             case 4: // reset password
                 // Login id
-                String id = loginView.getInputString("Enter Staff ID: ");
-                String oldPassword = loginView.getInputString("Enter Old Password:");
+                String id = loginView.getInputString("Enter Staff ID: ").trim();
+                String oldPassword = loginView.getInputString("Enter Old Password:").trim();
                 boolean validAcc = authentication.checkAccExist(id, oldPassword);
                 if (validAcc) {
-                    String password = loginView.getInputString("Enter New Password: ");
-                    String cfmPassword = loginView.getInputString("Confirm Password: ");
+                    String password = loginView.getInputString("Enter New Password: ").trim(); //No trailing spaces allowed.
+                    String cfmPassword = loginView.getInputString("Confirm Password: ").trim();
                     // Update staff list
                     boolean upToDate = reset.updatePass(id, password, cfmPassword);
                     loginView.updated(upToDate);
@@ -151,8 +151,8 @@ public class LoginController extends AController {
             staffRole = "M";
         else if (page == 3)
             staffRole = "S";
-        String id = loginView.getInputString("Enter Staff ID:");
-        String password = loginView.getInputString("Enter Password: ");
+        String id = loginView.getInputString("Enter Staff ID:").trim();
+        String password = loginView.getInputString("Enter Password: ").trim();
         boolean auth = authentication.authenticate(password, id, staffRole);
         loginView.loggedInPrompt(auth);
         return auth;
