@@ -1,17 +1,7 @@
 package view;
 
-import java.util.List;
-import java.util.Locale;
-
 import controller.CustomerController;
-import controller.OrderMenuController;
 import model.Branch;
-import model.Order;
-import model.abstracts.AEmployee;
-import model.menus.MenuItem;
-import model.menus.SetMealCategory;
-import model.payments.IPaymentProcessor;
-import model.payments.PaymentMethodFactory;
 import view.abstracts.ARenderView;
 
 public class OrderMenuView extends ARenderView {
@@ -75,7 +65,6 @@ public class OrderMenuView extends ARenderView {
                 break;
             case 6:
                 receipt.printReciept();
-
                 break;
             case 7:
                 super.printBorder("Collect Order");

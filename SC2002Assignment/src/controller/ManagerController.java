@@ -1,13 +1,13 @@
 package controller;
 
+import java.util.List;
+
 import controller.abstracts.AController;
 import model.Branch;
 import model.ManagerRole;
 import model.abstracts.AEmployee;
 import model.menus.MenuItem;
 import view.ManagerHomePageView;
-
-import java.util.List;
 
 public class ManagerController extends AController {
     
@@ -23,6 +23,7 @@ public class ManagerController extends AController {
         // Create the ManagerRole object once the Manager logs in successfully
         this.manager = new ManagerRole(user.getName(), user.getStaffID(), user.getRole(), user.getGender(), user.getAge(), user.getBranch(), user.getPassword());
         this.managerView = new ManagerHomePageView(this);
+        this.area = manager.loadBranches();
     }
 
 

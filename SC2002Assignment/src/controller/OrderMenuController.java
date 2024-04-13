@@ -1,15 +1,15 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import controller.abstracts.AController;
 import model.Branch;
+import model.Order;
+import model.menus.MenuHandler;
 import model.payments.PaymentMethodFactory;
 import view.MenuView;
 import view.OrderMenuView;
 import view.OrderView;
-import model.Order;
-import model.menus.MenuHandler;
 
 public class OrderMenuController extends AController {
     private List<Branch> branches;
@@ -77,15 +77,20 @@ public class OrderMenuController extends AController {
                 boolean paid = PaymentMethodFactory.handlePayment(orders);
                 //Individual error prints inside handlePayment, if no new implementation change back to void.
                 if(!paid){
-                    omv.delay(2);   
+                    omv.delay(2);
                 } else{
                     omv.delay(2);
                 }
                 navigate(0);
                 break;
             case 6: //Receipt
+                if(Order.showReceipt() == false){
+                    omv.getInputString("Please make payment first! ");
+                    this.navigate(0);
+                }
                 omv.renderApp(6);
-                // System.out.println("printreceipt");
+                omv.delay(10);
+                omv.exitPrompt();
                 break;
             case 7:
                 omv.renderApp(7);
@@ -105,6 +110,9 @@ public class OrderMenuController extends AController {
     }
 
     public void displayOrderStatus(){
+        // the confirmedOrders is getting all the confirmedorders from all branches
+        // in StaffRole.java I did a filterOrderByBranch(), so maybe you want to use that?
+        //int orderID = omv.getInputInt("Enter Order ID to check status",filterOrderByBranch().size())-1; - shar
         int orderID = omv.getInputInt("Enter Order ID to check status",Order.getConfirmedOrders().size())-1;
         //omv.chooseDisplayOrderStatus(this.orders, orderID);
         orderV.chooseDisplayCompleteOrderStatus(Order.getConfirmedOrders(), orderID);
@@ -124,12 +132,12 @@ public class OrderMenuController extends AController {
        
         Order order = Order.getOrderById(orderID);
         if (order != null) {
-            order.markReady();   //force set to compensate for sharms side, remove once sharms is done
             order.markCompleted();
             System.out.printf("Order %d status now %s", orderID, order.getOrderStatus());
         } else {
             System.out.println("Order with ID " + orderID + " not found.");
         }
     }
+
 
 }

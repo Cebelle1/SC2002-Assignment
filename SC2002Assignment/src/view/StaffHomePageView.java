@@ -32,7 +32,8 @@ public class StaffHomePageView extends ARenderView{
 
             // view details of orders
             case 2:
-                System.out.println("Details of Current Order");
+                System.out.println("View Details of:");
+                System.out.println("Please enter OrderID");
                 break;
 
             // processing orders
@@ -42,16 +43,14 @@ public class StaffHomePageView extends ARenderView{
                 System.out.println("(2) Update order status ");
                 System.out.println("(3) Back to Staff Home Page");
                 break;
-            case 4:
+
+            case 5:
                 break;
         }
     }
 
     public void displayingOrderView(int orderID){
-        System.out.printf("Order ID: %d\n", orderID); // print the orderID
-        System.out.printf("   Name - Quantity\n");
-        System.out.printf(" ---------------------------------------\n");
-
+        System.out.println("OrderID.   | Name            |   Qty   |");
     }
 
     @Override

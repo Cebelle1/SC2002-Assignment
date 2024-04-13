@@ -36,7 +36,7 @@ public class Order implements Serializable {
         ORDERING,   //Selected Dining Mode
         PENDING,    //Checked Out
         PREPARING,  //Payment confirmed
-        READY_TO_PICKUP,    
+        READY_TO_PICKUP,
         COMPLETED
     }
 
@@ -167,7 +167,15 @@ public class Order implements Serializable {
         return this.diningMode;
     }
 //=============== Process Order============//
-    public static void showReceipt(){
+    public static boolean showReceipt(){
+
+        Order currentOrder = Order.getCurrentOrder();
+
+        // check if customer has paid
+        if(currentOrder.getOrderStatus() == OrderStatus.PREPARING){
+            return true;
+        }
+        return false;
 
     }
 
@@ -280,7 +288,6 @@ public class Order implements Serializable {
             serializeConfirmedOrders(); // Serialize only confirmed orders
         }));
     }
-    
     
 
 }
