@@ -80,7 +80,7 @@ public class OrderMenuView extends ARenderView {
 
                 break;
             case 7:
-                // collect food, change status from ready to pick up to completed
+                super.printBorder("Collect Order");
                 break;
         }
     }

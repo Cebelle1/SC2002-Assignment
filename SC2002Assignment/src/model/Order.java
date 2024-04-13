@@ -15,7 +15,7 @@ import model.menus.MenuItem;
 
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L; // Unique identifier for serialization
-    private static final String ORDERS_FILE = "orders_serialize.txt"; // File name for storing orders
+    private static final String ORDERS_FILE = "SC2002Assignment/src/database/orders_serialize.txt"; // File name for storing orders
     
     private static List<Order> confirmedOrders = deserializeConfirmedOrders();
     private static Order currentOrder; //Current order
@@ -101,6 +101,15 @@ public class Order implements Serializable {
 
     public int getOrderID(){
         return this.orderID;
+    }
+
+    public static Order getOrderById(int orderId) {
+        for (Order order : confirmedOrders) {
+            if (order.getOrderID() == orderId) {
+                return order;
+            }
+        }
+        return null; // Order not found
     }
 
     public double getAmount(){

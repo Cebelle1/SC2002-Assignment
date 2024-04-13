@@ -42,7 +42,7 @@ public class OrderMenuController extends AController {
             case 1:
                 // Display menu
                 menuV.displayOrganizedMenu(branchChoice, branches);
-                String retChocie = omv.getInputString("Press any key to return");
+                omv.getInputString("Press any key to return");
                 navigate(0);
                 break;
             case 2:
@@ -87,6 +87,11 @@ public class OrderMenuController extends AController {
                 omv.renderApp(6);
                 // System.out.println("printreceipt");
                 break;
+            case 7:
+                omv.renderApp(7);
+                int orderToCollect = omv.getInputInt("Enter Order ID to collect order: ");
+                collectOrder(orderToCollect);
+                break;
             case 8:
                 // Navigate back to main menu
                 cC.navigate(0);
@@ -113,6 +118,18 @@ public class OrderMenuController extends AController {
 
     public MenuView getMV(){
         return this.menuV;
+    }
+
+    private void collectOrder(int orderID){
+       
+        Order order = Order.getOrderById(orderID);
+        if (order != null) {
+            order.markReady();   //force set to compensate for sharms side, remove once sharms is done
+            order.markCompleted();
+            System.out.printf("Order %d status now %s", orderID, order.getOrderStatus());
+        } else {
+            System.out.println("Order with ID " + orderID + " not found.");
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-kumar Blackmore	kumarB	S	M	32	NTU	password
+kumar Blackmore	kumarB	S	M	32	NTU	kumarB
 Alexei 	Alexei	M	M	25	NTU	password
 Tom Chan 	TomC	M	M	56	JP	blueberries
 Alica Ang	AlicaA	S	F	27	JE	password

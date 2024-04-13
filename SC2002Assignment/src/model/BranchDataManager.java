@@ -82,7 +82,7 @@ public class BranchDataManager {
     }
 
     public static void loadQuotaNStatus(List<Branch> branches) {
-        String filePath = rootPath + branchListTxt;
+        final String filePath = rootPath + branchListTxt;
         List<Branch> openBranches = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             // Skip the header line
@@ -218,7 +218,7 @@ public class BranchDataManager {
 
 //===================Payment.txt================================//
     public static void appendPaymentMethod(String paymentMethod) {
-        String fileName = rootPath + paymentTxt;
+        final String fileName = rootPath + paymentTxt;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
             writer.write(paymentMethod + "\n");
             System.out.println("Payment method appended successfully.");
@@ -244,7 +244,7 @@ public class BranchDataManager {
     }
 
     public static List<String> readPaymentMethods() {
-        String fileName = rootPath + paymentTxt;
+        final String fileName = rootPath + paymentTxt;
         List<String> paymentMethods = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
