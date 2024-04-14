@@ -209,9 +209,9 @@ public class AdminController extends AController {
     // ===========================open/close branch=====================================================
     public void manageBranch(int choice) { // 1-Open an exising, 2-Close an exising
         List<Branch> openedClosedBranch = null;
-        if (choice == 1) {
+        if (choice == 1) {  //Open
             openedClosedBranch = Branch.getClosedBranches();
-        } else if (choice == 2) {
+        } else if (choice == 2) {   //Close
             openedClosedBranch = Branch.getOpenBranches();
         }else if (choice == 3){
             openNewBranch();

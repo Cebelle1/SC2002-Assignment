@@ -88,10 +88,10 @@ public class OrderView extends ARenderView{
     public void chooseDisplayCompleteOrderStatus(List<Order> completedOrder, int orderID){
 
         for(Order order : completedOrder){
-            if(order.getOrderID() == (orderID)){
+            if(order.getOrderID() == orderID){
                 System.out.println(order.getOrderStatus());
             }
-
+        }
     }
 
     public void displayCustomizeChoice(){

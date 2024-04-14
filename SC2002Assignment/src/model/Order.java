@@ -189,7 +189,6 @@ public class Order implements Serializable {
         return 1.2;
     }
 
-    
 
     public static boolean checkout(){
             //Use displayCartItems() to display cartItems\
@@ -244,6 +243,7 @@ public class Order implements Serializable {
         return this.status;
     }
 
+//=====================Serialization=================================
     public void serializeConfirmedOrders() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ORDERS_FILE))) {
             oos.writeObject(confirmedOrders); // Serialize only confirmed orders
