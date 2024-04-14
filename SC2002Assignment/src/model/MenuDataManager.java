@@ -12,11 +12,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import model.menus.MenuItem;
 
-public class UpdateMenu {
+public class MenuDataManager {
 
     private static final String filePath = "SC2002Assignment/src/database/menu_list.txt";
 
     //=================== menu_list.txt ================================//
+
+    // Add item
     public static void addItemToMenu(MenuItem menuItem){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))){
             String line = String.join("\t", menuItem.getRawName().trim(), menuItem.getDescription().trim(), Double.toString(menuItem.getPrice()).trim(), menuItem.getBranch().trim(), menuItem.getCategory().trim());
@@ -27,6 +29,7 @@ public class UpdateMenu {
         }
     }
 
+    // Remove item
     public static void removeItemFromMenu(MenuItem menuItem){
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
@@ -64,8 +67,7 @@ public class UpdateMenu {
 
     }
 
-    
-
+    // Edit name
     public static void editItemName(MenuItem menuItem, String newName){
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
@@ -97,6 +99,7 @@ public class UpdateMenu {
         }
     }
 
+    // Edit price
     public static void editItemPrice(MenuItem menuItem, double price){
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
@@ -131,6 +134,7 @@ public class UpdateMenu {
         }
     }
 
+    // Edit description
     public static void editItemDescription(MenuItem menuItem, String description){
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
             BufferedWriter bw = new BufferedWriter(new FileWriter("temp.txt"))){
