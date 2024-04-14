@@ -87,10 +87,17 @@ public class OrderView extends ARenderView{
 
     public void chooseDisplayCompleteOrderStatus(List<Order> completedOrder, int orderID){
 
-        for(Order order : completedOrder){
-            if(order.getOrderID() == orderID){
+        /*for(Order order : completedOrder){
+            if(order.getOrderID() == (orderID)){
                 System.out.println(order.getOrderStatus());
             }
+        }*/
+        Order selectedOrder = completedOrder.get(orderID);
+        if(selectedOrder == null){
+            System.out.println("Order is Null");
+        }
+        else{
+            System.out.println("Order is " + selectedOrder.getOrderStatus());
         }
     }
 

@@ -8,13 +8,10 @@ import model.menus.SetMealCategory;
 
 public class StaffRole extends AEmployee{
 
-    private List<Order> orders;
-    //private static final String ORDERS_FILE = "SC2002Assignment/src/database/orders_serialize.txt"; // File name for storing orders
+    private List<Order> orders = FilterOrder.filterOrderByBranch(this.getBranch());
 
-    
     public StaffRole(String Name, String StaffID, String Role, String Gender,int Age, String Branch, String Password){
         super(Name, StaffID, Role, Gender,Age, Branch, Password);
-        orders = FilterOrder.filterOrderByBranch(this.getBranch());
     }
 
     // Just displaying the order numbers
@@ -66,10 +63,9 @@ public class StaffRole extends AEmployee{
             if(orderID == (order.getOrderID())){
                 order.markReady();
                 order.serializeConfirmedOrders(); // Serialize the updated order
-                System.out.printf("Order " + orderID + " is now ready-to-pickup");
+                System.out.printf("Order " + orderID + " is now " + order.getOrderStatus());
                 return true;
             }
-
         }
         return false;
     }
