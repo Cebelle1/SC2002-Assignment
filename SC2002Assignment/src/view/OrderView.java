@@ -83,15 +83,14 @@ public class OrderView extends ARenderView{
             super.printDoubleUnderline("OrderID | Status");
             System.out.printf("%-8d | %s\n", order.getOrderID(), order.getOrderStatus());
         }
-
     }
 
     public void chooseDisplayCompleteOrderStatus(List<Order> completedOrder, int orderID){
-        Order selectedOrder = completedOrder.get(orderID);
-        if(selectedOrder == null){
-            System.out.println("No orders available.");
-        } else {
-            System.out.println(selectedOrder.getOrderStatus());
+
+        for(Order order : completedOrder){
+            if(order.getOrderID() == (orderID)){
+                System.out.println(order.getOrderStatus());
+            }
         }
     }
 

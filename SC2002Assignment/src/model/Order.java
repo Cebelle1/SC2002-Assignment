@@ -10,7 +10,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.zip.CRC32;
 
 import model.menus.MenuItem;
 import view.ReceiptView;
@@ -96,7 +95,7 @@ public class Order implements Serializable {
         return this.orderID;
     }
 
-    public static Order getOrderById(int orderId) {
+    public static Order getOrderById(int orderId){
         for (Order order : confirmedOrders) {
             System.out.println(order.getOrderID());
             if (order.getOrderID() == orderId) {

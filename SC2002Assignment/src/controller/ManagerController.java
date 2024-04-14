@@ -68,13 +68,6 @@ public class ManagerController extends AController {
                 }
                 editMenu(option);
                 break;
-
-            case 4:
-                // Load the branch when the manager logs in successfully such that all methods in the ManagerRole can access the same branch
-                area = manager.loadBranches();
-                System.out.println(area.getName());
-                this.navigate(0);
-                break;
         }
     }
 
