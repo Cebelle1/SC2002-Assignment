@@ -31,7 +31,7 @@ public class CustomerController extends AController {
         switch (page) {
             case 0: // Customer Main Menu
                 customerHomeView.renderApp(0); // Default 0
-                int choice = customerHomeView.getInputInt("", 2);
+                int choice = customerHomeView.getInputInt("", 3);
                 this.navigate(choice);
                 break;
             
@@ -52,6 +52,11 @@ public class CustomerController extends AController {
                 }
                 selectedOMC.navigate(0);
                 break;
+            case 3: //Collect order by ID
+                customerHomeView.collectOrder();
+                int orderToCollect = customerHomeView.getInputInt("Enter Order ID to collect order: ");
+                collectOrder(orderToCollect);
+                break;
                 
             case 10: // Select Branch [Startup should come here first]
                 branchV.displayOpenBranch(branches, false);
@@ -69,6 +74,24 @@ public class CustomerController extends AController {
                 System.out.println("Invalid page.");
                 this.navigate(0);
                 break;
+        }
+    }
+
+    private void collectOrder(int orderID){
+       
+        Order order = Order.getOrderById(orderID);
+        String currentBr = branches.get(branchChoice).getName();
+        if (order != null) {
+            if(order.getBranchName() != currentBr){
+                System.out.println("Cannot collect order from another branch! Please switch branch");
+                
+            }else{
+                order.markCompleted();
+                System.out.printf("Order %d Status: %s\n", orderID, order.getOrderStatus());
+            }
+            customerHomeView.delay(3);
+        } else {
+            System.out.println("Order with ID " + orderID + " not found.");
         }
     }
 

@@ -91,7 +91,7 @@ public class OrderView extends ARenderView{
             if(order.getOrderID() == (orderID)){
                 System.out.println(order.getOrderStatus());
             }
-        }
+
     }
 
     public void displayCustomizeChoice(){

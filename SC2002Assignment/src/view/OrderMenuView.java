@@ -66,9 +66,9 @@ public class OrderMenuView extends ARenderView {
             case 6:
                 //receipt.printReciept();
                 break;
-            case 7:
-                super.printBorder("Collect Order");
-                break;
+            //case 7:   //Shifted to CustomerHPV
+                //super.printBorder("Collect Order");
+                //break;
         }
     }
 

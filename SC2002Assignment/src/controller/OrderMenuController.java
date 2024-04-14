@@ -85,18 +85,18 @@ public class OrderMenuController extends AController {
                 navigate(0);
                 break;
             case 6: //Receipt
-                Order.showReceipt();
-                /*if(Order.showReceipt() == false){
+                //Order.showReceipt();
+                if(Order.showReceipt() == false){
                     omv.getInputString("Please make payment first! ");
                     this.navigate(0);
                 }
-                //omv.renderApp(6);*/
+                //omv.renderApp(6);
                 omv.exitPrompt();
                 break;
-            case 7:
+            case 7: //Collect Order - Shifted to CustomerHPV
                 omv.renderApp(7);
-                int orderToCollect = omv.getInputInt("Enter Order ID to collect order: ");
-                collectOrder(orderToCollect);
+                
+                
                 break;
             case 8:
                 // Navigate back to main menu
@@ -131,18 +131,6 @@ public class OrderMenuController extends AController {
 
     public MenuView getMV(){
         return this.menuV;
-    }
-
-    private void collectOrder(int orderID){
-       
-        Order order = Order.getOrderById(orderID);
-        if (order != null) {
-            order.markCompleted();
-            System.out.printf("Order %d status now %s", orderID, order.getOrderStatus());
-            omv.delay(3);
-        } else {
-            System.out.println("Order with ID " + orderID + " not found.");
-        }
     }
 
 
