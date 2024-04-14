@@ -4,16 +4,18 @@ import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import view.interfaces.ViewHelperInterface;
 import view.interfaces.ViewInterface;
 
-public abstract class ARenderView implements ViewInterface {
+public abstract class ARenderView implements ViewInterface, ViewHelperInterface{
     Scanner sc;
 
     public ARenderView() {
         sc = new Scanner(System.in);
     }
 
-    protected void printBorder(String input) {
+    @Override
+    public void printBorder(String input) {
         clearCLI();
         String space = String.format("%" + (99 - input.length()) + "s", "");
         String halfSpace = String.format("%" + (99 - input.length()) / 2 + "s", "");
@@ -24,7 +26,8 @@ public abstract class ARenderView implements ViewInterface {
                 "╚════════════════════════════════════════════════════════════════════════════════════════════════════╝");
     }
 
-    protected void clearCLI() {
+    @Override
+    public void clearCLI() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (Exception err) {
@@ -54,8 +57,9 @@ public abstract class ARenderView implements ViewInterface {
             }
         }
     }
-
-    protected void printDoubleUnderline(String input) {
+    
+    @Override
+    public void printDoubleUnderline(String input) {
         String space = String.format("%" + (99 - input.length()) + "s", "");
         String halfSpace = String.format("%" + (99 - input.length()) / 2 + "s", "");
         System.out.println(input + space);
@@ -63,7 +67,7 @@ public abstract class ARenderView implements ViewInterface {
                 "════════════════════════════════════════════════════════════════════════════════════════════════════");
     }
 
-    protected void printSingleUnderline(String input) {
+    public void printSingleUnderline(String input) {
         String space = String.format("%" + (99 - input.length()) + "s", "");
         String halfSpace = String.format("%" + (99 - input.length()) / 2 + "s", "");
         System.out.println(input + space);
@@ -71,7 +75,8 @@ public abstract class ARenderView implements ViewInterface {
                 "_____________________________________________________________________________________________________");
     }
 
-    protected void printSingleBorder(String input) {
+    @Override
+    public void printSingleBorder(String input) {
         String space = String.format("%" + (99 - input.length()) + "s", "");
         String halfSpace = String.format("%" + (99 - input.length()) / 2 + "s", "");
         System.out.println(
