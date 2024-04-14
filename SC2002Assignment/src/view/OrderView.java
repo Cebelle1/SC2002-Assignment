@@ -87,7 +87,7 @@ public class OrderView extends ARenderView{
     }
 
     public void chooseDisplayCompleteOrderStatus(List<Order> completedOrder, int orderID){
-        Order selectedOrder = completedOrder.get(orderID);
+        Order selectedOrder =Order.getOrderById(orderID);
         if(selectedOrder == null){
             System.out.println("No orders available.");
         } else {

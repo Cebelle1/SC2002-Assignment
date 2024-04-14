@@ -30,7 +30,7 @@ public class GenerateNewPayment {
         "}\n";
 
         // Step 2: Generate Java Source Code
-        String paymentMethodSource = String.format(paymentMethodTemplate, paymentMethodName, className);
+        String paymentMethodSource = String.format(paymentMethodTemplate, paymentMethodName, paymentMethodName);
 
         // Step 3: Write Source Code to File
         String filePath = "SC2002Assignment/src/model/payments/" + paymentMethodName + ".java";
