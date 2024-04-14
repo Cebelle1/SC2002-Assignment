@@ -1,3 +1,4 @@
+Cash
 DebitCardPayment
 CreditCardPayment
 PayNowPayment

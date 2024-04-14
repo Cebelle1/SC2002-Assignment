@@ -37,7 +37,6 @@ public class ReceiptView extends ARenderView{
         }
         System.out.println("|-------------------------------------|-------------------------------------|");
         System.out.printf("|                                                       Subtotal: $%-10.2f |\n", order.getSubtotal());
-        System.out.printf("|                                                       Tax: $%-10.2f |\n", order.getTax());
         System.out.printf("|                                                       Total: $%-10.2f |\n", order.getAmount());
         System.out.println("|                                     |                                     |");
         System.out.println("|                             THANK YOU!                              |                                     |");
