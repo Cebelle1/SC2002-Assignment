@@ -31,11 +31,7 @@ public class CustomerController extends AController {
         switch (page) {
             case 0: // Customer Main Menu
                 customerHomeView.renderApp(0); // Default 0
-                int choice = customerHomeView.getInputInt("");
-                if(choice > 5){ //HARDCODED, CHANGE IF NEEDED
-                    System.out.println("Invalid Option");
-                    this.navigate(0);
-                }
+                int choice = customerHomeView.getInputInt("", 2);
                 this.navigate(choice);
                 break;
             
@@ -56,14 +52,7 @@ public class CustomerController extends AController {
                 }
                 selectedOMC.navigate(0);
                 break;
-            //======Case 3 only for Debugging Purposes, to switch from Customer to Staff=====
-            case 3:
                 
-                return;
-                
-            case 9:
-                System.exit(page);
-                break;
             case 10: // Select Branch [Startup should come here first]
                 branchV.displayOpenBranch(branches, false);
                 branchChoice = handleBranchInput();

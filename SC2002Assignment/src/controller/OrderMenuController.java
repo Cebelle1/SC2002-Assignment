@@ -42,7 +42,7 @@ public class OrderMenuController extends AController {
             case 1:
                 // Display menu
                 menuV.displayOrganizedMenu(branchChoice, branches);
-                omv.getInputString("Press any key to return");
+                omv.exitPrompt();
                 navigate(0);
                 break;
             case 2:
@@ -69,7 +69,7 @@ public class OrderMenuController extends AController {
                 }else{
                     orderV.displayCheckout(Order.getCurrentOrder());
                 }
-                omv.getInputString("Enter a key to exit");
+                omv.exitPrompt();
 
                 navigate(0);
                 break;
@@ -84,12 +84,12 @@ public class OrderMenuController extends AController {
                 navigate(0);
                 break;
             case 6: //Receipt
-                if(Order.showReceipt() == false){
+                Order.showReceipt();
+                /*if(Order.showReceipt() == false){
                     omv.getInputString("Please make payment first! ");
                     this.navigate(0);
                 }
-                omv.renderApp(6);
-                omv.delay(10);
+                //omv.renderApp(6);*/
                 omv.exitPrompt();
                 break;
             case 7:
@@ -116,7 +116,7 @@ public class OrderMenuController extends AController {
         int orderID = omv.getInputInt("Enter Order ID to check status",Order.getConfirmedOrders().size())-1;
         //omv.chooseDisplayOrderStatus(this.orders, orderID);
         orderV.chooseDisplayCompleteOrderStatus(Order.getConfirmedOrders(), orderID);
-        omv.getInputString("Press any key to exit");
+        omv.exitPrompt();
         return;
     }
 
@@ -134,6 +134,7 @@ public class OrderMenuController extends AController {
         if (order != null) {
             order.markCompleted();
             System.out.printf("Order %d status now %s", orderID, order.getOrderStatus());
+            omv.delay(3);
         } else {
             System.out.println("Order with ID " + orderID + " not found.");
         }

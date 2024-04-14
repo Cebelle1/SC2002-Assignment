@@ -10,8 +10,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.CRC32;
 
 import model.menus.MenuItem;
+import view.ReceiptView;
 
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L; // Unique identifier for serialization
@@ -57,15 +59,6 @@ public class Order implements Serializable {
         orders.add(this);
         addShutdownSerialize();
     }
-    
-
-    /*public void newOrder(Order order){
-        order.orderID = ++orderIDCounter;
-        orders.add(order);
-        Order.currentOrder = order;
-        Order.currentOrder.status = OrderStatus.NEW;
-        order.total = 0;
-    }*/
 
     public List<Order> getOrders() {    //Returns all existing orders
         return orders;
@@ -105,6 +98,7 @@ public class Order implements Serializable {
 
     public static Order getOrderById(int orderId) {
         for (Order order : confirmedOrders) {
+            System.out.println(order.getOrderID());
             if (order.getOrderID() == orderId) {
                 return order;
             }
@@ -168,14 +162,15 @@ public class Order implements Serializable {
     }
 //=============== Process Order============//
     public static boolean showReceipt(){
+        //Shows only the latest paid order
+        int lastIndex = confirmedOrders.size() - 1;
+        Order currentOrder = confirmedOrders.get(lastIndex);
 
-        Order currentOrder = Order.getCurrentOrder();
+        if(currentOrder.getOrderStatus() != OrderStatus.PREPARING) return false;
 
-        // check if customer has paid
-        if(currentOrder.getOrderStatus() == OrderStatus.PREPARING){
-            return true;
-        }
-        return false;
+        ReceiptView.printReciept(currentOrder);
+
+        return true;
 
     }
 
@@ -186,6 +181,17 @@ public class Order implements Serializable {
         }
         this.total = payable;
     }
+
+    //=============Receipt View dummy
+    public double getSubtotal(){
+        return 1.2;
+    }
+
+    public double getTax(){
+        return 1.2;
+    }
+
+    
 
     public static boolean checkout(){
             //Use displayCartItems() to display cartItems\

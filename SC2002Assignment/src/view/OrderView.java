@@ -50,10 +50,9 @@ public class OrderView extends ARenderView{
         } else {
             super.printBorder(selectedOrder.getDiningMode() + " Order " + selectedOrderIndex+1);
             System.out.println("OrderID.   | Name            |   Qty   |    Unit Price    |    Total Price ");
-            int index = 1;
             for (MenuItem item : items) {
                 System.out.printf("%-9s  %-15s | %-7s | $%-15.2f | $%-10.2f\n", 
-                    selectedOrderIndex+1, 
+                    selectedOrder.getOrderID(), 
                     item.getFormattedName(), 
                     item.getQty(), 
                     item.getPrice(),
@@ -68,7 +67,6 @@ public class OrderView extends ARenderView{
                 }
                 System.out.printf("%8s > Comments: %s\n", "", item.getComments());
                 //System.out.println("         > Comments: " + item.getComments());
-                index++;
             }
         }
     }
