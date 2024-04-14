@@ -21,7 +21,7 @@ public class GenerateNewPayment {
         "import view.payments.PaymentView;\n" +
         "public class %s implements IPaymentProcessor {\n" +
         "    public boolean payment(double amount) {\n" +
-        "        System.out.println(\"Paid with %s\");\n" +
+        "        System.out.println(\"Paying with %s\");\n" +
         "        System.out.printf(\"Processing $%%.2f\", amount);\n" +
         "        // Just gonna use the PaymentView for now\n" +
         "        PaymentView pnv = new PaymentView();\n" +

@@ -65,7 +65,7 @@ public class Order implements Serializable {
     }
 
     public String getBranchName(){
-        return this.branchName;
+        return this.branchName.trim();
     }
 
     public static List<Order> getConfirmedOrders(){
@@ -98,7 +98,6 @@ public class Order implements Serializable {
 
     public static Order getOrderById(int orderId) {
         for (Order order : confirmedOrders) {
-            System.out.println(order.getOrderID());
             if (order.getOrderID() == orderId) {
                 return order;
             }
@@ -237,6 +236,8 @@ public class Order implements Serializable {
     public void markCompleted() {   //For CUSTOMER
         if (status == OrderStatus.READY_TO_PICKUP) {
             status = OrderStatus.COMPLETED;
+        }else{
+            System.out.println("Order not ready for pickup");
         }
     }
 

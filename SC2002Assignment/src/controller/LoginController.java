@@ -62,22 +62,7 @@ public class LoginController extends AController {
                 loginView.renderApp(0); // default 0
                 // then from LoginView it comes to this method
                 int choice = loginView.getInputInt(""); // pass nothing to prompt
-                // if the choice choosen is not within 1-4 then show error
-                // =====================================Filter Test For
-                // Nicole===================
 
-                // List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees();
-                // EmployeeFilter empFil = new EmployeeFilter(filter);
-                // // List<AEmployee> retunedFilter =
-                // // EmployeeFilter.filterEmployeesByBranch("NTU");
-                // List<AEmployee> retunedFilter = EmployeeFilter.filterEmployeesByAgeRange(30,
-                // 50);
-                // // System.out.println(retunedFilter);
-                // for (AEmployee test : retunedFilter) {
-                // System.out.println(test.getName());
-                // }
-
-                // =========================================================================================
                 if (choice > 4) {
                     System.out.println("Invalid Option");
                     this.navigate(0); // then navigate back to the first page again

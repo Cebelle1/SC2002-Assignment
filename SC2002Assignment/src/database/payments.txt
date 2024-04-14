@@ -4,3 +4,5 @@ CreditCardPayment
 PayNowPayment
 Alipay
 OCBC
+Maybank
+
