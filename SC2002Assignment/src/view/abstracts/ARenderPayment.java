@@ -1,8 +1,6 @@
 package view.abstracts;
 import java.util.Scanner;
 
-import model.payments.IPaymentProcessor;
-import model.payments.PaymentMethodFactory;
 
 public abstract class ARenderPayment extends ARenderView{
     public abstract void renderPayment();
