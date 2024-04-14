@@ -11,6 +11,7 @@ import model.payments.PaymentMethodFactory;
 import view.MenuView;
 import view.OrderMenuView;
 import view.OrderView;
+import view.ReceiptView;
 
 public class OrderMenuController extends AController {
     private List<Branch> branches;
@@ -85,18 +86,19 @@ public class OrderMenuController extends AController {
                 navigate(0);
                 break;
             case 6: //Receipt
-                //Order.showReceipt();
-                if(Order.showReceipt() == false){
+                Order currentOrder = Order.showReceipt();
+                if(currentOrder == null){
                     omv.getInputString("Please make payment first! ");
                     this.navigate(0);
                 }
-                //omv.renderApp(6);
+                else{
+                    ReceiptView.printReciept(currentOrder);
+                }
                 omv.exitPrompt();
                 break;
             case 7: //Collect Order - Shifted to CustomerHPV
                 omv.renderApp(7);
-                
-                
+                     
                 break;
             case 8:
                 // Navigate back to main menu

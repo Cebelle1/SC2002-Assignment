@@ -159,16 +159,29 @@ public class Order implements Serializable {
         return this.diningMode;
     }
 //=============== Process Order============//
-    public static boolean showReceipt(){
+    // public static boolean showReceipt(){
+    //     //Shows only the latest paid order
+    //     int lastIndex = confirmedOrders.size() - 1;
+    //     Order currentOrder = confirmedOrders.get(lastIndex);
+
+    //     if(currentOrder.getOrderStatus() != OrderStatus.PREPARING) return false;
+
+    //     ReceiptView.printReciept(currentOrder);
+
+    //     return true;
+
+    // }
+
+    public static Order showReceipt(){
         //Shows only the latest paid order
         int lastIndex = confirmedOrders.size() - 1;
         Order currentOrder = confirmedOrders.get(lastIndex);
 
-        if(currentOrder.getOrderStatus() != OrderStatus.PREPARING) return false;
+        if(currentOrder.getOrderStatus() != OrderStatus.PREPARING) return null;
 
-        ReceiptView.printReciept(currentOrder);
+        //ReceiptView.printReciept(currentOrder);
 
-        return true;
+        return currentOrder;
 
     }
 

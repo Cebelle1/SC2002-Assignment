@@ -31,9 +31,6 @@ public class ManagerController extends AController {
         switch (page) {
             case 0:
                 // Manager Main Page
-                // Load the branch when the manager logs in successfully such that all methods in the ManagerRole can access the same branch
-                //area = manager.loadBranches();
-                //System.out.println(area.getName());
                 managerView.renderApp(0);
                 int choice  = managerView.getInputInt("");
                 if(choice > 3){
@@ -92,8 +89,6 @@ public class ManagerController extends AController {
                 // Item in menu list
                 else
                 {
-                    // Set flag back to false in case it was true in other cases
-                    //found = false;
                     this.navigate(3);
                 }
                 break;
@@ -109,7 +104,6 @@ public class ManagerController extends AController {
                 }
                 else
                 {
-                    //found = false;
                     this.navigate(3);
                 }
                

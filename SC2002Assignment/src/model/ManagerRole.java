@@ -27,10 +27,6 @@ public class ManagerRole extends StaffRole{
         return null;
     }
 
-    //Add your individual role method here like perform whatever staff can do, actlly alr inherited
-    //for display branch staff, you can use smth like "Branch selectedBranch = branches.get(branchChoice);", tho currently the staff and manager arritbute still not added
-    //if you need the OrderStatus.STATUS, import model.Order.OrderStatus;
-
     public List<AEmployee> retrieveBranchStaff(Branch branch){
         // Retrieve the employees from the branch
         return branch.getEmployees();
@@ -43,7 +39,7 @@ public class ManagerRole extends StaffRole{
     public void addItem(MenuItem itemName, Branch selectedBranch){
         selectedBranch.addMenuItem(itemName);
         // Update the menu list
-        UpdateMenu.addItemToMenu(itemName);
+        MenuDataManager.addItemToMenu(itemName);
         System.out.println("New item added to menu!");
     }
 
@@ -54,7 +50,7 @@ public class ManagerRole extends StaffRole{
             if(item.getRawName().toLowerCase().trim().equals(itemName.toLowerCase().trim()) && item.getBranch().trim().equals(selectedBranch.getName().trim())){
                 selectedBranch.removeMenuItem(item);
                 // Update the menu list
-                UpdateMenu.removeItemFromMenu(item);
+                MenuDataManager.removeItemFromMenu(item);
                 System.out.println("Item removed!");
                 break;
             }
@@ -68,7 +64,7 @@ public class ManagerRole extends StaffRole{
             if(oldName.toLowerCase().trim().equals(item.getRawName().toLowerCase().trim()) && item.getBranch().trim().equals(selectedBranch.getName().trim()))
             {
                 // Edit name
-                UpdateMenu.editItemName(item, itemName);
+                MenuDataManager.editItemName(item, itemName);
                 item.setRawName(itemName);
                 System.out.println("Item name edited");
                 break;
@@ -84,7 +80,7 @@ public class ManagerRole extends StaffRole{
             if(item.getRawName().toLowerCase().trim().equals(itemName.toLowerCase().trim()) && item.getBranch().trim().equals(selectedBranch.getName().trim())){
 
                 // Edit price
-                UpdateMenu.editItemPrice(item, price);
+                MenuDataManager.editItemPrice(item, price);
                 item.setPrice(price);
                 System.out.println("Price edited");
                 break;
@@ -99,7 +95,7 @@ public class ManagerRole extends StaffRole{
             if(item.getRawName().toLowerCase().trim().equals(name.toLowerCase().trim()) && item.getBranch().trim().equals(selectedBranch.getName().trim())){
 
                 // Edit descirption
-                UpdateMenu.editItemDescription(item, description);
+                MenuDataManager.editItemDescription(item, description);
                 item.setDescription(description);
                 System.out.println("Description edited");
                 break;
