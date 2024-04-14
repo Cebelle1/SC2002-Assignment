@@ -1,8 +1,8 @@
 Name	Description	Price	Branch	Category
-3PC set meal	2 dumpsticks and 1 chicken wing	9.9	NTU	set meal
+3PC set meal	main, drink and side	9.9	NTU	set meal
 CAJUN FISH	Grilled fish	5.6	JP	burger
 COLE SLAW	Finely-shredded raw cabbage with a salad dressing	2.7	JE	side
-3PC set meal	2 dumpsticks and 1 chicken wing	10.4	JE	set meal
+3PC set meal	main, drink and side	10.4	JE	set meal
 chicken nugget	Small deep-fried piece of chicken	6.9	JP	side
 chicken nugget	Small deep-fried piece of chicken	6.6	NTU	side
 pepsi	Carbonated soft drink with a cola flavour	2.1	JE	drink
