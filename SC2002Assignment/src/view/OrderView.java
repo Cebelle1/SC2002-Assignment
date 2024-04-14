@@ -99,7 +99,6 @@ public class OrderView extends ARenderView{
         else{
             System.out.println("Order is " + selectedOrder.getOrderStatus());
         }
-
     }
 
     public void displayCustomizeChoice(){

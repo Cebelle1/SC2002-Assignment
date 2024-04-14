@@ -1,6 +1,5 @@
 package model.payments;
 
-import view.abstracts.ARenderPayment;
 import view.payments.PaymentView;
 
 public class DebitCardPayment implements IPaymentProcessor {

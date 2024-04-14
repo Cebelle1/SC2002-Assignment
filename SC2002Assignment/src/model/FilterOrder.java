@@ -10,7 +10,6 @@ import model.Order.OrderStatus;
 public class FilterOrder {
 
     public  static List<Order> filterOrderByBranch(String branch){
-
         // get the confirmed orders
         List<Order> confirmedOrders = Order.getConfirmedOrders();
 
@@ -19,7 +18,6 @@ public class FilterOrder {
 
         // iterate through the orders to get the orders from the right branch
         for(Order order : confirmedOrders){
-
                 if(order.getBranchName().equals(branch)){
                     ordersByBranch.add(order);
                 }

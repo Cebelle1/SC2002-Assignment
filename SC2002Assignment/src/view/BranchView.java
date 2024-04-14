@@ -18,10 +18,10 @@ public class BranchView extends ARenderView {
 
         int i = 0;
         for (Branch branch : branches) {
-            if (branch.getOperation() == true) {
-                System.out.println("(" + (i + 1) + ") " + branches.get(i).getName());
-                i++;
-            }
+           
+            System.out.println("(" + (i + 1) + ") " + branch.getName());
+            i++;
+            
         }
 
     }

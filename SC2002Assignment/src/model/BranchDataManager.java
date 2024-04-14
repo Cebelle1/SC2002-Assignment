@@ -84,9 +84,10 @@ public class BranchDataManager {
     public static void loadQuotaNStatus(List<Branch> branches) {
         final String filePath = rootPath + branchListTxt;
         List<Branch> openBranches = new ArrayList<>();
+        List<String> updatedLines = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            // Skip the header line
-            br.readLine();
+            String header = br.readLine(); // Read the header line
+            updatedLines.add(header); // Add the header line to the updated lines list
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("\t");
@@ -106,24 +107,38 @@ public class BranchDataManager {
                         branch.setLocation(location);
                         branch.setStaffQuota(staffQuota);
                         
-                        //boolean canOpen = branch.getEmployees().size() >= staffQuota;
                         boolean canOpen = branch.canOpenBranch();
-                        branch.setOperation(canOpen);
-                        
-                        if (isOpen || canOpen) {    //isOpen = previous stat, canOpen = recalculate
+                        boolean newStatus = isOpen || canOpen; // Determine the new status
+    
+                        if (newStatus) {    //isOpen = previous stat, canOpen = recalculate
                             openBranches.add(branch);
                         }
+    
+                        // Update the status in the line before adding it to the updated lines list
+                        parts[3] = newStatus ? "open" : "close";
+                        updatedLines.add(String.join("\t", parts));
                     } else {
                         // Create a new branch
                         System.out.println("Unknown branch in branch.txt, does not match with the ones in menu_list");
                     }
                 }
             }
+            // Write the updated lines back to the file
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+                for (String updatedLine : updatedLines) {
+                    bw.write(updatedLine);
+                    bw.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Branch.setOpenBranches(openBranches);
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    
 
       // load the staff list here
     public static List<EmployeeHandler> loadStaff() {
