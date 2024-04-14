@@ -78,11 +78,10 @@ public class CustomerController extends AController {
     }
 
     private void collectOrder(int orderID){
-       
         Order order = Order.getOrderById(orderID);
         String currentBr = branches.get(branchChoice).getName();
         if (order != null) {
-            if(order.getBranchName() != currentBr){
+            if(!currentBr.equals(order.getBranchName())){
                 System.out.println("Cannot collect order from another branch! Please switch branch");
                 
             }else{
