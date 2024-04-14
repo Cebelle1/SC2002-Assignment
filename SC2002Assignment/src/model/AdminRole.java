@@ -1,14 +1,7 @@
 package model;
 
 import model.payments.*;
-import view.AdminHomePageView;
-import view.BranchView;
-
 import java.util.List;
-
-import javax.print.DocFlavor.STRING;
-
-import controller.AdminController;
 import model.abstracts.AEmployee;
 
 public class AdminRole extends AEmployee {
@@ -19,9 +12,6 @@ public class AdminRole extends AEmployee {
         super(Name, StaffID, Role, Gender, Age, Branch, Password);
     }
 
-    // Add your individual role method here like edit staffacc, display staff list
-    // etc
-    // create with i can get the fill Employee with no filter
     // =======================================Edit (add, remove, edit) staff list======================================================
     public void addStaff(AEmployee newAEmployee) {
         int checker = EmployeeDataManager.addNewStaffAccount(newAEmployee);
@@ -36,15 +26,8 @@ public class AdminRole extends AEmployee {
     }
 
     public void removeStaff(String staffNameToRemove) {
-        List<AEmployee> allAEmployees = EmpAllWithoutFilter();
-        for (AEmployee employee : allAEmployees) {
-            if (employee.getName().equals(staffNameToRemove)) {
-                EmployeeDataManager.removeStaffAccount(staffNameToRemove);
-                // System.out.println("Staff account removed from staff list");
-                return;
-            }
-        }
 
+        EmployeeDataManager.removeStaffAccount(staffNameToRemove);
     }
 
     // =======================================Display filter staff list======================================================
@@ -56,10 +39,7 @@ public class AdminRole extends AEmployee {
     public List<AEmployee> EmpFilterByAge(int min, int max) {
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees();
         EmployeeFilter empfilter = new EmployeeFilter(filter);
-        List<AEmployee> filterbyage = empfilter.filterEmployeesByAgeRange(min, max); // TO DO: either change the
-                                                                                     // method in class to static or
-                                                                                     // change
-                                                                                     // this line to non-static
+        List<AEmployee> filterbyage = empfilter.filterEmployeesByAgeRange(min, max); 
         return filterbyage;
 
     }
@@ -74,10 +54,7 @@ public class AdminRole extends AEmployee {
 
         List<AEmployee> filter = EmployeeHandler.getAllUnsortedEmployees(); // create an object array of employees
         EmployeeFilter empfilter = new EmployeeFilter(filter); // create an object employee filter to use the class
-        List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputStrBranch); // TO DO: either change the
-                                                                                            // method in class to static
-                                                                                            // or change this line to
-                                                                                            // non-static
+        List<AEmployee> filterbyBranch = empfilter.filterEmployeesByBranch(inputStrBranch); 
         return filterbyBranch;
     }
 

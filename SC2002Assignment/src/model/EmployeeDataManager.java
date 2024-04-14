@@ -54,7 +54,7 @@ public class EmployeeDataManager {
         }
     }
 
-    // ======================================ADMIN  EDITS===========================================
+    // ======================================Edit staff accounts===========================================
     public static int addNewStaffAccount(AEmployee newAEmployee) {
         String filePath = rootPath + staffListTxt ;
         List<String> lines = new ArrayList<>(); // Store file lines
@@ -141,7 +141,7 @@ public class EmployeeDataManager {
         }
     }
 
-    // For Promotion staff -> branch manager
+    // ======================================Promotion staff to Branch manager===========================================
     public static void promoteStaffToManager(String staffnameToPromote) {
         final String filePath = rootPath + staffListTxt ;
         boolean isPromoted = false;
@@ -182,7 +182,7 @@ public class EmployeeDataManager {
         }
     }
 
-//==================Assign Managers to each branch with quota constraints====================
+//==================Assign Managers to each branch with quota constraints========================================
 
 public static void assignManagerToBranch(String staffName,String branchToAssignTo) {
     final String filePath = rootPath + staffListTxt ;
@@ -255,12 +255,8 @@ public static boolean checkIfStaffExits(String nameOfStaff) {
     } catch (IOException e) {
         System.err.println("Error updating the file: " + e.getMessage());
     }
-    
     return managerCheck && staffExists;
 }
-
-
-
 
 //================== Transfer a staff/manager amongst branches==========================
     //check if the person is existent in the list 
@@ -333,7 +329,7 @@ public static boolean checkIfStaffExits(String nameOfStaff) {
         }
     }
 
-//======Open new branch
+//==============================Open new branch=================================================================
 
     public static void createNewBranch(String branchName, String branchAddress, int staffQuota, String operation) {
         final String BRANCH_FILE = "branch_list.txt";

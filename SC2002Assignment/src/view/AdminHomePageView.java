@@ -3,11 +3,8 @@ package view;
 import view.abstracts.ARenderView;
 
 import java.util.List;
-import java.util.Scanner;
 
 import controller.AdminController;
-import model.Branch;
-//import model.abstracts.AEmployee;
 import model.abstracts.AEmployee;
 
 public class AdminHomePageView extends ARenderView {
@@ -68,8 +65,7 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("Enter New Staff Info");
     }
 
-    // ==================Display Staff List With
-    // filter(2)===========================
+    // ==================Display Staff List With filter(2)===========================
     public void renderChoiceFilterDisplay() {
         super.printBorder("Display Staff List ");
         System.out.println("Filter in terms of: ");
@@ -152,7 +148,7 @@ public class AdminHomePageView extends ARenderView {
     }
 
     public void errorIntInput() {
-        System.out.println("Invalid choice, please enter a valid number");
+        System.out.println("Invalid choice, please enter.");
         System.out.println(" ");
     }
 
