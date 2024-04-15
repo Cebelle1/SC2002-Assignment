@@ -61,7 +61,7 @@ public class PaymentMethodFactory {
 
     public static IPaymentProcessor createPaymentMethod(String type) {
         try {
-            Class<?> paymentMethodClass = Class.forName(type);
+            Class<?> paymentMethodClass = Class.forName(type);  //Create instance of object dynamically
             Object paymentMethodObject = paymentMethodClass.getDeclaredConstructor().newInstance();
             if (paymentMethodObject instanceof IPaymentProcessor) {
                 return (IPaymentProcessor) paymentMethodObject;

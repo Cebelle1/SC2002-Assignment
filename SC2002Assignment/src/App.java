@@ -52,8 +52,6 @@ public class App {
                 start();    //FOR RETURNING FROM CUSTOMER TO SWITCH TO STAFF
                 break;
             case 2:
-                // Setter Injection
-                // Dependencies may need to change (staffs) due to modifying of txt files.
                 LoginController lc = new LoginController(staffs);
                 lc.navigate(0);
                 break;

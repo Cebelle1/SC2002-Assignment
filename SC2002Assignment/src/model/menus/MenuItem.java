@@ -6,8 +6,6 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Locale;
 
-import model.Branch;
-import model.Order;
 
 public class MenuItem implements Serializable{
     private String name;
