@@ -10,17 +10,17 @@ import model.Order;
 import view.BranchView;
 import view.CustomerHomePageView;
 import view.OrderMenuView;
-import controller.OrderMenuController;
+
 public class CustomerController extends AController {
     private CustomerHomePageView customerHomeView = new CustomerHomePageView();
     private BranchView branchV = new BranchView();
     private Order currentOrder;
-    private List<Order> orders = new ArrayList<>();
     private List<Branch> branches; // Ensure that this list is populated with branches containing menu items
     private OrderMenuView orderMenuView = new OrderMenuView(this);
     private static int branchChoice;
     private Map<Branch, OrderMenuController> branchOrderMenuControllers = new HashMap<>();
     private OrderMenuController selectedOMC;
+
     public CustomerController(List<Branch> branches) {
         this.branches = branches;
         

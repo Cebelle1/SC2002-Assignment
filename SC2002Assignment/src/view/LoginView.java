@@ -59,6 +59,7 @@ public class LoginView extends ARenderView{
         }
         else{
             System.out.print("Retry again! ");
+            super.delay(3);
         }
     }
 

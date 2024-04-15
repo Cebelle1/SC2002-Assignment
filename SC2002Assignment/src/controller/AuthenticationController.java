@@ -20,7 +20,7 @@ public class AuthenticationController {
     public AuthenticationController(LoginController lc, List<EmployeeHandler> roleCategories) {
         this.loginC = lc;
         this.roleCategories = roleCategories;
-        this.loginAttempt = 3;
+        this.loginAttempt = 0;
     }
 
     public boolean isUnderCooldown() {
@@ -60,11 +60,6 @@ public class AuthenticationController {
                             }
                         return employee;
                     }
-                    // Wrong Attempt
-                    if(++loginAttempt >= maxAttempt){
-                        System.out.println("Max login attempts reached, please wait to try again.");
-                        setCd(true);
-                    }
 
                 }  
                 else { // Unknown staff role, for resetting pw
@@ -74,6 +69,12 @@ public class AuthenticationController {
                     }
                 }
             }
+        }
+        // Wrong Attempt
+        if(++loginAttempt >= maxAttempt){
+            System.out.println("Max login attempts reached, please wait to try again.");
+            setCd(true);
+            
         }
         return null; // no such staff located
     }
@@ -109,7 +110,7 @@ public class AuthenticationController {
             public void run() {
                 // This code runs after the cooldown period (30 seconds in this case)
                 System.out.println("Cooldown completed!");
-                // Perform any action you want after the cooldown period
+                setCd(false);
             }
         }, 10000); // 30 seconds in milliseconds (30,000 milliseconds = 30 seconds)
     }
