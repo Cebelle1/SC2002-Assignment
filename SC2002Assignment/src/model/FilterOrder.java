@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import model.Order.OrderStatus;
 
 
@@ -56,6 +57,32 @@ public class FilterOrder {
                 }
         }
         return ordersByStatus;
+
+    }
+
+
+    /**
+     * Filters the Order by Branch and Status
+     * @param status
+     * @return The list of orders with the status specfic to each Branch
+     */
+    // Filter by Order status
+    public static List<Order> filterOrderByOrderBranchAndStatus(String branch, OrderStatus status){
+
+        // get the confirmed orders
+        List<Order> confirmedOrders = Order.getConfirmedOrders();
+
+       // create a new array list to store the orders by order status
+        List<Order> ordersByBranchAndStatus = new ArrayList<>();
+
+       // iterate through the orders to get the right orders depending on status
+        for(Order order : confirmedOrders){
+
+            if(order.getBranchName().equals(branch) &&order.getOrderStatus() != status){
+                ordersByBranchAndStatus.add(order);
+            }
+        }
+        return ordersByBranchAndStatus;
 
     }
     

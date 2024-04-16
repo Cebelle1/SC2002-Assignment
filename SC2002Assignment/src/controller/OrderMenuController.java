@@ -4,6 +4,7 @@ import java.util.List;
 
 import controller.abstracts.AController;
 import model.Branch;
+import model.FilterOrder;
 import model.Order;
 import model.menus.MenuHandler;
 import model.payments.PaymentMethodFactory;
@@ -143,16 +144,11 @@ public class OrderMenuController extends AController {
      * Function to invoke and display the Order Status
      */
     public void displayOrderStatus(){
-        // the confirmedOrders is getting all the confirmedorders from all branches
-        // in StaffRole.java I did a filterOrderByBranch(), so maybe you want to use that?
-        //List<Order> comepletedOrders = FilterOrder.filterOrderByBranch(this.orders.getBranchName());
-        //int orderID = omv.getInputInt("Enter Order ID to check status",comepletedOrders.size())-1;
+        List<Order> completedOrders = FilterOrder.filterOrderByBranch(orders.getBranchName());
+        // Make sure it is within the range of the confirmed orders from all branches
         int orderID = omv.getInputInt("Enter Order ID to check status",Order.getConfirmedOrders().size())-1;
-        //orderV.chooseDisplayCompleteOrderStatus(comepletedOrders, orderID);
-        orderV.chooseDisplayCompleteOrderStatus(Order.getConfirmedOrders(), orderID);
-        //int orderID = omv.getInputInt("Enter Order ID to check status",Order.getConfirmedOrders().size())-1;
-        //omv.chooseDisplayOrderStatus(this.orders, orderID);
-        //orderV.chooseDisplayCompleteOrderStatus(Order.getConfirmedOrders(), orderID);
+        // Ensuring the user selected the right branch they made the order in
+        orderV.chooseDisplayCompleteOrderStatus(completedOrders, orderID);
         omv.exitPrompt();
         return;
     }
