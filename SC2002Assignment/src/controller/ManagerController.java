@@ -16,6 +16,7 @@ public class ManagerController extends AController {
     private ManagerRole manager;
     private ManagerHomePageView managerView;
     Branch area;
+    int orderNo = -1;
 
     // Constructor
     public ManagerController(AEmployee user){
@@ -31,11 +32,8 @@ public class ManagerController extends AController {
         switch (page) {
             case 0:
                 // Manager Main Page
-                // Load the branch when the manager logs in successfully such that all methods in the ManagerRole can access the same branch
-                //area = manager.loadBranches();
-                //System.out.println(area.getName());
                 managerView.renderApp(0);
-                int choice  = managerView.getInputInt("");
+                int choice = managerView.getInputInt("");
                 if(choice > 3){
                     System.out.println("Invalid Option");
                     this.navigate(0);
@@ -45,9 +43,13 @@ public class ManagerController extends AController {
 
             case 1:
                 // Everything a staff is able to do
-                // Create the staff controller only before navigating to the staff mode
-                StaffController staffcon = new StaffController(this.user);
-                staffcon.navigate(0);
+                managerView.renderApp(1);
+                int task  = managerView.getInputInt("");
+                if(task > 4){
+                    System.out.println("Invalid Option");
+                    this.navigate(1);
+                }
+                this.staffJob(task);
                 break;    
 
             case 2:
@@ -59,14 +61,102 @@ public class ManagerController extends AController {
 
             case 3:
                 // Edit Menu Item
-                managerView.renderApp(1);
+                managerView.renderApp(3);
                 int option  = managerView.getInputInt("");
                 if(option > 4){
                     System.out.println("Invalid Option");
                     // Go back to Edit menu list
-                    managerView.renderApp(1);
+                    this.navigate(3);
                 }
-                editMenu(option);
+                this.editMenu(option);
+                break;
+        }
+    }
+
+    public void staffJob(int task){
+        switch(task){
+            case 1:
+                // Display new orders
+                managerView.displayOrder();
+                manager.displayOrders();
+                managerView.exitPrompt();
+                this.navigate(1);
+                break;
+
+            case 2:
+                // View details
+                int orderNum = managerView.getInputInt("Please enter OrderID"); // gets the OrderId
+                if(!manager.checkOrderID(orderNum))
+                {
+                    System.out.println("\nPlease enter a valid Order ID");
+                    managerView.delay(1);
+                    this.navigate(1); // request for valid Order ID again
+                }
+                else{
+                    managerView.orderView();
+                    manager.viewDetails(orderNum);
+                    managerView.exitPrompt();
+                    this.navigate(1);
+                }
+                break;
+
+            case 3:
+                // Process order
+                managerView.renderApp(2);
+                int stage  = managerView.getInputInt("");
+                if(stage > 3){
+                    System.out.println("Invalid Option");
+                    // Go back to process order page
+                    this.staffJob(3);
+                }
+                this.processOption(stage);
+                break;
+
+            // Navigate back to Manager Home Page
+            case 4:
+                this.navigate(0);
+                break;
+        }
+    }
+
+    public void processOption(int choice){
+        // int orderNo = -1;
+        switch(choice){
+            case 1:
+                // Select Order
+                orderNo = managerView.getInputInt("Please enter OrderID"); // gets the OrderId
+                if(!manager.checkOrderID(orderNo)){
+                    System.out.println("You've entered an invalid OrderID");
+                }
+                else{
+                    System.out.println("Order selected");
+                }
+                managerView.delay(1);
+                this.staffJob(3);
+                break;
+            
+            case 2:
+                // Update order status
+                if(orderNo < 0){
+                    System.out.println("Please select your orderID first");
+                    managerView.delay(1);
+                    this.staffJob(3);
+                }
+                // Process to Completed
+                if(manager.processOrder(orderNo)){
+                    managerView.exitPrompt();
+                    this.staffJob(3);
+                }
+                else{
+                    System.out.println("Error processing order!");
+                    managerView.exitPrompt();
+                    this.staffJob(3);
+                }
+                break;
+
+            case 3:
+                // Back to Staff Home Page
+                this.navigate(1);
                 break;
         }
     }
@@ -92,8 +182,6 @@ public class ManagerController extends AController {
                 // Item in menu list
                 else
                 {
-                    // Set flag back to false in case it was true in other cases
-                    //found = false;
                     this.navigate(3);
                 }
                 break;
@@ -109,7 +197,6 @@ public class ManagerController extends AController {
                 }
                 else
                 {
-                    //found = false;
                     this.navigate(3);
                 }
                
@@ -117,14 +204,14 @@ public class ManagerController extends AController {
 
             case 3:
                 // Edit menu item name
-                managerView.renderApp(2);
+                managerView.renderApp(4);
                 int option  = managerView.getInputInt("");
-                if(option > 3){
+                if(option > 4){
                     System.out.println("Invalid Option");
-                    // Go back to Edit menu list
-                    managerView.renderApp(2);
+                    // Go back to Edit choice
+                    this.editMenu(3);
                 }
-                editFeatures(option);
+                this.editFeatures(option);
                 break;
 
             case 4:

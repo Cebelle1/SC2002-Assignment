@@ -106,18 +106,6 @@ public class StaffController extends AController{
                     }
                 }
                 break;
-            
-            // navigate back to Manager Side
-            case 4:
-                if(this.user.getRole().equals("M")){
-                    ManagerController mangC = new ManagerController(user);
-                    mangC.navigate(0);
-                }
-                else{
-                    System.out.println("Invalid Option");
-                    this.navigate(0);
-                }
-                break;
                 
             // exit
             case 5:
