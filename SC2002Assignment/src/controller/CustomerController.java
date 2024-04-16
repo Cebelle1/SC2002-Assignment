@@ -1,6 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +9,13 @@ import model.Order;
 import view.BranchView;
 import view.CustomerHomePageView;
 import view.OrderMenuView;
+
+/**
+ * The CustomerController handles the actions of the Customer
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
+ */
 
 public class CustomerController extends AController {
     private CustomerHomePageView customerHomeView = new CustomerHomePageView();
@@ -21,11 +27,27 @@ public class CustomerController extends AController {
     private Map<Branch, OrderMenuController> branchOrderMenuControllers = new HashMap<>();
     private OrderMenuController selectedOMC;
 
+    /**
+     * CustomerController constructor receives a list of branches as dependency
+     * @param branches
+     */
     public CustomerController(List<Branch> branches) {
         this.branches = branches;
         
     }
 
+    /**
+     * Navigates to the specified case based on user input.
+     * @param page The feature to navigate to.
+     * The pages are:
+     *              <ul>
+     *                  <li>0: Customer Main Menu.</li>
+     *                  <li>1: Checks Order Status by OrderID</li>
+     *                  <li>2: Go to Order Menu Page</li>
+                        <li>3: Collect Order by OrderID</li>
+                        <li>10: Invokes the branch selection</li>
+     *              </ul>
+     */
     @Override
     public void navigate(int page) {
         switch (page) {
@@ -35,7 +57,7 @@ public class CustomerController extends AController {
                 this.navigate(choice);
                 break;
             
-            case 1: // Display Completed Orders
+            case 1: // Check Order Status by ID
                 selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     branchV.displayBranchError();
@@ -44,7 +66,7 @@ public class CustomerController extends AController {
                 selectedOMC.displayOrderStatus();
                 this.navigate(0);
                 break;
-            case 2: // Edit Order
+            case 2: // Make New Order
                 selectedOMC = branchOrderMenuControllers.get(branches.get(branchChoice));
                 if (selectedOMC == null) {
                     branchV.displayBranchError();
@@ -77,6 +99,11 @@ public class CustomerController extends AController {
         }
     }
 
+    /**
+     * Allows Customer to collect order by passing in the OrderID
+     * Function will print prompts if Customer entered the wrong OrderID or if the OrderID is not from the current branch
+     * @param orderID
+     */
     private void collectOrder(int orderID){
         Order order = Order.getOrderById(orderID);
         String currentBr = branches.get(branchChoice).getName();
@@ -94,23 +121,45 @@ public class CustomerController extends AController {
         }
     }
 
+
+    /**
+     * Getter functino to get the list of branch
+     * @return The list of branch
+     */
     public List<Branch> getCurrentBranch() {
         return branches;
     }
 
+    /**
+     * Getter function to get the associated OrderMenuView to this controller instance
+     * @return The OrderMenuView associated with this controller instance
+     */
     public OrderMenuView getCurOMV() {
         return orderMenuView;
     }
 
+    /**
+     * Getter function to get the branch Customer selected
+     * @return The branch Customer selected
+     */
     public int getBranchChoice() {
         return branchChoice;
     }
 
+    /**
+     * Getter function to get the current order associated with this controller instance
+     * @return The current order associated with this controller instance
+     */
     public Order getCurOrder() {
         return currentOrder;
     }
 
     //================== Helper Methods for User Input Handling =================//
+
+    /**
+     * Adhoc helper method to handle the input of the branch choice
+     * @return The valid branch choice
+     */
     private int handleBranchInput(){
         int branchChoice = -1;
         while(branchChoice < 0 || branchChoice > branches.size()-1){

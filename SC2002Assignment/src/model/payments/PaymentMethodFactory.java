@@ -1,13 +1,15 @@
 package model.payments;
 
 import java.lang.reflect.InvocationTargetException;
-
 import model.BranchDataManager;
 import model.Order;
 import model.Order.OrderStatus;
 import view.payments.PaymentView;
 import java.util.List;
 
+/**
+ * 
+ */
 public class PaymentMethodFactory {
 
     public static boolean handlePayment(Order orders) {

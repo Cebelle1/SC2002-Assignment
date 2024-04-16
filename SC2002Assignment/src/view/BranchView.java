@@ -2,11 +2,21 @@ package view;
 
 import model.Branch;
 import view.abstracts.ARenderView;
-
 import java.util.List;
 
+/** (NOT DONE PLEASE COMPLETE)
+ * The BranchView class is a class that is used to display information related to the Branch
+ * 
+ * @author Nicole
+ * @version 1.0
+ */
 public class BranchView extends ARenderView {
 
+    /**
+     * Used to display Branches that are currently open
+     * @param branches List of open branches
+     * @param employee False indicates Customer, True indiciates Employee
+     */
     // pass in only the opened branches
     public void displayOpenBranch(List<Branch> branches, boolean employee) { // employee=0 > customer, employee=1 >
                                                                              // employee
@@ -26,6 +36,11 @@ public class BranchView extends ARenderView {
 
     }
 
+    /**
+     * Used by Admin to display all branches
+     * @param branches List of all Branches
+     * @return The size of the branch
+     */
     // should be usable by employee only
     public int displayAllBranch(List<Branch> branches) { // pass in the full branch here
         super.printBorder("Logged in as Employee");
@@ -39,6 +54,11 @@ public class BranchView extends ARenderView {
         return i;
     }
 
+    /**
+     * Used by Admin to display all branch
+     * @param branches
+     * @return
+     */
     public int displayAllBranchForAccount(List<Branch> branches) { // pass in the full branch here
         int i = 0;
         for (Branch branch : branches) {

@@ -1,9 +1,11 @@
-import model.Order;
-
 /**
- * This is the Main class of the app.
- * It is the entry point for the entire app.
+ * The Main class in Java instantiates and starts an App object, handling any exceptions that may
+ * occur.
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
  */
+
 public class Main {
     public static void main(String[] args) {
         try{

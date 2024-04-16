@@ -48,7 +48,7 @@ public class AdminHomePageView extends ARenderView {
         System.out.println("(3) Assign Managers");
         System.out.println("(4) Promotion");
         System.out.println("(5) Transfer Staff");
-        System.out.println("(6) Edit paymnet method");
+        System.out.println("(6) Edit Payment Method");
         System.out.println("(7) Manage Branch");
     }
 

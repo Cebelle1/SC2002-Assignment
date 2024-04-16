@@ -1,7 +1,10 @@
+/**
+ * The `AdminHomePageView` class in the Java code represents the view for the admin user interface with
+ * methods for rendering different options and managing staff accounts.
+ */
 package controller;
 
 import java.util.List;
-
 import controller.abstracts.AController;
 import view.AdminHomePageView;
 import view.BranchView;
@@ -14,6 +17,14 @@ import model.abstracts.AEmployee;
 import model.payments.IPaymentProcessor;
 import model.payments.PaymentMethodFactory;
 
+
+/**
+ * Controller class responsible for handling admin-related functionality.
+ * This class extends the abstract base controller class {@link AController}.
+ * 
+ * @author Nicole
+ * @version 1.0
+ */
 
 public class AdminController extends AController {
     private AdminHomePageView adminHomePageView = new AdminHomePageView(this);
@@ -29,6 +40,10 @@ public class AdminController extends AController {
     int minAge,maxAge;
     int managePaymentChoice;
 
+    /**
+     * Constructs a new AdminController with the specified user.
+     * @param user The current user logged in as an admin.
+     */
     public AdminController(AEmployee user) {
         this.currentuser = user;
         adminRole = new AdminRole(user.getName(), user.getStaffID(), user.getRole(), user.getGender(), user.getAge(),
@@ -36,6 +51,21 @@ public class AdminController extends AController {
 
     }
 
+    /**
+     * Navigates to the specified case based on user input.
+     * @param page The feature to navigate to.
+     * The pages are:
+     *              <ul>
+     *                  <li>0: Displays Admin choices in Admin Home Page View.</li>
+     *                  <li>1: Invokes the feature to edit staff accounts </li>
+     *                  <li>2: Invokes the feature to display all staff list</li>
+                        <li>3: Invokes the feature to assign managers</li>
+                        <li>4: Invokes the feature to promote employees</li>
+                        <li>5: Invokes the feature to transfer staff</li>
+                        <li>6: Invokes the feature to edit payment method</li>
+                        <li>7: Invokes the feature to manage branch</li>
+     *              </ul>
+     */
     public void navigate(int page) {
         switch (page) {
             case 0:
@@ -103,6 +133,19 @@ public class AdminController extends AController {
 
 
     }
+
+    /**
+     * The function to handle edit staff accounts
+     * 
+     * @param num The selection to add, edit or remove staff accounts
+     * The selections are:
+     *              <ul>
+     *                  <li>1: Add staff account.</li>
+     *                  <li>2: Remove staff account </li>
+     *                  <li>3: Edit staff account</li>
+     *              </ul>
+     * 
+     */
     // =============================navigate for edit staff list===================================
     public void editNavigate(int num) {
         switch (num) {
@@ -202,6 +245,19 @@ public class AdminController extends AController {
         }
     }
 
+    /**
+     *  The function to handle filtering staff
+     * @param num The selections of filter type
+     * The filter type are:
+     *              <ul>
+     *                  <li>1: Filter by Branch.</li>
+     *                  <li>2: Filter by Role </li>
+     *                  <li>3: Filter by Gender</li>
+     *                  <li>4: Filter by Age</li>
+     *                  <li>3: No Filter</li>
+     *              </ul>
+     * 
+     */
     // =============================navigate for display staff list with filters===================================
     public void displayNavigate(int num) {
         switch (num) {
@@ -273,6 +329,16 @@ public class AdminController extends AController {
 
     }
 
+    /**
+     * The function to manage Branch operations
+     * @param choice The selection of branch management choices
+     * The selections type are:
+     *              <ul>
+     *                  <li>1: Open an existing Branch.</li>
+     *                  <li>2: Close an Existing Branch </li>
+     *                  <li>3: Open a New Branch</li>
+     *              </ul>
+     */
     // ===========================open/close branch=====================================================
     public void manageBranch(int choice) { // 1-Open an exising, 2-Close an exising
         List<Branch> openedClosedBranch = null;
@@ -292,6 +358,9 @@ public class AdminController extends AController {
 
     }
 
+    /**
+     * Receives the Branch information from user and create a new Branch
+     */
     private void openNewBranch(){
         String branchName = adminHomePageView.getInputString("Enter Branch Name: ");
         String branchAddress = adminHomePageView.getInputString("Enter Branch Address: ");
@@ -302,6 +371,10 @@ public class AdminController extends AController {
 
     }
 
+    /**
+     * Assigns Managers to Branches with quota constraint checks
+     * @return The integer of selecting branch
+     */
     //=============================Assign Managers to Branches with quota constratits=============================
     public int getBranchName(){
         List<Branch> branches = Branch.getAllBranches();
@@ -318,6 +391,9 @@ public class AdminController extends AController {
 
     //============================Manage Payment=======================================================================
 
+    /**
+     * Handles the feature of editting payment types
+     */
     private void editPayments(){
         adminHomePageView.displayManagePayment();
         boolean checker = true;

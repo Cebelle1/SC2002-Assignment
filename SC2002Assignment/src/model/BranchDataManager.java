@@ -16,10 +16,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import model.abstracts.AEmployee;
 import model.menus.MenuItem;
 
+/**
+ * The BranchDataManager handles the interaction between the application and the database.
+ * It is responsible for reading and writing data to the database textfiles.
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
+ */
 public class BranchDataManager {
     private static final String rootPath = "SC2002Assignment/src/database/";
     private static final String paymentTxt = "payments.txt";
@@ -28,6 +34,11 @@ public class BranchDataManager {
     private static final String staffListTxt = "staff_list_with_pw.txt";
     private static final String tempBranchTxt = "temp_branch.txt";
 
+    /**
+     * Loads the menu list from the textfile into the application.
+     * Initializes Branches with the menu list loaded
+     * @return The list of Branches initialized
+     */
     public static List<Branch> loadMenuIntoBranches() {
         final String MENU_LIST = rootPath+ menuListTxt;
         Map<String, List<MenuItem>> branchMenuMap = new HashMap<>();
@@ -69,6 +80,11 @@ public class BranchDataManager {
         return branches;
     }
 
+    /**
+     * Updates the employees dependencies in the individual Branches
+     * @param branches
+     * @param employees
+     */
     public static void loadStaffIntoBranch(List<Branch> branches, List<EmployeeHandler> employees){
         // Associate employees with branches
         for (Branch branch : branches) {
@@ -81,6 +97,11 @@ public class BranchDataManager {
         }
     }
 
+    /**
+     * Loads the quota and status of the branches from the branch textfile into the application.
+     * Updates the quota and operation of the individual Branches
+     * @param branches
+     */
     public static void loadQuotaNStatus(List<Branch> branches) {
         final String filePath = rootPath + branchListTxt;
         List<Branch> openBranches = new ArrayList<>();
@@ -140,7 +161,13 @@ public class BranchDataManager {
     }
     
 
-      // load the staff list here
+    
+    /**
+     * Loads the employee from the staff textfile and categorizes them based on their roles.
+     * Returns a list of role categories with corresponding employees.
+     * 
+     * @return The list of EmployeeHandler objects categories into roles
+     */
     public static List<EmployeeHandler> loadStaff() {
         final String STAFF_LIST = rootPath + staffListTxt;
         Map<String, List<AEmployee>> staffMap = new HashMap<>();    //Employee sorted into their roles
@@ -192,9 +219,13 @@ public class BranchDataManager {
         return roleCategories;
     }
 
-    private static String filePath = rootPath + branchListTxt;
-
+    
+    /**
+     * Updates the branch textfile
+     * @param branch
+     */
     public static void updateBranchList(Branch branch) {
+        String filePath = rootPath + branchListTxt;
         try (BufferedReader br = new BufferedReader(new FileReader(filePath));
              BufferedWriter bw = new BufferedWriter(new FileWriter(rootPath + tempBranchTxt))) {
             String line;
@@ -230,6 +261,10 @@ public class BranchDataManager {
     }
 
 //===================Payment.txt================================//
+    /**
+     * Adds a new payment method into the payment textfile
+     * @param paymentMethod
+     */
     public static void appendPaymentMethod(String paymentMethod) {
         final String fileName = rootPath + paymentTxt;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
@@ -240,7 +275,10 @@ public class BranchDataManager {
         }
     }
 
-    //Not tested
+    /**
+     * Remove a payment method from the payment textfile
+     * @param paymentMethodToRemove
+     */
     public static void removePaymentMethod(String paymentMethodToRemove) {
         String fileName = rootPath + paymentTxt;
         try {
@@ -256,6 +294,10 @@ public class BranchDataManager {
         }
     }
 
+    /**
+     * Loads the payment methods into the application from the payment textfile
+     * @return The list of names of the Payment methods
+     */
     public static List<String> readPaymentMethods() {
         final String fileName = rootPath + paymentTxt;
         List<String> paymentMethods = new ArrayList<>();

@@ -11,6 +11,12 @@ import view.MenuView;
 import view.OrderMenuView;
 import view.OrderView;
 
+/**
+ * OrderMenuController class handles the interaction between Customer, Order, and Menu Items
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
+ */
 public class OrderMenuController extends AController {
     private List<Branch> branches;
     private OrderMenuView omv;
@@ -22,6 +28,11 @@ public class OrderMenuController extends AController {
     private MenuView menuV = new MenuView(cC);
     private OrderView orderV = new OrderView();
 
+    /**
+     * OrderMenuController takes in a CustomerController and initializers a new Order and a Menu Handler
+     * 
+     * @param cC
+     */
     public OrderMenuController(CustomerController cC) {
         this.cC = cC;
         this.branches = cC.getCurrentBranch();
@@ -31,6 +42,21 @@ public class OrderMenuController extends AController {
         this.menuHandler = new MenuHandler(this, branches, branchChoice, orders, this.omv);
     }
 
+  /**
+     * Navigates to the specified case based on user input.
+     * @param page The feature to navigate to.
+     * The pages are:
+     *              <ul>
+     *                  <li>0: Displays Order Menu View.</li>
+     *                  <li>1: Displays the Menu of the Branch </li>
+     *                  <li>2: Invokes the feature to Edit Cart</li>
+                        <li>3: Invokes the feature to select Dining Mode</li>
+                        <li>4: Invokes the feature to Checkout</li>
+                        <li>5: Invokes the feature to Pay</li>
+                        <li>6: Invokes the feature to print Receipt</li>
+                        <li>8: Return back to Customer Home Page View</li>
+     *              </ul>
+     */
     @Override
     public void navigate(int page) {
         switch (page) {
@@ -104,11 +130,18 @@ public class OrderMenuController extends AController {
         }
     }
 
+    /**
+     * Function to invoke the display of the cart items
+     *
+     */
     public void displayCartItems() {
         orderV.chooseDisplayCurrentOrder(this.orders);
         omv.getInputString("Enter a key to exit"); // just a wait for enter
     }
 
+    /**
+     * Function to invoke and display the Order Status
+     */
     public void displayOrderStatus(){
         // the confirmedOrders is getting all the confirmedorders from all branches
         // in StaffRole.java I did a filterOrderByBranch(), so maybe you want to use that?
@@ -124,10 +157,18 @@ public class OrderMenuController extends AController {
         return;
     }
 
+    /**
+     * Getter function to get the current instance of OrderMenuView
+     * @return The current instance of OrderMenuView
+     */
     public OrderView getOMV(){
         return this.orderV;
     }
 
+    /**
+     * Getter function to get the Menu View associated with the current instance
+     * @return The menu View associated with the current instance
+     */
     public MenuView getMV(){
         return this.menuV;
     }
