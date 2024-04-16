@@ -7,16 +7,24 @@ import model.menus.MenuItem;
 import model.menus.SetMealCategory;
 import view.abstracts.ARenderView;
 
+
+/**
+ * ReceiptView is the 
+ *
+ * @author Loo Si Hui, Sharmilla, Shu Fang
+ * @version 1.0
+ */
+
 public class ReceiptView extends ARenderView{
     public static void printReciept(Order order) {
 
         List<MenuItem> items = order.getCurrentOrderItems();
         System.out.println("+-------------------------------------+-------------------------------------+");
         System.out.println("|                                                                           |");
-        System.out.println("|                                    FOMS                                   |");
+        System.out.println("|                                   FOMS                                    |");
         System.out.println("|                                                                           |");
-        System.out.println("|                                  SINGAPORE                                |");
-        System.out.println("|                               (+65) 6875 6431                             |");
+        System.out.println("|                             Orchard, SINGAPORE                            |");
+        System.out.println("|                              (+65) 6875 6431                              |");
         System.out.println("|                                                                           |");
         System.out.println("|  OrderID.   | Name            |   Qty   |    Unit Price    |  Total Price |");
         System.out.println("|-------------------------------------|-------------------------------------|");
@@ -36,10 +44,10 @@ public class ReceiptView extends ARenderView{
             System.out.printf("| %8s > Comments: %-53s |\n", "", item.getComments());
         }
         System.out.println("|-------------------------------------|-------------------------------------|");
-        System.out.printf("|                                                       Subtotal: $%-10.2f |\n", order.getSubtotal());
-        System.out.printf("|                                                       Total: $%-10.2f |\n", order.getAmount());
+        System.out.printf("|                                                       Subtotal: $%-10.2f  |\n", order.getSubtotal());
+        System.out.printf("|                                                       Total: $%-10.2f     |\n", order.getAmount());
         System.out.println("|                                     |                                     |");
-        System.out.println("|                             THANK YOU!                              |                                     |");
+        System.out.println("|                                 THANK YOU!                                |");
         System.out.println("+-------------------------------------+-------------------------------------+");
 
 

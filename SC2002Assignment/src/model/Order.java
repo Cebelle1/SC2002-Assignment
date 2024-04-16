@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import model.menus.MenuItem;
 import view.ReceiptView;
 
@@ -57,16 +58,16 @@ public class Order implements Serializable {
     }
 
     /**
-     * The base consturctor for Order class
+     * The base constructor for Order class
      */
     
     public Order(){   //Not used, dont use.
     }
 
     /**
-     * The overloadded constructor takes in a branch and creates a new order
+     * The overloaded constructor takes in a branch and creates a new order
      * It also registers a shutdown hook for Serialization
-     * @param branch The branch that the order is being created in
+     * @param branch The branch that the order is being created in.
      */
     public Order(Branch branch){
         //orders = new ArrayList<>();

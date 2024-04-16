@@ -1,8 +1,9 @@
 package view;
 
+import java.util.List;
+
 import model.Branch;
 import view.abstracts.ARenderView;
-import java.util.List;
 
 /** (NOT DONE PLEASE COMPLETE)
  * The BranchView class is a class that is used to display information related to the Branch
