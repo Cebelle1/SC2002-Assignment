@@ -21,48 +21,63 @@ public class ManagerHomePageView extends ARenderView{
             case 0:
                 // Manager Main Page
                 renderChoice();
-                int choice  = super.getInputInt("");
-                if(choice > 3){
-                    System.out.println("Invalid Option");
-                    this.renderApp(0);;
-                }
-                manCon.navigate(choice);
                 break;
 
             case 1:
-                // Edit Menu Options
-                renderOption();
-                int option  = super.getInputInt("");
-                if(option > 4){
-                    System.out.println("Invalid Option");
-                    this.renderApp(1);;
-                }
-                manCon.editMenu(option);
+                // Staff Mode
+                renderStaffChoice();
                 break;
 
             case 2:
+                // Process Order
+                renderProcessChoice();  
+                break;
+
+            case 3:
+                // Edit Menu Options
+                renderOption();
+                break;
+
+            case 4:
                 // What to edit
                 renderEdit();
-                int edit  = super.getInputInt("");
-                if(edit > 4){
-                    System.out.println("Invalid Option");
-                    this.renderApp(2);;
-                }
-                manCon.editFeatures(edit);
                 break;
+
+            
         }
+    }
+
+    private void managerHeading(){
+        super.printBorder("Manager Home Page");
     }
 
     @Override
     public void renderChoice(){
-        super.printBorder("Manager Home Page View");
+        managerHeading();
         System.out.println("(1) Enter Staff mode");
         System.out.println("(2) Display Branch Staff List");
         System.out.println("(3) Edit Menu List");
     }
 
+    public void renderStaffChoice(){
+        super.printBorder("Staff Home Page");
+        System.out.println("(1) Display new orders");
+        System.out.println("(2) View Details");
+        System.out.println("(3) Process Orders");
+        System.out.println("(4) Back to Manager Home Page");
+    }
+
+    public void renderProcessChoice(){
+        super.printBorder("Staff Home Page");
+        System.out.println("Process Order: ");
+        System.out.println("(1) Select Order ");
+        System.out.println("(2) Update order status ");
+        System.out.println("(3) Back to Staff Home Page");
+    }
+
     public void renderOption(){
-        super.printBorder("Edit Menu List");
+        managerHeading();
+        System.out.println("Edit Menu List: ");
         System.out.println("(1) Add new item");
         System.out.println("(2) Remove menu item");
         System.out.println("(3) Edit menu item");
@@ -70,11 +85,20 @@ public class ManagerHomePageView extends ARenderView{
     }
 
     public void renderEdit(){
-        super.printBorder("What to edit");
+        managerHeading();
+        System.out.println("What to edit: ");
         System.out.println("(1) Item name");
         System.out.println("(2) Item price");
         System.out.println("(3) Item description");
         System.out.println("(4) Back to Edit Menu List");
+    }
+
+    public void displayOrder(){
+        System.out.println("\nDisplaying new orders: ");
+    }
+
+    public void orderView(){
+        System.out.println("\nOrderID.   | Name            |   Qty   |");
     }
 
     public void displayBranchStaff(List<AEmployee> employees){
@@ -83,8 +107,7 @@ public class ManagerHomePageView extends ARenderView{
             System.out.printf("%s", person.getRole());
             System.out.println();
         }
-        //super.delay(3);
-        getInputString("Enter a key to exit");
+        exitPrompt();
     }
 
     public void displayNotFound(){
