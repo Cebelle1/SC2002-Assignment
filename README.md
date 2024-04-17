@@ -1,4 +1,5 @@
-# SC2002-Assignment
+# SC2002-Assignment 
+## No Javadoc branch saves the checkpoint before adding Javadoc comments
 Repository for our SC2002 OODP Assignment
 
 Use VSCode to boot
