@@ -9,11 +9,8 @@ package view.abstracts;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import java.util.List;
-
 import view.interfaces.ViewHelperInterface;
 import view.interfaces.ViewInterface;
-import model.Branch;
 
 public abstract class ARenderView implements ViewInterface, ViewHelperInterface{
     Scanner sc;
@@ -36,11 +33,7 @@ public abstract class ARenderView implements ViewInterface, ViewHelperInterface{
         clearCLI();
         String space = String.format("%" + (99 - input.length()) + "s", "");
         String halfSpace = String.format("%" + (99 - input.length()) / 2 + "s", "");
-        System.out.println(
-                "╔════════════════════════════════════════════════════════════════════════════════════════════════════╗");
-        System.out.println("║ " + halfSpace + input + halfSpace + "║");
-        System.out.println(
-                "╚════════════════════════════════════════════════════════════════════════════════════════════════════╝");
+
     }
 
     /**
@@ -101,8 +94,7 @@ public abstract class ARenderView implements ViewInterface, ViewHelperInterface{
         String space = String.format("%" + (99 - input.length()) + "s", "");
         String halfSpace = String.format("%" + (99 - input.length()) / 2 + "s", "");
         System.out.println(input + space);
-        System.out.println(
-                "════════════════════════════════════════════════════════════════════════════════════════════════════");
+        
     }
 
     /**
