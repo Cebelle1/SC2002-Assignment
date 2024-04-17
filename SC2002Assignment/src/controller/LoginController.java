@@ -8,6 +8,13 @@ import model.ResetPassword;
 import model.abstracts.AEmployee;
 import view.LoginView;
 
+/**
+ * The Login Controller class handles the Login features of the application
+ * 
+ * @author Sharmilla
+ * @author Shu Fang
+ * @version
+ */
 public class LoginController extends AController {
     AEmployee currentUser;
     LoginView loginView = new LoginView(this);
@@ -20,6 +27,12 @@ public class LoginController extends AController {
     StaffController staffController;
     ManagerController managerController;
 
+    /**
+     * The LoginController constructor takes in a list of EmployeeHandler objects
+     * and initializes the authentication controller.
+     * 
+     * @param allStaffList
+     */
     public LoginController(List<EmployeeHandler> allStaffList) {
         this.authentication = new AuthenticationController(this, allStaffList); // Constructor Injection, tight coupling
                                                                                 // bsince AuthC needs the dependencies
@@ -28,11 +41,11 @@ public class LoginController extends AController {
         this.allStaffList = allStaffList;
     }
 
-    // Setter method to set staffs after loading
-    public void setStaffs(List<EmployeeHandler> allStaffs) {
-        this.allStaffList = allStaffs;
-    }
 
+    /**
+     * Setter function to set the current user
+     * @param user The logged in user
+     */
     public void setCurrentUser(AEmployee user) {
         this.currentUser = user;
         // Set current user is only confirmed after loggin in (auth). So controller type
@@ -40,22 +53,27 @@ public class LoginController extends AController {
         // Yall can use polymorphism to define controller object.
     }
 
+    /**
+     * Getter function to get the current logged in user
+     * @return The AEmployee object of the current logged in user
+     */
     public AEmployee getCurrentUser() {
         // return this.getCurrentUser();
         return this.currentUser;
     }
 
-    // Setter method to set staffs after loading or for dynamic updates (might not
-    // be needed depending on whether we allow different logins in a single session)
-    public void setAllStaffList(List<EmployeeHandler> allStaffList) {
-        this.allStaffList = allStaffList;
-        // Re-initialize dependencies that rely on allStaffList if needed
-        this.authentication = new AuthenticationController(this, allStaffList);
-        this.reset = new ResetPassword(allStaffList);
-    }
-
-    // Navigation for employees
-    // Choose staff option, S/M/A
+    /**
+     * Navigates to the specified case based on user input.
+     * @param page The feature to navigate to.
+     * The pages are:
+     *              <ul>
+     *                  <li>0: Displays login choices</li>
+     *                  <li>1: Login Authentication Process for Admin Role </li>
+     *                  <li>2: Login Authentication Process for Manager Role </li>
+                        <li>3: Login Authentication Process for Staff Role </li>
+                        <li>4: Reset Password </li>
+     *              </ul>
+     */
     public void navigate(int page) {
         switch (page) {
             case 0:
@@ -127,6 +145,11 @@ public class LoginController extends AController {
 
     }
 
+    /**
+     * Handles the login feature
+     * @param page Selected page represents the role
+     * @return Whether the login is successful
+     */
     private boolean handleLogin(int page) {
         String staffRole = "";
         if (page == 1)

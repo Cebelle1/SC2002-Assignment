@@ -1,22 +1,36 @@
 package view;
 
 import java.util.List;
-import java.util.Locale;
-
 import controller.CustomerController;
 import model.Branch;
 import model.menus.MenuItem;
 import view.abstracts.ARenderView;
 
+/**
+ * The MenuView is a class in the View layer to display the menu of a branch.
+ *  * This class extends the abstract base view class{@link ARenderView}
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
+ */
 public class MenuView extends ARenderView{
     CustomerController custCon;
     Branch selectedBranch;
 
+    /**
+     * The MenuView constructor takes in a CustomerController dependancy
+     * @param controller
+     */
     public MenuView(CustomerController controller){
         this.custCon = controller;
     }
 
 
+    /**
+     * Displays the menu by different categorys of Main, Drinks, and Sides
+     * @param branchChoice The integer of the selected branch
+     * @param branches The list of branches
+     */
     public void displayOrganizedMenu(int branchChoice,List<Branch> branches){
         selectedBranch = branches.get(branchChoice);
         super.printBorder("Menu Items in " + selectedBranch.getName());
@@ -25,6 +39,11 @@ public class MenuView extends ARenderView{
         displaySides();
     }
 
+    /**
+     * Displays the full menu without categorization
+     * @param inputChoice The selected branch
+     * @param branches The list of branches
+     */
     public void displayMenu(int inputChoice, List<Branch> branches) {
         int index = 1;
         selectedBranch = branches.get(inputChoice);
@@ -48,6 +67,9 @@ public class MenuView extends ARenderView{
     }
 
 //=================Category=================//
+    /**
+     * Displays the menu by Drink Category
+     */
     public void displayDrinks() {
         List<MenuItem> menu = selectedBranch.getMenu();
         int index = 1;
@@ -65,6 +87,9 @@ public class MenuView extends ARenderView{
         }
     }
     
+    /**
+     * Displays the menu by Side Category
+     */
     public void displaySides() {
         List<MenuItem> menu = selectedBranch.getMenu();
         int index = 1;
@@ -82,6 +107,10 @@ public class MenuView extends ARenderView{
         }
     }
 
+    /**
+     * Display the menu by Main Category,
+     * which is classified as any Menu Item that does not belong in Sides or Drinks
+     */
     public void displayMain(){
         List<MenuItem> menu = selectedBranch.getMenu();
         int index = 1;
@@ -99,10 +128,14 @@ public class MenuView extends ARenderView{
         }
     }
 
+    /**
+     * Displays the menu by Main Category with Title Border
+     */
     public void displayMains(){
         super.printBorder("Menu in " + selectedBranch.getName());
         displayMain();
     }
+
 
     @Override
     public void renderApp(int selection) {

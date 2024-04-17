@@ -7,12 +7,20 @@ import model.Branch;
 import model.BranchDataManager;
 import model.EmployeeHandler;
 
-
+/**
+ * The App class initiates the application start up
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
+ */
 public class App {
     Scanner sc = new Scanner(System.in);
 
     public App(){};
 
+    /**
+     * Boot up 
+     */
     public void start() {
         printAppTitle();
         renderChoice();
@@ -20,6 +28,9 @@ public class App {
 
     }
 
+    /**
+     * Displays the App Title
+     */
     private static final void printAppTitle() {
 
         System.out.println("╔══════════════════════════════════════════════════════════════════════════════╗");
@@ -33,6 +44,10 @@ public class App {
 
     }
 
+    /**
+     * Selects the app to be rendered
+     * @param selection Logging in as Customer or Employee. 1 for Customer, 2 for Employee
+     */
     // Standalone, not inherited from RenderView.
     public void renderApp(int selection) {
         List<Branch> branches = BranchDataManager.loadMenuIntoBranches();
@@ -58,6 +73,9 @@ public class App {
         }
     }
 
+    /**
+     * Displays the Main Menu, prompts for Login choice
+     */
     public void renderChoice() {
         String input = "Main Menu > Log in as?";
         String space = String.format("%" + (99 - input.length()) + "s", "");

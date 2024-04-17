@@ -2,19 +2,27 @@ package model.payments;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
-
 import model.BranchDataManager;
 
+/**
+ * The GenerateNewPayment class is a class in the Model layer that handles the creation of new payment methods.
+ * It is used to generate the source code for the new payment method and compile it.
+ * It also updates the Payment.txt file to include the new payment method.
+ * 
+ * @author : Loo Si Hui
+ * @version : 1.0
+ */
 public class GenerateNewPayment {
 
+    /**
+     * Creates a new payment class
+     * @param paymentMethodName The name of the new class
+     * @return IPaymentProcessor object of the newly created class
+     */
     public static IPaymentProcessor createPaymentClass(String paymentMethodName){
-        String className = IPaymentProcessor.class.getSimpleName();
+        
 
         // Step 1: Define a Template
         String paymentMethodTemplate = "package model.payments;\n" +
@@ -67,7 +75,11 @@ public class GenerateNewPayment {
         return null;
     }
 
-    public static void createPaymentView(String paymentViewName){
+    /**
+     * Creates the new payment view 
+     * @param paymentViewName
+     */
+    public static void createPaymentView(String paymentViewName){ 
         // Define a Template for Payment View
         String paymentViewTemplate = "package view.payments;\n" +
                 "import view.abstracts.ARenderPayment;\n" +

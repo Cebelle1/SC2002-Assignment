@@ -1,6 +1,7 @@
 /**
  * The LoginView class in Java is responsible for rendering the login interface, prompting for
  * credentials, handling login status, and displaying messages related to login and password updates.
+ * This class extends the abstract base view class{@link ARenderView}
  * 
  * @author Loo Si Hui
  * @version 1.0

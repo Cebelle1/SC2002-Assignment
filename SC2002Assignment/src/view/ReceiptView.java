@@ -9,7 +9,7 @@ import view.abstracts.ARenderView;
 
 
 /**
- * ReceiptView is the 
+ * ReceiptView prints the receipt of the Order
  *
  * @author Loo Si Hui, Sharmilla, Shu Fang
  * @version 1.0

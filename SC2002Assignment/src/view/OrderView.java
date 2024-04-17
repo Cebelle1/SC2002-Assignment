@@ -1,14 +1,24 @@
 package view;
 
 import java.util.List;
-
 import model.Order;
 import model.menus.MenuItem;
 import model.menus.SetMealCategory;
 import view.abstracts.ARenderView;
 
+/**
+ * The OrderView class is a class in the View layer that displays the order information.
+ * This class extends the abstract base view class{@link ARenderView}
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
+ */
 public class OrderView extends ARenderView{
 
+    /**
+     * Displays the current order
+     * @param orders List of orders
+     */
     //Choose an order to display
     public void chooseDisplayCurrentOrder(Order orders) {
         super.printBorder("Order Status");
@@ -26,6 +36,11 @@ public class OrderView extends ARenderView{
         displayOrderList(orders, selectedOrderIndex);
     }
 
+    /**
+     * Displays just the orderID of all available orders
+     * @param ordersM
+     * @return
+     */
     //Display all orderID, no menuItems
     public boolean displayAllOrder(Order ordersM) {
         List<Order> orders = ordersM.getOrders(); // Assuming you have access to OrderMenuController and its orders
@@ -41,6 +56,11 @@ public class OrderView extends ARenderView{
         return true;
     }
 
+    /**
+     * Display the order details of a single order
+     * @param orders 
+     * @param selectedOrderIndex
+     */
     //General display for MenuItems for a single order by inputing OrderID
     public void displayOrderList(Order orders, int selectedOrderIndex) {
         Order selectedOrder = orders.getOrders().get(selectedOrderIndex);
@@ -71,9 +91,14 @@ public class OrderView extends ARenderView{
         }
     }
 
-    //Display the order status of a single order
+    /**
+     * Display the order status of an order
+     * @param ordersM The list of orders
+     * @param orderID The OrderID of the order to display
+     */
+    //Display the order status of an order
     public void chooseDisplayOrderStatus(Order ordersM, int orderID){
-        List<Order> orders = ordersM.getOrders(); // Assuming you have access to OrderMenuController and its orders
+        List<Order> orders = ordersM.getOrders();
         if (orders.isEmpty()) {
             System.out.println("No orders available.");
         } else if (orderID < 0 || orderID > orders.size()-1) {
@@ -85,6 +110,11 @@ public class OrderView extends ARenderView{
         }
     }
 
+    /**
+     * Display an order only if its checked out
+     * @param completedOrder List of orders that are checked out
+     * @param orderID The OrderID of the order to display
+     */
     public void chooseDisplayCompleteOrderStatus(List<Order> completedOrder, int orderID){
 
         for(Order order : completedOrder){
@@ -97,12 +127,19 @@ public class OrderView extends ARenderView{
         System.out.println("Order is Null");
     }
 
+    /**
+     * Helper function to print whether to customize order
+     */
     public void displayCustomizeChoice(){
         System.out.println("Do you wish to customize your order?");
         System.out.println("(1) Yes\n(2) No");
     }
 
     //================Checkout, Payement, Print Receipt Prints==================//
+    /**
+     * Prints the check out view
+     * @param orders
+     */
     public void displayCheckout(Order orders){
         super.printDoubleUnderline("Checking Out All Orders");
         for(int i=0; i<orders.getOrders().size(); i++){

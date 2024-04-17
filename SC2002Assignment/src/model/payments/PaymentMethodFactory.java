@@ -8,10 +8,19 @@ import view.payments.PaymentView;
 import java.util.List;
 
 /**
+ * The PaymentMethodFactory class handles the payment features.
+ * It is responsible for creating the payment processor instance based on the user selection.
  * 
+ * @author Loo Si Hui
+ * @version 1.0
  */
 public class PaymentMethodFactory {
 
+    /**
+     * Dynamically handles payment for an order with state checks.
+     * @param orders
+     * @return Whether payment has been successfully made
+     */
     public static boolean handlePayment(Order orders) {
         if (orders.getOrders().isEmpty()) {
             System.out.println("No orders to pay, please checkout first!");
@@ -52,6 +61,11 @@ public class PaymentMethodFactory {
         }
     }
 
+    /**
+     * Getter function to get the payment processor class name
+     * @param paymentMode
+     * @return Payment processor class name
+     */
     private static String getPaymentProcessorClassName(int paymentMode) {
         List<String> paymentMethods = BranchDataManager.readPaymentMethods();
         if (paymentMode >= 1 && paymentMode <= paymentMethods.size()) {
@@ -61,6 +75,11 @@ public class PaymentMethodFactory {
         }
     }
 
+    /**
+     * Handles the dynamic creation of new payment method
+     * @param type
+     * @return IPaymentProcessor object of the newly created payment
+     */
     public static IPaymentProcessor createPaymentMethod(String type) {
         try {
             Class<?> paymentMethodClass = Class.forName(type);  //Create instance of object dynamically

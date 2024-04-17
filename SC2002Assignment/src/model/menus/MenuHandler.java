@@ -2,7 +2,6 @@ package model.menus;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import controller.OrderMenuController;
 import model.Branch;
 import model.Order;
@@ -11,6 +10,12 @@ import view.MenuView;
 import view.OrderMenuView;
 import view.OrderView;
 
+/**
+ * The MenuHandler class is a class in the Model layer that acts as a bridge for adding Menu Items into Order
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
+ */
 public class MenuHandler {
     private List<Branch> branches;
     private int branchChoice;
@@ -20,6 +25,14 @@ public class MenuHandler {
     private MenuView menuV;
     private OrderView orderV;
     
+    /**
+     * The MenuHandler constructor takes in dependencies of an Order
+     * @param omc OrderMenuController
+     * @param branches List of Branches
+     * @param branchChoice Integer representing the Branch
+     * @param orders The Order to manipulate
+     * @param omv OrderMenuView
+     */
     public MenuHandler(OrderMenuController omc, List<Branch> branches, int branchChoice, Order orders, OrderMenuView omv){
         this.omc = omc;
         this.branches = branches;
@@ -30,6 +43,10 @@ public class MenuHandler {
         this.orderV = omc.getOMV();
     }
 
+    /**
+     * Navigates to the individual cart edit choices
+     * @param choice 1 to Add Item, 2 to Remove Item, 3 to Checkout
+     */
     public void editCart(int choice) {
         switch (choice) {
             case 1:
@@ -45,7 +62,11 @@ public class MenuHandler {
         }
     }
     
-    public void displayMenu(List<Branch> branches) { //Display the non-organized menu
+    /**
+     * Displays the full menu
+     * @param branches The list of branches
+     */
+    public void displayMenu(List<Branch> branches) {
         if (branchChoice >= 0 && branchChoice < branches.size()) {
             menuV.displayMenu(branchChoice, branches);
         } else {
@@ -54,7 +75,9 @@ public class MenuHandler {
     }
 
 
-    //Might atomize this later on
+    /**
+     * Adds Menu Item to Order
+     */
     private void addItemToCart() {
         if (branchChoice < 0 || branchChoice > branches.size()-1){
             omv.displayEmptyOrderListError();
@@ -103,6 +126,9 @@ public class MenuHandler {
     
     }
 
+    /**
+     * Removes Menu Item from Order
+     */
     private void removeItemFromCart() {
         if (branchChoice >= 0 && branchChoice < branches.size() && orders.getOrders().size() > 0) {
             //omv.displayAllOrder(orders);
@@ -129,14 +155,14 @@ public class MenuHandler {
         }
     }
 
-    /*private void createNewOrder() {
-        // Create a new order and add it to the list of orders
-        Order newOrder = new Order(branches.get(branchChoice));
-        orders.newOrder(newOrder);
-        System.out.println("New order created.");
-    }*/
 
 //===============Return the menu item selected, by categories==================//   
+    /**
+     * Getter function to get the selected menu item
+     *
+     * @param menuIndex The integer of the selected item
+     * @return MenuItem object
+     */
     public MenuItem getSelectedItem(int menuIndex) {
         Branch selectedBranch = branches.get(branchChoice);
         if (menuIndex > selectedBranch.getMenu().size()) {
@@ -147,6 +173,11 @@ public class MenuHandler {
 
     }
 
+    /**
+     * Getter function to get the menu item in the Main Category
+     * @param mainChoice The integer of the selected item
+     * @return MenuItem object
+     */
     public MenuItem getMainDish(int mainChoice) {
         Branch selectedBranch = branches.get(branchChoice);
         //Correct format of category comparison
@@ -163,6 +194,11 @@ public class MenuHandler {
         return mainDishes.get(mainChoice - 1); 
     }
 
+    /**
+     * Getter function to get the menu item in the Drink Category
+     * @param drinkChoice The integer of the selected item
+     * @return MenuItem object
+     */
     public MenuItem getDrink(int drinkChoice) {
         Branch selectedBranch = branches.get(branchChoice);
         List<MenuItem> menu = selectedBranch.getMenu();
@@ -177,6 +213,11 @@ public class MenuHandler {
         return drinks.get(drinkChoice - 1); 
     }
 
+    /**
+     * Getter function to get the menu item in the Side Cateogory
+     * @param sideChoice The integer of the selected item
+     * @return MenuItem object
+     */
     public MenuItem getSide(int sideChoice) {
         Branch selectedBranch = branches.get(branchChoice);
         List<MenuItem> menu = selectedBranch.getMenu();
@@ -192,6 +233,11 @@ public class MenuHandler {
     }
 
 //==========================Set Meal==================
+    /**
+     * Handles the set meal selection
+     * @param currentOrder The current order
+     * @param selectedItem The selected item
+     */
     private void handleSetMeal(Order currentOrder, MenuItem selectedItem){
         menuV.displayMains();
         int mainChoice = omv.getInputInt("Select 1 Main for : " + selectedItem.getName());
@@ -216,6 +262,10 @@ public class MenuHandler {
     }
 //==================Ad-hoc functions for easier code readability=======================
 
+    /**
+     * Helper function to prompt for order customization
+     * @return User input for custumization instructions
+     */
     private String customizeItem(){
         //Customize?
         orderV.displayCustomizeChoice();
@@ -229,6 +279,10 @@ public class MenuHandler {
         return comments;
     }
 
+    /**
+     * Helper function to prompt for menu item quantity
+     * @return The quantity of the menu item
+     */
     private int selectQty(){
         System.out.println("Select qty for this item");
         int qty = omv.getInputInt("Qty: ");
