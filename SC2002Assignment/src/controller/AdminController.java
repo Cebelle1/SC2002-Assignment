@@ -186,7 +186,7 @@ public class AdminController extends AController {
                 }
                 
                 List<Branch> branches = Branch.getAllBranches();
-                checker = branchV.displayAllBranch(branches);
+                branchV.displayOpenBranch(branches,true);
                 inputBranch = adminHomePageView.getInputInt("Enter branch for Staff: ", branches.size());       
                 //List<Branch> branches = Branch.getAllBranches();
                 String branch = branches.get(inputBranch - 1).getName();
@@ -227,8 +227,7 @@ public class AdminController extends AController {
         switch (num) {
             case 1: // branch
                 List<Branch> branches = Branch.getAllBranches();
-                branchV.printBorder("Logged in as Employee");
-                checker = branchV.displayAllBranch(branches);
+                branchV.displayOpenBranch(branches,true);
                 inputBranch = adminHomePageView.getInputInt("Select Branch Name as filter: ",branches.size());
                 List<AEmployee> filterbybranch = adminRole.EmpFilterByBranch(inputBranch);
                 adminHomePageView.printFilterStaff(filterbybranch);
@@ -338,8 +337,7 @@ public class AdminController extends AController {
     public int getBranchName(){
         List<Branch> branches = Branch.getAllBranches();
                 while(true){
-                    branchV.printBorder("Logged in as Employee");
-                    checker = branchV.displayAllBranch(branches);
+                    branchV.displayOpenBranch(branches,true);
                     inputBranch = adminHomePageView.getInputInt("Select Branch to be assigned to: ");
                         if (inputBranch > 0 && inputBranch < (checker + 1)) {
                             break;

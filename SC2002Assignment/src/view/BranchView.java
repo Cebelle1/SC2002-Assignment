@@ -37,17 +37,6 @@ public class BranchView extends ARenderView {
 
     }
 
-    public int displayAllBranch(List<Branch> branches) { // pass in the full branch here
-        int i = 0;
-        for (Branch branch : branches) {
-            if (branch.getOperation() == true || branch.getOperation() == false) {
-                System.out.println("(" + (i + 1) + ") " + branches.get(i).getName());
-                i++;
-            }
-        }
-        return i;
-    }
-
     
     public void displayBranchError() {
         System.out.println("Please select branch first");
