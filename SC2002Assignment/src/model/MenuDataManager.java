@@ -29,7 +29,7 @@ public class MenuDataManager {
     
     /**
      * Adds new item to the menu textfile.
-     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category.
      */
 
     // Add item
@@ -45,7 +45,7 @@ public class MenuDataManager {
 
     /**
      * Removes existing item from the menu textfile.
-     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category.
      */
 
     // Remove item
@@ -88,8 +88,8 @@ public class MenuDataManager {
 
     /**
      * Edits the name of the existing item in the menu textfile.
-     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
-     * @param newName   The name of the existing item
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category.
+     * @param newName   The name of the existing item.
      */
 
     // Edit name
@@ -126,8 +126,8 @@ public class MenuDataManager {
 
     /**
      * Edits the price of the existing item in the menu textfile.
-     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
-     * @param price The price of the existing item
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category.
+     * @param price The price of the existing item.
      */
 
     // Edit price
@@ -167,8 +167,8 @@ public class MenuDataManager {
 
     /**
      * Edits the description of the existing item in the menu textfile.
-     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
-     * @param description   The description of the existing item
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category.
+     * @param description   The description of the existing item.
      */
 
     // Edit description
