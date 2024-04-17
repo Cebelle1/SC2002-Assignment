@@ -9,9 +9,11 @@ package view.abstracts;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 import view.interfaces.ViewHelperInterface;
 import view.interfaces.ViewInterface;
+import model.Branch;
 
 public abstract class ARenderView implements ViewInterface, ViewHelperInterface{
     Scanner sc;

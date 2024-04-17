@@ -5,4 +5,4 @@ Alica Ang	AlicaA	S	F	27	JE	password
 Mary lee	MaryL	S	F	44	JE	password
 Justin Loh	JustinL	S	M	49	JP	password
 Boss	boss	A	F	62		password1
-Jane Teh	JaneT	S	F	56	JP	helloworld123   
+Jane Teh	JaneT	M	F	32	NTU	password

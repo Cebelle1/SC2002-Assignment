@@ -37,6 +37,7 @@ public class AdminController extends AController {
     int checker;
     String gender, genderUpdate;
     String role, roleUpdate;
+    int age, ageUpdate;
     int minAge,maxAge;
     int managePaymentChoice;
 
@@ -152,12 +153,12 @@ public class AdminController extends AController {
             case 1: // Add staff account if there an STAFFID already existing it will return
                     // "StaffID already exist"
                 adminHomePageView.renderApp(3);
-                String name = adminHomePageView.getInputString("Enter new Staff's Name: ");
-                String staffID = adminHomePageView.getInputString("Enter new Staff's StaffID: ");
+                String name = adminHomePageView.getInputString("Enter Staff's Name: ");
+                String staffID = adminHomePageView.getInputString("Enter Staff's StaffID: ");
                 
                 boolean validRole = false;
                 while (!validRole) {
-                    role = adminHomePageView.getInputString("Enter new Staff's Role: ");
+                    role = adminHomePageView.getInputString("Enter Staff's Role: ");
                     if (role.equalsIgnoreCase("M") || role.equalsIgnoreCase("S")|| role.equalsIgnoreCase("A")) {
                         validRole = true;
                         role = role.toUpperCase();
@@ -168,7 +169,7 @@ public class AdminController extends AController {
 
                 boolean validGender = false;
                 while (!validGender) {
-                    gender = adminHomePageView.getInputString("Enter new Staff's Gender (M or F): ");
+                    gender = adminHomePageView.getInputString("Enter Staff's Gender (M or F): ");
                     if (gender.equalsIgnoreCase("M") || gender.equalsIgnoreCase("F")) {
                         validGender = true;
                         gender = gender.toUpperCase();
@@ -177,19 +178,19 @@ public class AdminController extends AController {
                     }
                 }
 
-                int age = adminHomePageView.getInputInt("Enter new Staff's Age: ");
+                boolean validage1 = false ;
+                while (!validage1){
+                    age = adminHomePageView.getInputInt("Enter Staff's Age: ");
+                    if (age != -1) validage1 =true ;
+                    else adminHomePageView.renderApp(10);
+                }
                 
-                while (true) {
-                    List<Branch> branches = Branch.getAllBranches();
-                    checker = branchV.displayAllBranchForAccount(branches);
-                    inputBranch = adminHomePageView.getInputInt("Enter branch  for new Staff: ");
-                    if (inputBranch > 0 && inputBranch < (checker + 1)) {
-                        break;
-                    }
-                    adminHomePageView.renderApp(10);
-                }           
                 List<Branch> branches = Branch.getAllBranches();
+                checker = branchV.displayAllBranch(branches);
+                inputBranch = adminHomePageView.getInputInt("Enter branch for Staff: ", branches.size());       
+                //List<Branch> branches = Branch.getAllBranches();
                 String branch = branches.get(inputBranch - 1).getName();
+
                 String password = "password";// default password for new users is "password"
                 AEmployee newStaffAcc = new AdminRole(name, staffID, role, gender, age, branch, password);
                 adminRole.addStaff(newStaffAcc);
@@ -203,44 +204,7 @@ public class AdminController extends AController {
             case 3: // edit staff account
                 String staffNameToEdit = adminHomePageView.getInputString("Enter Staff Name to edit: ");
                 adminRole.removeStaff(staffNameToEdit);
-                String nameUpdate = staffNameToEdit;
-                String staffIDUpdate = adminHomePageView.getInputString("Enter Staff's StaffID: ");
-
-                boolean validrole1 = false;
-                while(!validrole1){
-                    String roleUpdate = adminHomePageView.getInputString("Enter new Staff's Role: ");
-                    if (roleUpdate.equalsIgnoreCase("M") || roleUpdate.equalsIgnoreCase("S")|| roleUpdate.equalsIgnoreCase("A")){
-                        roleUpdate =roleUpdate.toUpperCase();
-                        validrole1 = true;
-                    }else{
-                    adminHomePageView.renderApp(10);}
-                }
-                boolean validgender1 = false;
-                while(!validgender1){
-                    String genderUpdate = adminHomePageView.getInputString("Enter new Staff's Gender (M or F): ");
-                    if (genderUpdate.equalsIgnoreCase("M") || genderUpdate.equalsIgnoreCase("F")){
-                        genderUpdate = genderUpdate.toUpperCase();
-                        validgender1 =true;
-                    }else{
-                    adminHomePageView.renderApp(10);}
-                }
-                int ageUpdate = adminHomePageView.getInputInt("Enter Staff's Age: ");
-
-                while (true) {
-                    List<Branch> branchs = Branch.getAllBranches();
-                    checker = branchV.displayAllBranchForAccount(branchs);
-                    inputBranch = adminHomePageView.getInputInt("Enter branch for Staff: ");
-                    if (inputBranch > 0 && inputBranch < (checker + 1)) {
-                        break;
-                    }
-                    adminHomePageView.renderApp(10);
-                }           
-                List<Branch> branches1 = Branch.getAllBranches();
-                String branchUpdate = branches1.get(inputBranch - 1).getName();
-                String passwordUpdate = adminHomePageView.getInputString("Enter Staff's new password: ");                                                                                                         
-                AEmployee EditStaffAcc = new AdminRole(nameUpdate, staffIDUpdate, roleUpdate, genderUpdate, ageUpdate,
-                        branchUpdate, passwordUpdate);
-                adminRole.addStaff(EditStaffAcc);
+                editNavigate(1);
                 break;
         }
     }
@@ -262,15 +226,10 @@ public class AdminController extends AController {
     public void displayNavigate(int num) {
         switch (num) {
             case 1: // branch
-                while (true) {
-                    List<Branch> branches = Branch.getAllBranches();
-                    checker = branchV.displayAllBranch(branches);
-                    inputBranch = adminHomePageView.getInputInt("Select Branch Name as filter: ");
-                    if (inputBranch > 0 && inputBranch < (checker + 1)) {
-                        break;
-                    }
-                    adminHomePageView.renderApp(10);
-                }
+                List<Branch> branches = Branch.getAllBranches();
+                branchV.printBorder("Logged in as Employee");
+                checker = branchV.displayAllBranch(branches);
+                inputBranch = adminHomePageView.getInputInt("Select Branch Name as filter: ",branches.size());
                 List<AEmployee> filterbybranch = adminRole.EmpFilterByBranch(inputBranch);
                 adminHomePageView.printFilterStaff(filterbybranch);
                 break;
@@ -379,6 +338,7 @@ public class AdminController extends AController {
     public int getBranchName(){
         List<Branch> branches = Branch.getAllBranches();
                 while(true){
+                    branchV.printBorder("Logged in as Employee");
                     checker = branchV.displayAllBranch(branches);
                     inputBranch = adminHomePageView.getInputInt("Select Branch to be assigned to: ");
                         if (inputBranch > 0 && inputBranch < (checker + 1)) {
