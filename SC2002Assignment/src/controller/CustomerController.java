@@ -13,6 +13,8 @@ import view.OrderMenuView;
 /**
  * The CustomerController handles the actions of the Customer
  * 
+ * This class extends the abstract base model class {@link AController}.
+ * 
  * @author Loo Si Hui
  * @version 1.0
  */
