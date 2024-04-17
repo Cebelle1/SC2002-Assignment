@@ -214,6 +214,13 @@ public class EmployeeDataManager {
     }
 
 //==================Assign Managers to each branch with quota constraints========================================
+/**
+ * Assigns a manager to a branch within the staff list file.
+ * No updates on the list if te staff selected is already a manager in the selected branch
+ * 
+ * @param staffName      
+ * @param branchToAssignTo 
+ */
 public static void assignManagerToBranch(String staffName,String branchToAssignTo) {
     final String filePath = rootPath + staffListTxt ;
     boolean isAssigned = false;
@@ -256,7 +263,12 @@ public static void assignManagerToBranch(String staffName,String branchToAssignT
     }
 }
 
-
+/**
+ * Checks if a staff member exists in the staff list file.
+ *
+ * @param nameOfStaff
+ * @return true if the staff member exists, false otherwise.
+ */
 public static boolean checkIfStaffExits(String nameOfStaff) {
     final String filePath = rootPath + staffListTxt ;
     boolean managerCheck = true;
@@ -289,7 +301,12 @@ public static boolean checkIfStaffExits(String nameOfStaff) {
 }
 
 //================== Transfer a staff/manager amongst branches==========================
-    //check if the person is existent in the list 
+    /**
+    * Checks if a staff member or manager exists in the staff list file.
+    *
+    * @param nameOfStaff 
+    * @return true if the staff member or manager exists, false otherwise.
+    */
     public static boolean checkifStaffOrManager(String nameOfStaff) {
         final String filePath = rootPath + staffListTxt ;
         boolean staffAManager = false; 
@@ -319,6 +336,12 @@ public static boolean checkIfStaffExits(String nameOfStaff) {
         return staffAManager;
     }
 
+    /**
+     * Transfers a staff member to another branch within the staff list file.
+     *
+     * @param nameOfStaff       
+     * @param branchToTransferTo The name of the branch to which the staff member will be transferred.
+     */
     public static void transferStaffToBranch (String nameOfStaff, String branchToTransferTo){
         final String FILEPATH = rootPath + staffListTxt ;
         boolean isTransferred = false;
@@ -361,6 +384,14 @@ public static boolean checkIfStaffExits(String nameOfStaff) {
 
 //==============================Open new branch=================================================================
 
+    /**
+    * Creates a new branch and adds it to the branch list file.
+    *
+    * @param branchName    
+    * @param branchAddress 
+    * @param staffQuota    
+    * @param operation     
+    */
     public static void createNewBranch(String branchName, String branchAddress, int staffQuota, String operation) {
         final String BRANCH_FILE = "branch_list.txt";
 
