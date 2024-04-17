@@ -4,12 +4,26 @@ import java.util.List;
 
 import view.abstracts.ARenderPayment;
 
+/** 
+ * The PaymentView class is a view class for handling payment-related functionalities.
+ * 
+ * This class extends the abstract base view class{@link ARenderPayment}
+ * 
+ * @author Loo Si Hui
+ * @version 1.0
+ */
 public class PaymentView extends ARenderPayment {
+
+    /**
+     * Renders the payment process.
+     */
     public void renderPayment(){
         System.out.println("Processing payment..");
-        //confirmPayment();
     }
 
+    /**
+     * Prints a QR code.
+     */
     public void printQR(){
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
         System.out.println("░░▓▒▒▒▒▓▒▒░▒▒▒▒░▓▓░░▒░░▒░░▓░▓▓▓▒░▒▒▒▓▒▒▒▒░▓▒▒▒▒▓░░");
@@ -38,6 +52,12 @@ public class PaymentView extends ARenderPayment {
         System.out.println("░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░");
     }
 
+     /**
+     * Gets the user's choice of payment mode.
+     *
+     * @param paymentMethods The list of available payment methods.
+     * @return The user's selected payment mode.
+     */
     public int getPaymentMode(List<String> paymentMethods){
         if (paymentMethods.isEmpty()) {
             System.out.println("No payment methods available.");
@@ -61,6 +81,12 @@ public class PaymentView extends ARenderPayment {
         return userInput;
     }
 
+     /**
+     * Gets the user's choice of payment method name.
+     *
+     * @param paymentMethods The list of available payment methods.
+     * @return The user's selected payment method name.
+     */
     public String getPaymentName(List<String> paymentMethods) {
         if (paymentMethods.isEmpty()) {
             System.out.println("No payment methods available.");

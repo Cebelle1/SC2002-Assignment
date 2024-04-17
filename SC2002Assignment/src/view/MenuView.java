@@ -8,7 +8,7 @@ import view.abstracts.ARenderView;
 
 /**
  * The MenuView is a class in the View layer to display the menu of a branch.
- *  * This class extends the abstract base view class{@link ARenderView}
+ *  This class extends the abstract base view class{@link ARenderView}
  * 
  * @author Loo Si Hui
  * @version 1.0

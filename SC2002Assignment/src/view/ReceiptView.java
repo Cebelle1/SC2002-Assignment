@@ -10,12 +10,19 @@ import view.abstracts.ARenderView;
 
 /**
  * ReceiptView prints the receipt of the Order
- *
+ * 
+ * This class extends the abstract base view class{@link ARenderView}
+ * 
  * @author Loo Si Hui, Sharmilla, Shu Fang
  * @version 1.0
  */
 
 public class ReceiptView extends ARenderView{
+
+    /**
+     * Print the reciept with the order info.
+     * @param order
+     */
     public static void printReciept(Order order) {
 
         List<MenuItem> items = order.getCurrentOrderItems();
@@ -54,12 +61,23 @@ public class ReceiptView extends ARenderView{
 
     }
 
+    /**
+     * Renders the application interface.
+     *
+     * @param selection The user's selection.
+     * @throws UnsupportedOperationException if the method is unimplemented.
+     */
     @Override
     public void renderApp(int selection) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'renderApp'");
     }
 
+    /**
+     * Renders the user's choices.
+     *
+     * @throws UnsupportedOperationException if the method is unimplemented.
+     */
     @Override
     public void renderChoice() {
         // TODO Auto-generated method stub

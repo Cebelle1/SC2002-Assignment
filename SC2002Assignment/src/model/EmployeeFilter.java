@@ -8,7 +8,7 @@ import model.abstracts.AEmployee;
 /**
  * The EmployeeFilter class handles the filtering of employees by various criteria.
  * 
- * @author Loo Si Hui
+ * @author Loo Si Hui, Nicole
  * @version 1.0
  */
 public class EmployeeFilter {
