@@ -12,11 +12,25 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import model.menus.MenuItem;
 
+/**
+ * The MenuDataManager handles the interaction between the application and the database.
+ * It is responsible for adding, deleting and editing the menu textfile.
+ * 
+ * @author Tey Shu Fang
+ * @version 1.0
+ */
+
+
 public class MenuDataManager {
 
     private static final String filePath = "SC2002Assignment/src/database/menu_list.txt";
 
     //=================== menu_list.txt ================================//
+    
+    /**
+     * Adds new item to the menu textfile.
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
+     */
 
     // Add item
     public static void addItemToMenu(MenuItem menuItem){
@@ -28,6 +42,11 @@ public class MenuDataManager {
             System.err.println("Error adding menu item to file: " + e.getMessage());
         }
     }
+
+    /**
+     * Removes existing item from the menu textfile.
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
+     */
 
     // Remove item
     public static void removeItemFromMenu(MenuItem menuItem){
@@ -67,6 +86,12 @@ public class MenuDataManager {
 
     }
 
+    /**
+     * Edits the name of the existing item in the menu textfile.
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
+     * @param newName   The name of the existing item
+     */
+
     // Edit name
     public static void editItemName(MenuItem menuItem, String newName){
         try(BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -98,6 +123,12 @@ public class MenuDataManager {
             System.err.println("Error updating the file: " + e.getMessage());
         }
     }
+
+    /**
+     * Edits the price of the existing item in the menu textfile.
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
+     * @param price The price of the existing item
+     */
 
     // Edit price
     public static void editItemPrice(MenuItem menuItem, double price){
@@ -133,6 +164,12 @@ public class MenuDataManager {
             System.err.println("Error updating the file: " + e.getMessage());
         }
     }
+
+    /**
+     * Edits the description of the existing item in the menu textfile.
+     * @param menuItem  The new item which consists of the item name, item description, item price, the branch it is adding to and the item category
+     * @param description   The description of the existing item
+     */
 
     // Edit description
     public static void editItemDescription(MenuItem menuItem, String description){
