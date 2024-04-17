@@ -15,6 +15,13 @@ import java.util.List;
 
 import model.abstracts.AEmployee;
 
+/**
+ * The EmployeeDataManager handles the interaction between the application and the employee database.
+ * It is responsible for reading and writing data to the database textfiles.
+ * 
+ * @author Nicole
+ * @version 1.0
+ */
 public class EmployeeDataManager {
     private static final String rootPath = "SC2002Assignment/src/database/";
     private static final String staffListTxt = "staff_list_with_pw.txt";
@@ -22,7 +29,13 @@ public class EmployeeDataManager {
     private static final String temp1Txt = "temp1.txt";
     
     // ===================staff_list_with_pw.txt================================//
-
+    /**
+     * Updates the password of a staff member in the staff list file.
+     * 
+     * @param filePath
+     * @param newPassword
+     * @param id
+     */
     public static void updateFile(String filePath, String newPassword, String id) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath));
                 BufferedWriter bw = new BufferedWriter(new FileWriter(rootPath+ tempTxt))) {
@@ -55,6 +68,12 @@ public class EmployeeDataManager {
     }
 
     // ======================================Edit staff accounts===========================================
+    /**
+     * Adds a new staff account to the staff list file.
+     * 
+     * @param newAEmployee
+     * @return 0 if the staff account was successfully added, -1 if the staff ID already exists, -2 if there was an error reading the file.
+     */
     public static int addNewStaffAccount(AEmployee newAEmployee) {
         String filePath = rootPath + staffListTxt ;
         List<String> lines = new ArrayList<>(); // Store file lines
@@ -103,6 +122,12 @@ public class EmployeeDataManager {
 
     }
 
+    /**
+     * Removes a staff account from the staff list file.
+     * 
+     * @param staffNameToRemove
+     */
+
     public static void removeStaffAccount(String staffNameToRemove) {
         String filePath = rootPath + staffListTxt ;
         List<String> lines = new ArrayList<>(); // Store file lines
@@ -142,6 +167,12 @@ public class EmployeeDataManager {
     }
 
     // ======================================Promotion staff to Branch manager===========================================
+    /**
+     * Promotes a staff member to a manager within the staff list file. 
+     * No updates on the file if selected branch staff is already a branch manager and if the branch staff selected is not a valid staff name. 
+     * 
+     * @param staffnameToPromote
+     */
     public static void promoteStaffToManager(String staffnameToPromote) {
         final String filePath = rootPath + staffListTxt ;
         boolean isPromoted = false;
@@ -183,7 +214,6 @@ public class EmployeeDataManager {
     }
 
 //==================Assign Managers to each branch with quota constraints========================================
-
 public static void assignManagerToBranch(String staffName,String branchToAssignTo) {
     final String filePath = rootPath + staffListTxt ;
     boolean isAssigned = false;
