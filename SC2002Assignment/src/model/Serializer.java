@@ -18,9 +18,8 @@ import java.util.List;
 public class Serializer {
     /**
      * Handles the Serializing of the object into the Serialization text file
-     * 
-     * @param object Object to be Serialized
-     * @param filename Serialized byte stream to be saved in
+     * @param confirmedOrders List of Orders that are confirmed
+     * @param filename Serialized byte stream to be written to
      */
 
     public static void serializeConfirmedOrders(List<Order> confirmedOrders, String filename) {
