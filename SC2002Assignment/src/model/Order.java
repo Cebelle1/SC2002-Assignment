@@ -366,11 +366,7 @@ public class Order implements Serializable {
      * Serialization method to serialize confirm orders
      */
     public void serializeConfirmedOrders() {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ORDERS_FILE))) {
-            oos.writeObject(confirmedOrders); // Serialize only confirmed orders
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Serializer.serializeConfirmedOrders(confirmedOrders, ORDERS_FILE);
     }
 
     /**
@@ -412,17 +408,7 @@ public class Order implements Serializable {
      * @return
      */
     public static List<Order> deserializeConfirmedOrders() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ORDERS_FILE))) {
-            List<Order> des = (List<Order>) ois.readObject();
-            return des; // Deserialize the list of confirmed orders
-        } catch (IOException | ClassNotFoundException e) {
-            if (e instanceof EOFException) {
-                System.out.println("No confirmed orders to load.");
-            } else {
-                e.printStackTrace();
-            }
-            return new ArrayList<>();
-        }
+        return Serializer.deserializeConfirmedOrders(ORDERS_FILE);
     }
 
     /**

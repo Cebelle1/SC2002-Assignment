@@ -21,19 +21,6 @@ package view.interfaces;
      * This method is used for printing static strings describing choices.
      */
     void renderChoice();
-    
-    /**
-     * Prompts the user for an integer input and returns it.
-     * @param prompt The prompt message to display to the user.
-     * @return The integer inputted by the user.
-     */
-    int getInputInt(String prompt);
-    
-    /**
-     * Prompts the user for a string input and returns it.
-     * @param prompt The prompt message to display to the user.
-     * @return The string inputted by the user.
-     */
-    String getInputString(String prompt);
+
 }
 

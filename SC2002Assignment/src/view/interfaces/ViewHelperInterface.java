@@ -44,5 +44,19 @@ public interface ViewHelperInterface {
      * @param input The input string to enclose in a border.
      */
     void printSingleBorder(String input);
+
+    /**
+     * Prompts the user for an integer input and returns it.
+     * @param prompt The prompt message to display to the user.
+     * @return The integer inputted by the user.
+     */
+    int getInputInt(String prompt);
+    
+    /**
+     * Prompts the user for a string input and returns it.
+     * @param prompt The prompt message to display to the user.
+     * @return The string inputted by the user.
+     */
+    String getInputString(String prompt);
     
 }

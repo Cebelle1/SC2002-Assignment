@@ -116,15 +116,4 @@ public class EmployeeHandler {
     }
 
 
-     /**
-     * Retrieves employees.
-     *
-     * @return A collection of employees managed by this handler.
-     * @throws UnsupportedOperationException if the method is unimplemented. 
-     */
-    public Collection<Branch> getEmployees() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEmployees'");
-    }
-
 }
