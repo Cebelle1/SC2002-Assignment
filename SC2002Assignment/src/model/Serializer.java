@@ -15,7 +15,7 @@ import java.util.List;
  * @author Loo Si Hui
  * @version 1.0
  */
-public class Serializer {
+public class Serializer implements Serializable{
     /**
      * Handles the Serializing of the object into the Serialization text file
      * @param confirmedOrders List of Orders that are confirmed
