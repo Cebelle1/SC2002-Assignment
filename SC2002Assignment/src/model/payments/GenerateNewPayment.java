@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
 import model.BranchDataManager;
+import model.PaymentDataManager;
 
 /**
  * The GenerateNewPayment class is a class in the Model layer that handles the creation of new payment methods.
@@ -50,7 +51,7 @@ public class GenerateNewPayment {
         }
 
         //Step 4: Update Payment.txt file
-        BranchDataManager.appendPaymentMethod(paymentMethodName+"\n");
+        PaymentDataManager.appendPaymentMethod(paymentMethodName+"\n");
 
         // Step 5: Compile the Source Code
         /*JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();

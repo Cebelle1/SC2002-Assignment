@@ -28,7 +28,6 @@ import model.menus.MenuItem;
  */
 public class BranchDataManager {
     private static final String rootPath = "SC2002Assignment/src/database/";
-    private static final String paymentTxt = "payments.txt";
     private static final String menuListTxt = "menu_list.txt";
     private static final String branchListTxt = "branch_list.txt";
     private static final String staffListTxt = "staff_list_with_pw.txt";
@@ -260,57 +259,4 @@ public class BranchDataManager {
         Branch.setOpenBranches(openBranches);
     }
 
-//===================Payment.txt================================//
-    /**
-     * Adds a new payment method into the payment textfile
-     * @param paymentMethod
-     */
-    public static void appendPaymentMethod(String paymentMethod) {
-        final String fileName = rootPath + paymentTxt;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-            writer.write(paymentMethod + "\n");
-            System.out.println("Payment method appended successfully.");
-        } catch (IOException e) {
-            System.err.println("Error appending payment method to file: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Remove a payment method from the payment textfile
-     * @param paymentMethodToRemove
-     */
-    public static void removePaymentMethod(String paymentMethodToRemove) {
-        String fileName = rootPath + paymentTxt;
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(fileName));
-            if (lines.remove(paymentMethodToRemove)) {
-                Files.write(Paths.get(fileName), lines);
-                System.out.println("Payment method removed successfully.");
-            } else {
-                System.out.println("Payment method not found in file.");
-            }
-        } catch (IOException e) {
-            System.err.println("Error removing payment method from file: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Loads the payment methods into the application from the payment textfile
-     * @return The list of names of the Payment methods
-     */
-    public static List<String> readPaymentMethods() {
-        final String fileName = rootPath + paymentTxt;
-        List<String> paymentMethods = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                paymentMethods.add(line.trim());
-            }
-        } catch (IOException e) {
-            System.err.println("Error reading file: " + e.getMessage());
-        }
-        return paymentMethods;
-    }
-
-    
 }

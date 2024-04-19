@@ -1,9 +1,9 @@
 package model.payments;
 
 import java.lang.reflect.InvocationTargetException;
-import model.BranchDataManager;
 import model.Order;
 import model.Order.OrderStatus;
+import model.PaymentDataManager;
 import view.payments.PaymentView;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class PaymentMethodFactory {
         }
 
         PaymentView pnv = new PaymentView();
-        int paymentMode = pnv.getPaymentMode(BranchDataManager.readPaymentMethods());
+        int paymentMode = pnv.getPaymentMode(PaymentDataManager.readPaymentMethods());
 
         IPaymentProcessor paymentProcessor = null;
         try {
@@ -67,7 +67,7 @@ public class PaymentMethodFactory {
      * @return Payment processor class name
      */
     private static String getPaymentProcessorClassName(int paymentMode) {
-        List<String> paymentMethods = BranchDataManager.readPaymentMethods();
+        List<String> paymentMethods = PaymentDataManager.readPaymentMethods();
         if (paymentMode >= 1 && paymentMode <= paymentMethods.size()) {
             return "model.payments."+paymentMethods.get(paymentMode - 1);
         } else {

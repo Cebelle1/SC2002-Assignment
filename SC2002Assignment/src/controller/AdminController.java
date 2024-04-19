@@ -13,6 +13,7 @@ import model.AdminRole;
 import model.Branch;
 import model.BranchDataManager;
 import model.EmployeeDataManager;
+import model.PaymentDataManager;
 import model.abstracts.AEmployee;
 import model.payments.IPaymentProcessor;
 import model.payments.PaymentMethodFactory;
@@ -371,8 +372,8 @@ public class AdminController extends AController {
                 IPaymentProcessor paymentProcessor = PaymentMethodFactory.createPaymentMethod(paymentMethod);
                 break;
             case 2: // remove payment method
-                String paymentName = paymentV.getPaymentName(BranchDataManager.readPaymentMethods());
-                BranchDataManager.removePaymentMethod(paymentName);
+                String paymentName = paymentV.getPaymentName(PaymentDataManager.readPaymentMethods());
+                PaymentDataManager.removePaymentMethod(paymentName);
                 break;
         }
         
