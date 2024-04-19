@@ -166,7 +166,7 @@ public class ManagerController extends AController {
      *                   <li>1: Select the order to process.</li>
      *                   <li>2: Update the order status.</li>
      *                   <li>3: Navigate back to the Staff Home Page.</li>
-     *               <ul>
+     *               </ul>
      */
 
     public void processOption(int choice){
