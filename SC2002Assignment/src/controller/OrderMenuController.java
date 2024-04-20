@@ -145,7 +145,7 @@ public class OrderMenuController extends AController {
      */
     public void displayOrderStatus(){
         List<Order> completedOrders = FilterOrder.filterOrderByBranch(orders.getBranchName());
-        int orderID = omv.getInputInt("Enter Order ID to check status",Order.getConfirmedOrders().size())-1;
+        int orderID = omv.getInputInt("Enter Order ID to check status", Order.getConfirmedOrders().size());
         orderV.chooseDisplayCompleteOrderStatus(completedOrders, orderID);
         omv.exitPrompt();
         return;

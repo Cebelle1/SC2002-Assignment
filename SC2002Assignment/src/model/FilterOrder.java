@@ -78,7 +78,7 @@ public class FilterOrder {
        // iterate through the orders to get the right orders depending on status
         for(Order order : confirmedOrders){
 
-            if(order.getBranchName().equals(branch) &&order.getOrderStatus() != status){
+            if(order.getBranchName().equals(branch) && order.getOrderStatus() == status){
                 ordersByBranchAndStatus.add(order);
             }
         }

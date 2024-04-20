@@ -40,7 +40,7 @@ public class CustomerHomePageView extends ARenderView{
     }
 
     /**
-     * Overrided method for rendoring the available choice for Customer login\
+     * Overrided method for rendering the available choice for Customer login\
      * Valid values are:
      *    <ul>
      *       <li>0: Check Order Status using OrderID.</li>
