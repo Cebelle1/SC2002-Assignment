@@ -337,14 +337,8 @@ public class AdminController extends AController {
     //=============================Assign Managers to Branches with quota constratits=============================
     public int getBranchName(){
         List<Branch> branches = Branch.getAllBranches();
-                while(true){
-                    branchV.displayOpenBranch(branches,true);
-                    inputBranch = adminHomePageView.getInputInt("Select Branch to be assigned to: ");
-                        if (inputBranch > 0 && inputBranch < (checker + 1)) {
-                            break;
-                        }
-                    adminHomePageView.renderApp(10);
-                }
+        branchV.displayOpenBranch(branches,true);
+        inputBranch = adminHomePageView.getInputInt("Select Branch to be assigned to: ");
         return inputBranch;
     }
 
