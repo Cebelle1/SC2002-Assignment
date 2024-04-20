@@ -136,11 +136,14 @@ public class BranchDataManager {
     
                         // Update the status in the line before adding it to the updated lines list
                         parts[3] = newStatus ? "open" : "close";
-                        updatedLines.add(String.join("\t", parts));
+                        
                     } else {
                         // Create a new branch
-                        System.out.println("Unknown branch in branch.txt, does not match with the ones in menu_list");
+                        System.out.printf("Branch does not have menu items added: %s", parts[0]);
+                        //System.out.println("Unknown branch in branch.txt, does not match with the ones in menu_list");
+                        parts[3] = "close";
                     }
+                    updatedLines.add(String.join("\t", parts));
                 }
             }
             // Write the updated lines back to the file
