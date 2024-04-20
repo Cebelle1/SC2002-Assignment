@@ -146,6 +146,10 @@ public class Branch {
      * @param menuItem
      */
     public void addMenuItem(MenuItem menuItem){
+        if(menu == null){
+            // Initialize the menu list
+            menu = new ArrayList<>();
+        }
         menu.add(menuItem);
     }
 

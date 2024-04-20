@@ -190,6 +190,11 @@ public class ManagerRole extends StaffRole{
     // Check if item is in the menu list
     public boolean itemAvailable(String itemName, Branch selectedBranch){
         List<MenuItem> menu = selectedBranch.getMenu();
+        // New branch, means the menu is empty
+        if(menu == null){
+            // Item not in the list, just add new item
+            return false;
+        }
         for(MenuItem item : menu){
             if(item.getRawName().toLowerCase().trim().equals(itemName.toLowerCase().trim()) && item.getBranch().trim().equals(selectedBranch.getName().trim()))
             {
