@@ -72,8 +72,7 @@ public class StaffHomePageView extends ARenderView{
             case 3:
                 System.out.println("Process Order: ");
                 System.out.println("(1) Select Order ");
-                System.out.println("(2) Update order status ");
-                System.out.println("(3) Back to Staff Home Page");
+                System.out.println("(2) Back to Staff Home Page");
                 break;
 
             case 5:
