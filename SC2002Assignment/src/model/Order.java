@@ -37,7 +37,7 @@ public class Order implements Serializable {
     private OrderStatus status;
     private String diningMode = "Unselected Dining Mode";
     private LocalDateTime readyToPickupTime; // Timestamp when order was marked as "Ready to Pickup"
-    private static Timer timer = new Timer(); // Initialise the timer ;
+    private static Timer timer = new Timer(); // Initialise the timer
 
     /**
      * The OrderStatus enumeration represents the states of an Order.
@@ -391,7 +391,8 @@ public class Order implements Serializable {
         out.writeObject(items);
         out.writeObject(status);
         out.writeObject(diningMode);
-    }
+        out.writeObject(readyToPickupTime);
+    }   
 
     /**
      * Deserialize the individual attributes
@@ -409,6 +410,7 @@ public class Order implements Serializable {
         items = (List<MenuItem>) in.readObject();
         status = (OrderStatus) in.readObject();
         diningMode = (String) in.readObject();
+        readyToPickupTime = (LocalDateTime) in.readObject();
     }
 
     /**
@@ -429,7 +431,9 @@ public class Order implements Serializable {
     }
 
     //===================================Timer=====================================
-
+    /**
+     * Calls the timer every 1 minute to check for Uncollected Orders
+     */
     static {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -448,16 +452,14 @@ public class Order implements Serializable {
 
         // check the current time
         LocalDateTime currentTime = LocalDateTime.now();
-
         for (Order order : readyToPickupOrders) {
             // pickupDeadline is 3 min after order is ready to collect
             if(order.readyToPickupTime != null ){
-                LocalDateTime pickupDeadline = order.readyToPickupTime.plusMinutes(2);
-
+                LocalDateTime pickupDeadline = order.readyToPickupTime.plusMinutes(3);
                 if (currentTime.isAfter(pickupDeadline)) {
                     OrderStatus status = order.getOrderStatus();
                     if (status == OrderStatus.READY_TO_PICKUP) {
-                        status = OrderStatus.UNCOLLECTED;
+                        order.status = OrderStatus.UNCOLLECTED;
                     }
                 }
             }
