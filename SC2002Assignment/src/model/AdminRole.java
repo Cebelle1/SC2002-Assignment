@@ -145,7 +145,7 @@ public class AdminRole extends AEmployee {
                 List<Branch> branches = Branch.getAllBranches();
                 for(Branch branch : branches){
                     if( branch.getName().equals(inputStrBranch)){
-                        if(branch.managerQuota()== false && branch.staffQuota() == false){ // can add the staff in
+                        if(branch.managerQuota()== false){ // can add the staff in
                             EmployeeDataManager.assignManagerToBranch(staffName,inputStrBranch);
                         }
                         else{
