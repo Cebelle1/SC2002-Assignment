@@ -143,7 +143,7 @@ public class ManagerController extends AController {
                 // Process order
                 managerView.renderApp(2);
                 int stage  = managerView.getInputInt("");
-                if(stage > 3){
+                if(stage > 2){
                     System.out.println("Invalid Option");
                     // Go back to process order page
                     this.staffJob(3);
@@ -164,8 +164,7 @@ public class ManagerController extends AController {
      *               The choices are:
      *               <ul>
      *                   <li>1: Select the order to process.</li>
-     *                   <li>2: Update the order status.</li>
-     *                   <li>3: Navigate back to the Staff Home Page.</li>
+     *                   <li>2: Navigate back to the Staff Home Page.</li>
      *               </ul>
      */
 
@@ -173,25 +172,7 @@ public class ManagerController extends AController {
         switch(choice){
             case 1:
                 // Select Order
-                orderNo = managerView.getInputInt("Please enter OrderID"); // gets the OrderId
-                if(!manager.checkOrderID(orderNo)){
-                    System.out.println("You've entered an invalid OrderID");
-                }
-                else{
-                    System.out.println("Order selected");
-                }
-                managerView.delay(1);
-                this.staffJob(3);
-                break;
-            
-            case 2:
-                // Update order status
-                if(orderNo < 0){
-                    System.out.println("Please select your orderID first");
-                    managerView.delay(1);
-                    this.staffJob(3);
-                }
-                // Process to Completed
+                orderNo = managerView.getInputInt("Enter the OrderID: "); // gets the OrderId
                 if(manager.processOrder(orderNo)){
                     managerView.exitPrompt();
                     this.staffJob(3);
@@ -203,7 +184,7 @@ public class ManagerController extends AController {
                 }
                 break;
 
-            case 3:
+            case 2:
                 // Back to Staff Home Page
                 this.navigate(1);
                 break;

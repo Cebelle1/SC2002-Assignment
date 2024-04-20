@@ -117,8 +117,7 @@ public class ManagerHomePageView extends ARenderView{
         super.printBorder("Staff Home Page");
         System.out.println("Process Order: ");
         System.out.println("(1) Select Order ");
-        System.out.println("(2) Update order status ");
-        System.out.println("(3) Back to Staff Home Page");
+        System.out.println("(2) Back to Staff Home Page");
     }
 
     /**
