@@ -393,7 +393,7 @@ public static boolean checkIfStaffExits(String nameOfStaff) {
     * @param operation     
     */
     public static void createNewBranch(String branchName, String branchAddress, int staffQuota, String operation) {
-        final String BRANCH_FILE = "branch_list.txt";
+        final String BRANCH_FILE = rootPath+"branch_list.txt";
 
         // Construct the line to be added to the text file
         String newBranchLine = String.format("%s\t%s\t%d\t%s", branchName, branchAddress, staffQuota, operation);
