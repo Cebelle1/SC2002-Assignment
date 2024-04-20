@@ -187,9 +187,16 @@ public class EmployeeDataManager {
                     if (parts[2].equals("M")) {
                         System.out.println("Staff " + staffnameToPromote + " is already a Manager");
                     } else {
-                        parts[2] = "M"; // Promote to Manager and continues to copy the rest into the temp file
-                        line = String.join("\t", parts);
-                        isPromoted = true;
+                        List<Branch> branches = Branch.getAllBranches();
+                        for(Branch branch : branches){
+                            if( branch.getName().equals(parts[5])){
+                                if(branch.managerQuota()== false){
+                                    parts[2] = "M"; // Promote to Manager and continues to copy the rest into the temp file
+                                    line = String.join("\t", parts);
+                                    isPromoted = true;
+                                }
+                            }
+                        }
                     }
                 }
                 bw.write(line);
@@ -207,6 +214,9 @@ public class EmployeeDataManager {
             Files.move(Paths.get(rootPath+temp1Txt), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
             if (isPromoted) {
                 System.out.println("Staff " + staffnameToPromote + " is promoted to a Manager");
+            }
+            else {
+                System.out.println("BRanch have reached manager constraint, Staff " + staffnameToPromote + " is NOT promoted to a Manager");
             }
         } catch (IOException e) {
             System.err.println("Error updating the file: " + e.getMessage());
