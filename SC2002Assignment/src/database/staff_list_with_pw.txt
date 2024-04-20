@@ -1,10 +1,12 @@
 kumar Blackmore	kumarB	S	M	32	NTU	kumarB
 Alexei 	Alexei	M	M	25	NTU	password
-Tom Chan 	TomC	M	M	56	JP	blueberries
+Tom Chan 	TomC	S	M	56	JP	blueberries
 Alica Ang	AlicaA	S	F	27	JE	password
 Mary lee	MaryL	S	F	44	JE	password
 Justin Loh	JustinL	S	M	49	JP	password3
 Boss	boss	A	F	62		password1
-Jane Teh	JaneT	M	F	32	NTU	password
-Eric Lim	EricL	M	F	34	JE	password
+Jane Teh	JaneT	S	F	32	NTU	password
+Eric Lim	EricL	S	F	34	JE	password
 Regie Tan	RegieT	M	M	34	JP	password
+Daisy Lee	DaisyL	S	F	24	BB	password
+Milly Brown	MillyB	M	F	45	BB	password  
