@@ -225,7 +225,6 @@ public class ManagerController extends AController {
                 else
                 {
                     managerView.duplicateItem();
-                    System.exit(0);
                     this.navigate(3);
                 }
                 break;
