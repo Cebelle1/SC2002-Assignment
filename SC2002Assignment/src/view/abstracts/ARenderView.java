@@ -9,6 +9,7 @@ package view.abstracts;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+
 import view.interfaces.ViewHelperInterface;
 import view.interfaces.ViewInterface;
 
@@ -264,6 +265,30 @@ public abstract class ARenderView implements ViewInterface, ViewHelperInterface{
         } catch (Exception e) {
             System.err.println("An I/O error occurred: " + e.getMessage());
         }
+    }
+
+    /**
+     * Method for rendering the view
+     *
+     * @param selection Selects the page to render from the switch case
+     * 
+     */
+    @Override
+    public void renderApp(int selection){
+
+        switch(selection){
+            case 0: //Render the option
+                renderChoice();
+                break;
+        }
+
+    }
+    /**
+     * Method for rendering the choice
+     */
+    @Override
+    public void renderChoice(){
+        printBorder("");
     }
 
 }

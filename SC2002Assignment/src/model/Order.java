@@ -1,14 +1,14 @@
 package model;
 
-import java.io.EOFException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.stream.Collectors;
 
 import model.menus.MenuItem;
@@ -23,7 +23,8 @@ import view.ReceiptView;
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L; // Unique identifier for serialization
     private static final String ORDERS_FILE = "SC2002Assignment/src/database/orders_serialize.txt"; // File name for storing orders
-    
+    private static final long CHECK_INTERVAL_MS = 60000; // 1 minute interval
+
     private static List<Order> confirmedOrders = deserializeConfirmedOrders();
     private static Order currentOrder; //Current order
     private static int orderIDCounter = confirmedOrders.size(); // Temp counter for generating order IDs
@@ -34,7 +35,9 @@ public class Order implements Serializable {
     private List<MenuItem> items = new ArrayList<>();   //Menu Items in a single order
     private int orderID;
     private OrderStatus status;
-    private String diningMode = "Unselected Dining Mode";  
+    private String diningMode = "Unselected Dining Mode";
+    private LocalDateTime readyToPickupTime; // Timestamp when order was marked as "Ready to Pickup"
+    private static Timer timer = new Timer(); // Initialise the timer ;
 
     /**
      * The OrderStatus enumeration represents the states of an Order.
@@ -46,6 +49,7 @@ public class Order implements Serializable {
      *                      <li>PREPARING: Paid for order</li>
      *                      <li>READY_TO_PICKUP: Staff has processed order</li>
      *                      <li>COMPLETED: Customer has collected order</li>
+     *                      <li>UNCOLLECTED: Customer has not collected order for a specified time</li>
      *                  </ul>
      */
     public enum OrderStatus {
@@ -54,13 +58,13 @@ public class Order implements Serializable {
         PENDING,    //Checked Out
         PREPARING,  //Payment confirmed
         READY_TO_PICKUP,    //Staff processed
-        COMPLETED
+        COMPLETED,
+        UNCOLLECTED  // order not collected for a certain time being
     }
 
     /**
      * The base constructor for Order class
      */
-    
     public Order(){   //Not used, dont use.
     }
 
@@ -335,10 +339,14 @@ public class Order implements Serializable {
 
     /**
      * Setter for the order status to READY_TO_PICKUP
+     * 
+     * Tracks the time elapsed since the order was marked as "Ready to Pickup"
      */
     public void markReady() {   //For STAFF
         if (status == OrderStatus.PREPARING) {
             status = OrderStatus.READY_TO_PICKUP;
+            // tracking time elapsed
+            readyToPickupTime = LocalDateTime.now(); // Set the timestamp
         }
     }
 
@@ -419,6 +427,41 @@ public class Order implements Serializable {
             serializeConfirmedOrders(); // Serialize only confirmed orders
         }));
     }
-    
 
+    //===================================Timer=====================================
+
+    static {
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                checkUncollectedOrders(); // Periodically check for uncollected orders
+            }
+        }, 0, CHECK_INTERVAL_MS); // interval is 1 min
+    }
+
+    /**
+     * Checks for uncollected orders and cancels them if they exceed the specified timeframe.
+     */
+    public static void checkUncollectedOrders() {
+        // filter orders by READY_TO_PICKUP
+        List<Order> readyToPickupOrders = FilterOrder.filterOrderByOrderStatus(OrderStatus.READY_TO_PICKUP);
+
+        // check the current time
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        for (Order order : readyToPickupOrders) {
+            // pickupDeadline is 3 min after order is ready to collect
+            if(order.readyToPickupTime != null ){
+                LocalDateTime pickupDeadline = order.readyToPickupTime.plusMinutes(2);
+
+                if (currentTime.isAfter(pickupDeadline)) {
+                    OrderStatus status = order.getOrderStatus();
+                    if (status == OrderStatus.READY_TO_PICKUP) {
+                        status = OrderStatus.UNCOLLECTED;
+                    }
+                }
+            }
+        }
+    }
+    
 }

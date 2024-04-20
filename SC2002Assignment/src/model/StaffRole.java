@@ -26,7 +26,7 @@ public class StaffRole extends AEmployee{
      * @param StaffID The unique identifier of each employee in the Organisation.
      * @param Role The role the staff plays in the Organisation.
      * @param Gender The gender of the staff.
-     * @param Age The number of years the employee has lived??
+     * @param Age How old is the staff
      * @param Branch The division the staff is working at.
      * @param Password The unqiue phrase or word to login to the system.
      * 
