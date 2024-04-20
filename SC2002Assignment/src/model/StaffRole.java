@@ -17,6 +17,7 @@ import model.menus.SetMealCategory;
 public class StaffRole extends AEmployee{
 
     private List<Order> orders = FilterOrder.filterOrderByBranch(this.getBranch());
+    private List<Order> filterList = FilterOrder.filterOrderByOrderBranchAndStatus(this.getBranch(), OrderStatus.PREPARING);
 
     /**
      * The constructor for StaffRole class which takes in the Staff information
@@ -43,12 +44,13 @@ public class StaffRole extends AEmployee{
     public boolean displayOrders(){
 
         // no orders
-        if(orders.isEmpty()){
+        if(filterList.isEmpty()){
+            System.out.println("There are no orders to display");
             return false;
         }
 
         // get the filtered list from FilterOrder
-        List<Order> filterList = FilterOrder.filterOrderByOrderBranchAndStatus(this.getBranch(), OrderStatus.PREPARING);
+        //List<Order> filterList = FilterOrder.filterOrderByOrderBranchAndStatus(this.getBranch(), OrderStatus.PREPARING);
 
         for(Order order : filterList){
                 System.out.printf("Order ID: %d\n", order.getOrderID()); // print the orderID
@@ -65,12 +67,13 @@ public class StaffRole extends AEmployee{
     public boolean viewDetails(int orderID){
 
         // no orders
-        if(orders.isEmpty()){
+        if(filterList.isEmpty()){
+            System.out.println("There are no new orders!");
             return false;
         }
 
         // get the filtered list from FilterOrder
-        List<Order> filterList = FilterOrder.filterOrderByOrderBranchAndStatus(this.getBranch(), OrderStatus.PREPARING);
+        //List<Order> filterList = FilterOrder.filterOrderByOrderBranchAndStatus(this.getBranch(), OrderStatus.PREPARING);
 
         for(Order order : filterList){
             List<MenuItem> items = order.getCurrentOrderItems();
@@ -98,7 +101,12 @@ public class StaffRole extends AEmployee{
      */
     public boolean processOrder(int orderID){
 
-        for(Order order : orders){
+        if(filterList.isEmpty()){
+            System.out.println("There are no new orders to process!");
+            return false;
+        }
+
+        for(Order order : filterList){
             if(orderID == (order.getOrderID())){
                 System.out.printf("Order " + orderID + " has been changed from " + order.getOrderStatus());
                 order.markReady();

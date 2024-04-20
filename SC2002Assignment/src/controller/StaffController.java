@@ -51,6 +51,7 @@ public class StaffController extends AController{
             // main staff page
             case 0:
                 staffView.renderApp(0); // displays what the staff can do
+                
                 int choice = staffView.getInputInt(""); // gets the input
                 // Error handling
                 if(choice > 3){
@@ -62,9 +63,7 @@ public class StaffController extends AController{
 
             case 1:  // Display new orders
                 staffView.renderApp(1);
-                if(!staffRole.displayOrders()){
-                    System.out.println("There are no orders to display");
-                }// get the order in the branch the staff is working at
+                staffRole.displayOrders();
                 staffView.exitPrompt();
                 this.navigate(0);
                 break;
@@ -78,39 +77,32 @@ public class StaffController extends AController{
                     staffView.delay(1);
                     this.navigate(0); // request for valid Order ID again
                 }
-
                 else{
                     staffView.renderApp(2);
                     staffView.displayingOrderView(orderID);
                     staffRole.viewDetails(orderID);
                     staffView.exitPrompt();
                     this.navigate(0);
+                    
                 }
                 break;
 
             case 3: // Process orders main page
                 staffView.renderApp(3);
                 int select = staffView.getInputInt(""); // gets the input
-                if(select == 3){
+                if(select > 2){
+                    System.out.println("Invalid!");
+                    this.navigate(3);
+                }
+
+                // directs back to staff homepage
+                if(select == 2){
                     this.navigate(0);
                 }
-                // selected the second option without selecting the orderid
-                else if(select == 2 && orderid < 0){
-                    System.out.println("Please select your orderID first");
-                    staffView.delay(1);
-                    this.navigate(3);
-                }
-                else if (select == 1){
-                    orderid = staffView.getInputInt("Type in the orderID: "); // gets the input
-                    // Error Handling -> checking if the OrderID exists
-                    if(!staffRole.checkOrderID(orderid)){
-                        System.out.println("You've entered an invalid OrderID");
-                        staffView.delay(1);
-                    }
-                    this.navigate(3);
-                }
-                else{
+
+                else{ // selected process order
                     // process the order status to 'Ready to collect'
+                    int orderid = staffView.getInputInt("Enter the OrderID: "); 
                     if(staffRole.processOrder(orderid)){
                         staffView.exitPrompt();
                         this.navigate(3);
