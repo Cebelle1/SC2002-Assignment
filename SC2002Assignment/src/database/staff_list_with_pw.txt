@@ -10,3 +10,4 @@ Eric Lim	EricL	S	F	34	JE	password
 Regie Tan	RegieT	M	M	34	JP	password
 Daisy Lee	DaisyL	S	F	24	BB	password
 Milly Brown	MillyB	M	F	45	BB	password  
+Bobby Yo	BobbyY	S	M	34	JP	password  
