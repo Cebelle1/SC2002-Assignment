@@ -239,6 +239,7 @@ public class ManagerController extends AController {
                 }
                 else
                 {
+                    managerView.displayNotFound();
                     this.navigate(3);
                 }
                
