@@ -224,6 +224,8 @@ public class ManagerController extends AController {
                 // Item in menu list
                 else
                 {
+                    managerView.duplicateItem();
+                    System.exit(0);
                     this.navigate(3);
                 }
                 break;

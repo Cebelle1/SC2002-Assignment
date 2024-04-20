@@ -186,4 +186,13 @@ public class ManagerHomePageView extends ARenderView{
         System.out.println("Item not found");
         super.delay(3);
     }
+
+    /**
+     * Method to display the message when attempting to add an existing item
+     * and delay for 3 seconds before returning back to edit the menu textfile.
+     */
+    public void duplicateItem(){
+        System.out.println("Item is already in the menu");
+        super.delay(3);
+    }
 }
