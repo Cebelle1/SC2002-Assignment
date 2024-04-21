@@ -178,6 +178,15 @@ public class ManagerHomePageView extends ARenderView{
     }
 
     /**
+     * Method to display the message when a new branch is created
+     * and delay for 3 seconds before returning back to edit the menu textfile.
+     */
+    public void displayBranchError(){
+        System.out.println("Please add item to the menu first and reload the program.\n");
+        super.delay(3);
+    }
+
+    /**
      * Method to display the message when an item is not found
      * and delay for 3 seconds before returning back to edit the menu textfile.
      */
@@ -191,8 +200,8 @@ public class ManagerHomePageView extends ARenderView{
      * Method to display the message when attempting to add an existing item
      * and delay for 3 seconds before returning back to edit the menu textfile.
      */
-    public void duplicateItem(){
-        System.out.println("Item is already in the menu");
+    public void duplicateItemFound(){
+        System.out.println("Item is already added to the menu");
         super.delay(3);
     }
 }

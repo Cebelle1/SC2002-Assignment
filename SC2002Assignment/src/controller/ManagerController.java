@@ -81,8 +81,14 @@ public class ManagerController extends AController {
             case 2:
                 // Display Branch Staff List
                 List<AEmployee> employees = manager.retrieveBranchStaff(area);
-                managerView.displayBranchStaff(employees);
-                this.navigate(0);
+                if(employees == null){
+                    managerView.displayBranchError();
+                    this.navigate(0);
+                }
+                else{
+                    managerView.displayBranchStaff(employees);
+                    this.navigate(0);
+                }
                 break;
 
             case 3:
@@ -224,7 +230,7 @@ public class ManagerController extends AController {
                 // Item in menu list
                 else
                 {
-                    managerView.duplicateItem();
+                    managerView.duplicateItemFound();
                     this.navigate(3);
                 }
                 break;
