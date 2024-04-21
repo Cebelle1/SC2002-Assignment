@@ -139,7 +139,7 @@ public class BranchDataManager {
                         
                     } else {
                         // Create a new branch
-                        System.out.printf("Branch does not have menu items added: %s", parts[0]);
+                        //System.out.printf("Branch does not have menu items added: %s", parts[0]);
                         //System.out.println("Unknown branch in branch.txt, does not match with the ones in menu_list");
                         parts[3] = "close";
                         Branch newBranch = new Branch(name, null);
