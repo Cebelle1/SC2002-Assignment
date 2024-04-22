@@ -126,7 +126,7 @@ public class StaffRole extends AEmployee{
     public boolean checkOrderID(int orderID){
 
         // no orders
-        if(orders.isEmpty()){
+        if(filterList.isEmpty()){
             return false;
         }
 

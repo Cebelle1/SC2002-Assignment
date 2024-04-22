@@ -23,7 +23,7 @@ import view.ReceiptView;
 public class Order implements Serializable {
     private static final long serialVersionUID = 1L; // Unique identifier for serialization
     private static final String ORDERS_FILE = "SC2002Assignment/src/database/orders_serialize.txt"; // File name for storing orders
-    private static final long CHECK_INTERVAL_MS = 60000; // 1 minute interval
+    private static final long CHECK_INTERVAL_MS = 30000; // 1 minute interval
 
     private static List<Order> confirmedOrders = deserializeConfirmedOrders();
     private static Order currentOrder; //Current order
@@ -455,7 +455,7 @@ public class Order implements Serializable {
         for (Order order : readyToPickupOrders) {
             // pickupDeadline is 3 min after order is ready to collect
             if(order.readyToPickupTime != null ){
-                LocalDateTime pickupDeadline = order.readyToPickupTime.plusMinutes(3);
+                LocalDateTime pickupDeadline = order.readyToPickupTime.plusMinutes(1);
                 if (currentTime.isAfter(pickupDeadline)) {
                     OrderStatus status = order.getOrderStatus();
                     if (status == OrderStatus.READY_TO_PICKUP) {
