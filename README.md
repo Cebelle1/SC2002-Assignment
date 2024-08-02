@@ -3,7 +3,7 @@ Repository for our SC2002 OODP Assignment
 
 ## Features
 
-Some mentionable features:
+Our project fufils all the required scenario and test cases, additionally we have implemented additional functionality to enhance the project. Some mentionable features:
 
 ![image](https://github.com/user-attachments/assets/6ab26044-12b8-44bb-a8f0-6a5a62014413)
 
