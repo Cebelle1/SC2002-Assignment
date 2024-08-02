@@ -1,20 +1,29 @@
 # SC2002-Assignment
 Repository for our SC2002 OODP Assignment
 
-Use VSCode to boot
+## Features
+
+Some mentionable features:
+
+![image](https://github.com/user-attachments/assets/f659aef8-e755-4631-b192-070c2677d67d)
+
+![image](https://github.com/user-attachments/assets/895a7c29-1fae-4a13-97d6-1d0b7fee31cc)
+
+![image](https://github.com/user-attachments/assets/6ab26044-12b8-44bb-a8f0-6a5a62014413)
 
 
-# Setup
+Login Page
 
-Use Github Desktop and clone the repository.
+![image](https://github.com/user-attachments/assets/86933f02-e966-4738-b4c8-5dead192b4d0)
 
-I think the correct way of using github is:
 
-1. Create a branch (a copy of the main, which means the main should always be updated with the latest whenever possible)
-2. Make changes
-3. Create a pull request
-4. Address review comments
-5. Merge your pull request
-6. Delete your branch
+Menu Selection Page Displaying Menu for a Branch
 
-The github desktop when changing branches can be tricky so i suggest always save a copy locally before you open github desktop (either to push or pull)
+![image](https://github.com/user-attachments/assets/47163076-70c2-4b5c-abc5-50452f268cfe)
+
+Receipt
+
+![image](https://github.com/user-attachments/assets/3968f9df-7f21-4f1f-9318-de3f89afbea0)
+
+
+
